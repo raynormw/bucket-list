@@ -1,16 +1,15 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
+'use strict'
+module.exports = function (sequelize, DataTypes) {
   var Carts_Item = sequelize.define('Carts_Item', {
     goods_id: DataTypes.INTEGER,
     store_id: DataTypes.INTEGER,
     cart_id: DataTypes.INTEGER,
     quantity: DataTypes.INTEGER
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
-  });
-  return Carts_Item;
-};
+  })
+  Carts_Item.associate = function (models) {
+    Carts_Item.belongsTo(models.Cart, {foreignKey: 'cart_id'})
+    Carts_Item.belongsTo(models.Store, {foreignKey: 'store_id'})
+    Carts_Item.belongsTo(models.Good, {foreignKey: 'goods_id'})
+  }
+  return Carts_Item
+}

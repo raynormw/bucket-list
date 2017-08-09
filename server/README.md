@@ -27,5 +27,10 @@
 | /api/carts/:id | PUT | Update specific cart | null | null |
 | /api/carts/:id | DELETE | Delete specific cart | null | null |
 
-## Users (Tentative)
+## Members (Tentative)
+| Routes | Methods | Purpose |Usages | Returns |
+| :--- | :---: | :--- |:--- | :---|
+| /api/members/signup | POST | Add new user (Sign up) | null | null |
+| /api/members/signin | POST | Verify user (Sign in)| null | null |
+
 ## Drivers (Tentative)

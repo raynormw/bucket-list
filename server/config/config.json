@@ -10,7 +10,7 @@
   "test": {
     "username": "quest",
     "password": "12345678",
-    "database": "bucket_list_test",
+    "database": "bucket_list",
     "host": "127.0.0.1",
     "port": "5432",
     "dialect": "postgres"

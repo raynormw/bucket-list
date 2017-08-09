@@ -1,15 +1,13 @@
-'use strict';
+'use strict'
 module.exports = function(sequelize, DataTypes) {
   var Good = sequelize.define('Good', {
     name: DataTypes.STRING,
     url_pict: DataTypes.STRING,
     desc: DataTypes.TEXT
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
-  });
-  return Good;
-};
+  })
+  Good.associate = function (models) {
+    Good.hasMany(models.Stores_Good, {foreignKey: 'good_id'})
+    Good.hasMany(models.Carts_Item, {foreignKey: 'goods_id'})
+  }
+  return Good
+}

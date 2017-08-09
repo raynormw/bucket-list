@@ -1,9 +1,8 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
+var storesCtrl = require('../controllers/storesCtrls')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.post('/', storesCtrl.addStore)
+router.get('/', storesCtrl.getAllStores)
 
-module.exports = router;
+module.exports = router
