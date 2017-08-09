@@ -137,6 +137,7 @@ describe('Checking /api/stores', function () {
       done()
     })
   })
+  
   describe('Get all store data correctly (READ)', function () {
     beforeEach('Seed data', function (done) {
       storesModel.bulkCreate([
