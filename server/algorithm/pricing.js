@@ -42,10 +42,11 @@ class PricingAlgorithm {
       return minimumPrice.Store.id;
     });
 
-    console.log('------------------> ', minimumPrices.length);
-
     for (let i = 0; i < this._storesGoods.length; i += 1) {
       const storesGood = this._storesGoods[i];
+      const item = _.find(this._items, (_item) => {
+        return storesGood.Good.id === _item.goodId;
+      });
       const store = stores[storesGood.Store.id];
 
       const storesGoodId = storesGood.id;
@@ -63,6 +64,8 @@ class PricingAlgorithm {
           id: storesGood.Good.id,
           name: storesGood.Good.name,
           price: storesGood.price,
+          quantity: item.quantity,
+          total: item.quantity * storesGood.price,
           isMinimumPrice,
         });
       } else {
@@ -74,13 +77,20 @@ class PricingAlgorithm {
             id: storesGood.Good.id,
             name: storesGood.Good.name,
             price: storesGood.price,
+            quantity: item.quantity,
+            total: item.quantity * storesGood.price,
             isMinimumPrice,
           }],
         };
       }
     }
 
-    return stores;
+    const storeKeys = _.keys(stores);
+    for (let i = 0; i < storeKeys.length; i += 1) {
+      result.push(stores[storeKeys[i]]);
+    }
+
+    return result;
   }
 
 }
