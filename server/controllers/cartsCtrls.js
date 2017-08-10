@@ -30,7 +30,11 @@ var getUserCarts = function (req, res) {
     }
   })
   .then(function (carts) {
-    res.send(carts)
+    if (!carts) {
+      res.send({msg: `Cart with user id ${req.params.id} not found`})
+    } else {
+      res.send(carts)
+    }
   })
   .catch(function (err) {
     res.status(500).send(err)
@@ -44,7 +48,11 @@ var getCart = function (req, res) {
     }
   })
   .then(function (cart) {
-    res.send(cart)
+    if (!cart) {
+      res.send({msg: `Cart with id ${req.params.id} not found`})
+    } else {
+      res.send(cart)
+    }
   })
   .catch(function (err) {
     res.status(500).send(err)

@@ -1,3 +1,4 @@
+// TODO: Add test for get specific store
 var chai = require('chai')
 var chaiHttp = require('chai-http')
 
@@ -16,23 +17,7 @@ var adminModel = require('../models/admin')
 chai.use(chaiHttp)
 
 describe('Checking /api/stores', function () {
-  describe('Add new store, with valid form data (CREATE)', function () {
-
-    beforeEach('Purge all data in stores model', function (done) {
-      storesModel.destroy({
-        where: {
-          name: 'Toko Bahagia'
-        }
-      })
-      .then(function (result) {
-        console.log('Deleted rows : ' + result)
-      })
-      .catch(function (err) {
-        console.log('Error hook : ' + err)
-      })
-      done()
-    })
-
+  describe('Checking /api/stores && Add new store, with valid form data (CREATE)', function () {
     it ('Should return status 200', function (done) {
       chai.request(server)
       .post('/api/stores')
@@ -41,7 +26,18 @@ describe('Checking /api/stores', function () {
         lat_long: [-6.260740, 106.782024]
       })
       .end(function (res) {
-        res.should.have.status(200)
+        storesModel.destroy({
+            where: {
+              name: 'Toko Bahagia'
+            }
+          })
+          .then(function (result) {
+            console.log('Deleted rows : ' + result)
+          })
+          .catch(function (err) {
+            console.log('Error hook : ' + err)
+          })
+          res.should.have.status(200)
       })
       done()
     })
@@ -54,7 +50,18 @@ describe('Checking /api/stores', function () {
         lat_long: [-6.260740, 106.782024]
       })
       .end(function (res) {
-        res.should.be.a('object')
+        storesModel.destroy({
+            where: {
+              name: 'Toko Bahagia'
+            }
+          })
+          .then(function (result) {
+            console.log('Deleted rows : ' + result)
+          })
+          .catch(function (err) {
+            console.log('Error hook : ' + err)
+          })
+          res.should.be.a('object')
       })
       done()
     })
@@ -67,7 +74,18 @@ describe('Checking /api/stores', function () {
         lat_long: [-6.260740, 106.782024]
       })
       .end(function (res) {
-        res.should.not.have.status(500)
+        storesModel.destroy({
+            where: {
+              name: 'Toko Bahagia'
+            }
+          })
+          .then(function (result) {
+            console.log('Deleted rows : ' + result)
+          })
+          .catch(function (err) {
+            console.log('Error hook : ' + err)
+          })
+          res.should.not.have.status(500)
       })
       done()
     })
@@ -80,7 +98,18 @@ describe('Checking /api/stores', function () {
         lat_long: [-6.260740, 106.782024]
       })
       .end(function (res) {
-        res.should.have.property('id')
+        storesModel.destroy({
+            where: {
+              name: 'Toko Bahagia'
+            }
+          })
+          .then(function (result) {
+            console.log('Deleted rows : ' + result)
+          })
+          .catch(function (err) {
+            console.log('Error hook : ' + err)
+          })
+          res.should.have.property('id')
       })
       done()
     })
@@ -93,6 +122,17 @@ describe('Checking /api/stores', function () {
         lat_long: [-6.260740, 106.782024]
       })
       .end(function (res) {
+        storesModel.destroy({
+            where: {
+              name: 'Toko Bahagia'
+            }
+          })
+          .then(function (result) {
+            console.log('Deleted rows : ' + result)
+          })
+          .catch(function (err) {
+            console.log('Error hook : ' + err)
+          })
         res.should.have.property('name')
       })
       done()
@@ -106,6 +146,17 @@ describe('Checking /api/stores', function () {
         lat_long: [-6.260740, 106.782024]
       })
       .end(function (res) {
+        storesModel.destroy({
+            where: {
+              name: 'Toko Bahagia'
+            }
+          })
+          .then(function (result) {
+            console.log('Deleted rows : ' + result)
+          })
+          .catch(function (err) {
+            console.log('Error hook : ' + err)
+          })
         res.should.have.property('lat_long')
       })
       done()
@@ -119,6 +170,17 @@ describe('Checking /api/stores', function () {
         lat_long: [-6.260740, 106.782024]
       })
       .end(function (res) {
+        storesModel.destroy({
+            where: {
+              name: 'Toko Bahagia'
+            }
+          })
+          .then(function (result) {
+            console.log('Deleted rows : ' + result)
+          })
+          .catch(function (err) {
+            console.log('Error hook : ' + err)
+          })
         res.should.have.property('name').that.is.a('string')
       })
       done()
@@ -133,58 +195,54 @@ describe('Checking /api/stores', function () {
       })
       .end(function (res) {
         res.should.have.property('lat_long').that.is.a('array')
+        storesModel.destroy({
+            where: {
+              name: 'Toko Bahagia'
+            }
+          })
+          .then(function (result) {
+            console.log('Deleted rows : ' + result)
+            done()
+          })
+          .catch(function (err) {
+            console.log('Error hook : ' + err)
+          })
       })
       done()
     })
   })
-  
-  describe('Get all store data correctly (READ)', function () {
-    beforeEach('Seed data', function (done) {
-      storesModel.bulkCreate([
-        {
-          name: 'Toko Bahagia',
-          lat_long: [-6.260740, 106.782024]
-        },
-        {
-          name: 'Toko Berkah',
-          lat_long: [-6.175328, 106.827153]
-        },
-        {
-          name: 'Toko Serba Ada',
-          lat_long: [-6.185697, 106.810886]
-        }
-      ])
-      .then(function () {
-        return storesModel.findAll()
-      })
-      .then(function (stores) {
-        console.log('Seeding data with these value' + stores)
-      })
-      .catch(function (err) {
-        console.log(err)
-      })
-      done()
-    })
 
-    afterEach('Purge all data', function (done) {
-      storesModel.destroy({
-        where: {
-          name: ['Toko Bahagia','Toko Berkah','Toko Serba Ada']
-        }
-      })
-      .then(function (result) {
-        console.log('Deleted rows : ' + result)
-      })
-      .catch(function (err) {
-        console.log('Error hook : ' + err)
-      })
-      done()
-    })
+  describe('Checking /api/stores && Get all store data correctly (READ)', function () {
 
     it('Should return status 200', function (done) {
       chai.request(server)
+      .post('/api/stores')
+      .send({
+        name: 'Toko Bahagia',
+        lat_long: [-6.260740, 106.782024]
+      })
+      .send({
+        name: 'Toko Berkah',
+        lat_long: [-6.175328, 106.827153]
+      })
+      .send({
+        name: 'Toko Serba Ada',
+        lat_long: [-6.185697, 106.810886]
+      })
+      chai.request(server)
       .get('/api/stores')
       .end(function (res) {
+        storesModel.destroy({
+          where: {
+            name: ['Toko Bahagia','Toko Berkah','Toko Serba Ada']
+          }
+        })
+        .then(function (deleted) {
+          console.log('Deleetd rows: ' + deleted)
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
         res.should.have.status(200)
       })
       done()
@@ -192,8 +250,33 @@ describe('Checking /api/stores', function () {
 
     it('Should return array', function (done) {
       chai.request(server)
+      .post('/api/stores')
+      .send({
+        name: 'Toko Bahagia',
+        lat_long: [-6.260740, 106.782024]
+      })
+      .send({
+        name: 'Toko Berkah',
+        lat_long: [-6.175328, 106.827153]
+      })
+      .send({
+        name: 'Toko Serba Ada',
+        lat_long: [-6.185697, 106.810886]
+      })
+      chai.request(server)
       .get('/api/stores')
       .end(function (res) {
+        storesModel.destroy({
+          where: {
+            name: ['Toko Bahagia','Toko Berkah','Toko Serba Ada']
+          }
+        })
+        .then(function (deleted) {
+          console.log('Deleetd rows: ' + deleted)
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
         res.should.be.a('array')
       })
       done()
@@ -201,8 +284,33 @@ describe('Checking /api/stores', function () {
 
     it('Should have length of 3', function (done) {
       chai.request(server)
+      .post('/api/stores')
+      .send({
+        name: 'Toko Bahagia',
+        lat_long: [-6.260740, 106.782024]
+      })
+      .send({
+        name: 'Toko Berkah',
+        lat_long: [-6.175328, 106.827153]
+      })
+      .send({
+        name: 'Toko Serba Ada',
+        lat_long: [-6.185697, 106.810886]
+      })
+      chai.request(server)
       .get('/api/stores')
       .end(function (res) {
+        storesModel.destroy({
+          where: {
+            name: ['Toko Bahagia','Toko Berkah','Toko Serba Ada']
+          }
+        })
+        .then(function (deleted) {
+          console.log('Deleetd rows: ' + deleted)
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
         res.should.have.lengthOf(3)
       })
       done()
@@ -210,8 +318,33 @@ describe('Checking /api/stores', function () {
 
     it('Should not have length of 4', function (done) {
       chai.request(server)
+      .post('/api/stores')
+      .send({
+        name: 'Toko Bahagia',
+        lat_long: [-6.260740, 106.782024]
+      })
+      .send({
+        name: 'Toko Berkah',
+        lat_long: [-6.175328, 106.827153]
+      })
+      .send({
+        name: 'Toko Serba Ada',
+        lat_long: [-6.185697, 106.810886]
+      })
+      chai.request(server)
       .get('/api/stores')
       .end(function (res) {
+        storesModel.destroy({
+          where: {
+            name: ['Toko Bahagia','Toko Berkah','Toko Serba Ada']
+          }
+        })
+        .then(function (deleted) {
+          console.log('Deleetd rows: ' + deleted)
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
         res.should.not.have.lengthOf(4)
       })
       done()
@@ -219,14 +352,77 @@ describe('Checking /api/stores', function () {
 
     it('Should have specific member', function (done) {
       chai.request(server)
+      .post('/api/stores')
+      .send({
+        name: 'Toko Bahagia',
+        lat_long: [-6.260740, 106.782024]
+      })
+      .send({
+        name: 'Toko Berkah',
+        lat_long: [-6.175328, 106.827153]
+      })
+      .send({
+        name: 'Toko Serba Ada',
+        lat_long: [-6.185697, 106.810886]
+      })
+      chai.request(server)
       .get('/api/stores')
       .end(function (res) {
+        storesModel.destroy({
+          where: {
+            name: ['Toko Bahagia','Toko Berkah','Toko Serba Ada']
+          }
+        })
+        .then(function (deleted) {
+          console.log('Deleetd rows: ' + deleted)
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
         res.should.have.deep.members([{
           name: 'Toko Bahagia',
           lat_long: [-6.260740, 106.782024]
         }])
       })
       done()
+    })
+  })
+
+  describe('Checking /api/stores && Update stores data (UPDATE)', function () {
+    describe('Update specific store', function () {
+      it('Should return status 200', function (done) {
+
+      })
+
+      it('Should not return status 500', function (done) {
+
+      })
+
+      it('Should preserve value when updated with empty value', function (done) {
+
+      })
+
+      it('Should only change name value if only name value updated', function (done) {
+
+      })
+
+      it('Should only lat_long value if only lat_long value updated', function (done) {
+
+      })
+
+      it('Update name and lat_long value if both name and lat_long value updated', function (done) {
+
+      })
+    })
+  })
+
+  describe('Checking /api/stores && Delete store data (DELETE)', function () {
+    describe('Delete specific store', function () {
+
+    })
+
+    describe('Delete goods from store', function () {
+
     })
   })
 })
