@@ -57,6 +57,9 @@ describe('Test pricing algorithm', () => {
                 id: itemIds,
               },
             },
+            {
+              model: models.Store,
+            },
           ],
         })
         .then((storesGoodsMatchItems) => {
@@ -77,6 +80,8 @@ describe('Test pricing algorithm', () => {
     const storesGoods = pricingAlgorithm.getStoresGoodsWithMinimumPrice();
     expect(storesGoods).to.have.lengthOf(1);
     expect(storesGoods[0].price).to.equal(5000);
+
+    console.log(JSON.stringify(pricingAlgorithm.getOptmizedModels()));
     done();
   });
 });

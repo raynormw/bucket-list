@@ -29,6 +29,46 @@ class PricingAlgorithm {
     return result;
   }
 
+  getOptmizedModels() {
+    const result = [];
+    const stores = {};
+
+    const minimumPrices = this.getStoresGoodsWithMinimumPrice();
+    console.log('------------------> ', minimumPrices.length);
+
+    for (let i = 0; i < this._storesGoods.length; i += 1) {
+      const storesGood = this._storesGoods[i];
+      const store = stores[storesGood.Store.id];
+
+      const storesGoodId = storesGood.id;
+      const foundInMinimum = _.filter(minimumPrices, (minimumPrice) => {
+        return minimumPrice.id === storesGoodId;
+      });
+
+      let isMinimumPrice = false;
+      if (foundInMinimum) {
+        isMinimumPrice = true;
+      }
+
+      if (store) {
+
+      } else {
+        stores[storesGood.Store.id] = {
+          storeId: storesGood.Store.id,
+          storeName: storesGood.Store.name,
+          storesGoods: [{
+            id: storesGood.Good.id,
+            name: storesGood.Good.name,
+            price: storesGood.price,
+            isMinimumPrice,
+          }],
+        };
+      }
+    }
+
+    return stores;
+  }
+
 }
 
 module.exports = PricingAlgorithm;
