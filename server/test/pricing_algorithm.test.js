@@ -72,4 +72,11 @@ describe('Test pricing algorithm', () => {
     expect(storesGoods).to.have.lengthOf(2);
     done();
   });
+
+  it('Should list store goods minimum price', (done) => {
+    const storesGoods = pricingAlgorithm.getStoresGoodsWithMinimumPrice();
+    expect(storesGoods).to.have.lengthOf(1);
+    expect(storesGoods[0].price).to.equal(5000);
+    done();
+  });
 });
