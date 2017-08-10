@@ -1,22 +1,19 @@
 const expect = require('chai').expect;
 
+const createStoresGoods = require('./create_stores_goods');
 const models = require('../models');
-
-const store = models.Store;
-const goods = models.Good;
-const storesGoods = models.Stores_Good;
 
 const destroyObjects = () => {
   return new Promise((resolve, reject) => {
-    storesGoods.destroy({
+    models.Stores_Good.destroy({
       where: {},
     })
     .then(() => {
-      goods.destroy({
+      models.Good.destroy({
         where: {},
       })
       .then(() => {
-        store.destroy({
+        models.Store.destroy({
           where: {},
         })
         .then(() => {
@@ -30,57 +27,27 @@ const destroyObjects = () => {
   });
 };
 
-const createStoresGoods = (store, goods) => {
-  return new Promise((resolve, reject) => {
-    storesGoods.create({
-      price: 5000,
-    })
-    .then((createdStoresGood) => {
-      createdStoresGood.setStore(store)
-      .then(() => {
-        createdStoresGood.setGood(goods)
-        .then(() => {
-          resolve();
-        });
-      });
-    })
-    .catch((err) => {
-      reject(err);
-    });
-  });
-};
-
-
 describe('Test pricing algorithm', () => {
   beforeEach((done) => {
     destroyObjects()
     .then(() => {
-      store.create({
-        name: 'Alfamart',
-        lat_long: [0.0, 0.0],
-      })
-      .then((createdStore) => {
-        goods.create({
-          name: 'Indomie',
-          url_pict: '',
-        })
-        .then((createdGoods) => {
-          createStoresGoods(createdStore, createdGoods)
-          .then(() => {
-            done();
-          });
-        });
+      createStoresGoods()
+      .then((storesGoods) => {
+        done();
       });
     });
   });
 
   it('Should list all store goods', (done) => {
-    storesGoods.findAll({
+    models.Stores_Good.findAll({
       where: {},
     })
     .then((storesGoodsList) => {
       expect(storesGoodsList).to.have.lengthOf(1);
       done();
+    })
+    .catch((err) => {
+      done(err);
     });
   });
-})
+});
