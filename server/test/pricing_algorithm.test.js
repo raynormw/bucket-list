@@ -1,4 +1,5 @@
 const expect = require('chai').expect;
+const _ = require('lodash');
 
 const createStoresGoods = require('./create_stores_goods');
 const models = require('../models');
@@ -30,7 +31,13 @@ const destroyObjects = () => {
 };
 
 let pricingAlgorithm = null;
-const cartItems = [];
+const cartItems = [
+  {
+    id: 1,
+    goodId: 1,
+    quantity: 10,
+  },
+];
 
 describe('Test pricing algorithm', () => {
   beforeEach((done) => {
@@ -38,24 +45,29 @@ describe('Test pricing algorithm', () => {
     .then(() => {
       createStoresGoods()
       .then((storesGoods) => {
-        pricingAlgorithm = new PricingAlgorithm(storesGoods, cartItems);
-        done();
+
+        const itemIds = _.map(cartItems, 'goodId');
+        models.Stores_Good.findAll({
+          where: {
+          },
+          include: [
+            {
+              model: models.Good,
+              where: {
+                id: itemIds,
+              },
+            },
+          ],
+        })
+        .then((storesGoodsMatchItems) => {
+          pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItems, cartItems);
+          done();
+        });
       });
     });
   });
 
-  it('Should list all store goods', (done) => {
-    // models.Stores_Good.findAll({
-    //   where: {},
-    // })
-    // .then((storesGoodsList) => {
-    //   expect(storesGoodsList).to.have.lengthOf(2);
-    //   done();
-    // })
-    // .catch((err) => {
-    //   done(err);
-    // });
-
+  it('Should list all store goods match items', (done) => {
     const storesGoods = pricingAlgorithm.getStoresGoods();
     expect(storesGoods).to.have.lengthOf(2);
     done();

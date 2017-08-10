@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class PricingAlgorithm {
   constructor(storesGoods, items) {
     this._storesGoods = storesGoods;
@@ -7,6 +9,7 @@ class PricingAlgorithm {
   getStoresGoods() {
     return this._storesGoods;
   }
+
 }
 
 module.exports = PricingAlgorithm;
