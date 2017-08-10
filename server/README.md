@@ -13,7 +13,7 @@
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
 | /api/stores/:store_id/addgoods | POST | Add new goods in a store | Send form-urlencoded with good_id and price as attribute  | Return created store goods |
-| /api/stores/:store_id | GET | Get all goods list in a store | Just send request | All goods in a store |
+| /api/stores/:store_id/getgoods | GET | Get all goods list in a store | Just send request | All goods in a store |
 | /api/stores/:store_id/:good_id | DELETE | Delete a goods in a store | Replace :good_id with goods_id and :store_id with store_id | Success messsage if deleted |
 | /api/stores/:store_id/:good_id/pricing | PUT | Edit price to specific item on specific store| Send form-urlencoded with price as attribute | Updated price in goods store |
 
@@ -35,7 +35,7 @@
 ## Carts
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
-| /api/carts | POST | Add new cart | Post form-urlencoded with user_id as attributes | Created cart |
+| /api/carts | POST | Add new cart | Post form-urlencoded with member_id as attributes | Created cart |
 | /api/carts | GET | Get all carts | Just send request | All cart created |
 | /api/carts/:id | GET | Get id specific cart | Specific :id with cart_id  | Specific cart, if not found will return message |
 | /api/carts/:user_id | GET | Get user specific cart | Specific :user_id with user_id | Specific cart, if not found will return message |

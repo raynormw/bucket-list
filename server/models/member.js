@@ -6,7 +6,7 @@ module.exports = function (sequelize, DataTypes) {
     password: DataTypes.STRING
   })
   Member.associate = function (models) {
-    Member.hasMany(models.Cart, {foreignKey: 'user_id'})
+    Member.hasMany(models.Cart, {foreignKey: 'member_id'})
   }
 
   return Member

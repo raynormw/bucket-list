@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser')
 var stores = require('./routes/stores')
 var goods = require('./routes/goods')
 var carts = require('./routes/carts')
+var members = require('./routes/members')
 
 var app = express()
 
@@ -15,6 +16,7 @@ app.use(cookieParser())
 app.use('/api/stores', stores)
 app.use('/api/goods', goods)
 app.use('/api/carts', carts)
+app.use('/api/members', members)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

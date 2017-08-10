@@ -9,4 +9,5 @@ router.delete('/:id', storesCtrl.deleteStore)
 router.put('/:id', storesCtrl.updateStore)
 router.post('/:store_id/addgoods', storesCtrl.addGoodsInStore)
 router.put('/:store_id/:good_id/pricing', storesCtrl.updateGoodsPriceInAStore)
+router.get('/:store_id/getgoods', storesCtrl.getAllGoodsInAStore)
 module.exports = router

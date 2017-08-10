@@ -1,5 +1,6 @@
 var storesModel = require('../models').Store
 var storeGoodsModel = require('../models').Stores_Good
+var goodsModel = require('../models').Good
 
 var addStore = function (req, res) {
   storesModel.create({
@@ -105,7 +106,12 @@ var getAllGoodsInAStore = function (req, res) {
   storeGoodsModel.findAll({
     where: {
       store_id: req.params.store_id
-    }
+    },
+    include: [{
+      model: storesModel
+    }, {
+      model: goodsModel
+    }]
   })
   .then(function (goodsList) {
     res.send(goodsList)
