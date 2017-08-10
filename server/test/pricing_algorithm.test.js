@@ -1,4 +1,4 @@
-const expect = require('chai').expect();
+const expect = require('chai').expect;
 
 const models = require('../models');
 
@@ -38,7 +38,10 @@ const createStoresGoods = (store, goods) => {
     .then((createdStoresGood) => {
       createdStoresGood.setStore(store)
       .then(() => {
-        createdStoresGood.setGood(goods);
+        createdStoresGood.setGood(goods)
+        .then(() => {
+          resolve();
+        });
       });
     })
     .catch((err) => {
@@ -48,7 +51,7 @@ const createStoresGoods = (store, goods) => {
 };
 
 
-describe('Testing pricing algorithm', () => {
+describe('Test pricing algorithm', () => {
   beforeEach((done) => {
     destroyObjects()
     .then(() => {
