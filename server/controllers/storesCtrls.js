@@ -32,7 +32,11 @@ var getStore = function (req, res) {
     }
   })
   .then(function (store) {
-    res.send(store)
+    if (!store) {
+      res.status(404).send({msg: `Store with id ${req.params.id} not found`})
+    } else {
+      res.send(store)
+    }
   })
   .catch(function (err) {
     res.status(500).send(err)
@@ -66,22 +70,26 @@ var updateStore = function (req, res) {
     }
   })
   .then(function (store) {
-    storesModel.update({
-      name: req.body.name || store.name,
-      lat_long: req.body.lat_long || store.lat_long
-    }, {
-      where: {
-        id: req.params.id
-      },
-      returning: true,
-      plain: true
-    })
-    .then(function (updatedStore) {
-      res.send(updatedStore[1])
-    })
-    .catch(function (err) {
-      res.status(500).send(err)
-    })
+    if (!store) {
+      res.send({msg: `Store with id ${req.params.id} not found`})
+    } else {
+      storesModel.update({
+        name: req.body.name || store.dataValues.name,
+        lat_long: req.body.lat_long || store.dataValues.lat_long
+      }, {
+        where: {
+          id: req.params.id
+        },
+        returning: true,
+        plain: true
+      })
+      .then(function (updatedStore) {
+        res.send(updatedStore[1])
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
   })
   .catch(function (err) {
     res.status(500).send(err)
