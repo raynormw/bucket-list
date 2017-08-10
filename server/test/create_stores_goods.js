@@ -7,22 +7,37 @@ const createStoresGoods = () => {
   return new Promise((resolve, reject) => {
     Promise.all(createStores())
     .then((stores) => {
-      console.log('-----------------> stores.length :', stores.length);
       Promise.all(createGoods())
       .then((goods) => {
-        console.log('-----------------> goods.length :', goods.length);
-        const promises = [];
-        const promise = new Promise((resolve2, reject2) => {
-          createStoresGood(stores[0], goods[0], 5000)
-          .then((createdStoresGood) => {
-            resolve2(createdStoresGood);
-          })
-          .catch((err) => {
-            reject2(err);
-          });
-        });
 
-        promises.push(promise);
+        const storesGoods = [
+          {
+            store: stores[0],
+            good: goods[0],
+            price: 5000,
+          },
+          {
+            store: stores[1],
+            good: goods[0],
+            price: 6000,
+          },
+        ];
+
+        const promises = [];
+        for (let i = 0; i < storesGoods.length; i += 1) {
+          const promise = new Promise((resolve2, reject2) => {
+            const storesGood = storesGoods[i];
+            createStoresGood(storesGood.store, storesGood.good, storesGood.price)
+            .then((createdStoresGood) => {
+              resolve2(createdStoresGood);
+            })
+            .catch((err) => {
+              reject2(err);
+            });
+          });
+
+          promises.push(promise);
+        }
         Promise.all(promises)
         .then((storesGoods) => {
           resolve(storesGoods);
