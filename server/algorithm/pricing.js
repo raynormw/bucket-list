@@ -34,6 +34,10 @@ class PricingAlgorithm {
     const stores = {};
 
     const minimumPrices = this.getStoresGoodsWithMinimumPrice();
+    const storesIdsInMinimumPrice = minimumPrices.map((minimumPrice) => {
+      return minimumPrice.Store.id;
+    });
+
     console.log('------------------> ', minimumPrices.length);
 
     for (let i = 0; i < this._storesGoods.length; i += 1) {
@@ -46,7 +50,7 @@ class PricingAlgorithm {
       });
 
       let isMinimumPrice = false;
-      if (foundInMinimum) {
+      if (foundInMinimum.length > 0) {
         isMinimumPrice = true;
       }
 
@@ -56,6 +60,7 @@ class PricingAlgorithm {
         stores[storesGood.Store.id] = {
           storeId: storesGood.Store.id,
           storeName: storesGood.Store.name,
+          visible: _.includes(storesIdsInMinimumPrice, storesGood.Store.id),
           storesGoods: [{
             id: storesGood.Good.id,
             name: storesGood.Good.name,
