@@ -22,9 +22,13 @@ class PricingAlgorithm {
         return matchStoresGood.price;
       });
 
-      if (minimumPriceStoresGood) {
-        result.push(minimumPriceStoresGood);
-      }
+      const minimumPrice = minimumPriceStoresGood.price;
+
+      const minimumPriceStoresGoods = _.filter(matchStoresGoods, (storesGood) => {
+        return storesGood.price === minimumPrice;
+      });
+
+      result.push(...minimumPriceStoresGoods);
     }
     return result;
   }
@@ -34,7 +38,7 @@ class PricingAlgorithm {
     const stores = {};
 
     const minimumPrices = this.getStoresGoodsWithMinimumPrice();
-    const storesIdsInMinimumPrice = minimumPrices.map((minimumPrice) => {
+    const storesIdsInMinimumPrices = minimumPrices.map((minimumPrice) => {
       return minimumPrice.Store.id;
     });
 
@@ -55,12 +59,17 @@ class PricingAlgorithm {
       }
 
       if (store) {
-
+        store.storesGoods.push({
+          id: storesGood.Good.id,
+          name: storesGood.Good.name,
+          price: storesGood.price,
+          isMinimumPrice,
+        });
       } else {
         stores[storesGood.Store.id] = {
           storeId: storesGood.Store.id,
           storeName: storesGood.Store.name,
-          visible: _.includes(storesIdsInMinimumPrice, storesGood.Store.id),
+          visible: _.includes(storesIdsInMinimumPrices, storesGood.Store.id),
           storesGoods: [{
             id: storesGood.Good.id,
             name: storesGood.Good.name,
