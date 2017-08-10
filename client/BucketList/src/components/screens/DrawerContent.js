@@ -1,31 +1,26 @@
 import React from 'react'
-import {
-  Text,
-  View,
-  ScrollView,
-  Button
-} from 'react-native'
+import { View } from 'react-native'
+import { DrawerItems } from 'react-navigation'
 
-const styles = {
-  container: {
-  flex: 1,
-  padding: 20,
-  backgroundColor: 'Green',
-  },
-};
+import { styles } from '../styles'
+
 
 export default class DrawerContent extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <View style={{ flex: 1 }}>
-          <Button title="Change Emails">
-
-          </Button>
+      <View style={styles.drawerContainer}>
+        <View style={[styles.boxContainer, styles.header]}>
         </View>
-      </ScrollView>
+        <View style={[styles.boxContainer, styles.main]}>
+          <DrawerItems {...this.props} />
+        </View>
+        <View style={[styles.boxContainer, styles.footer]}>
+        </View>
+      </View>
     );
   }
 }
-
-<DrawerItems {...this.props}  activeTintColor='#2196f3' activeBackgroundColor='rgba(0, 0, 0, .04)' inactiveTintColor='rgba(0, 0, 0, .87)' inactiveBackgroundColor='transparent' style={{backgroundColor: '#000000'}} labelStyle={{color: '#ffffff'}}/>

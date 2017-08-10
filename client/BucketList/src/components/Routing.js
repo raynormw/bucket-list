@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { color } from './styles'
 import BurgerButton from './BurgerButton'
 import GroceryButton from './GroceryButton'
+import DrawerContent from './screens/DrawerContent'
 import Home from './screens/Home'
 import Product from './screens/Product'
 import Login from './screens/Login'
@@ -16,7 +17,7 @@ const MainNavigator = StackNavigator({
     navigationOptions: ({navigation}) => ({
       headerLeft: <BurgerButton nav = {navigation} />,
       headerRight: <GroceryButton nav = {navigation} />,
-      title: 'Bucket List',
+      title: 'Price Police',
       headerStyle: {
         backgroundColor: color.lightBlue,
       },
@@ -74,17 +75,9 @@ const Routing = DrawerNavigator({
     activeBackgroundColor: color.black,
     inactiveTintColor: color.black,
     inactiveBackgroundColor: color.lightOrange,
-    style: {
-      flex: 1,
-      justifyContent: 'space-around',
-      backgroundColor: color.orange,
-      paddingTop: 20,
-      paddingRight: 10,
-      paddingBottom: 10,
-      paddingLeft: 10
-    },
   },
-  //contentComponent: props => <DrawerItems {...props} style={{backgroundColor: '#000000'}, {padding: 20}, {margin: 10}}/>,
+  contentComponent: props => <DrawerContent {...props} />,
 })
+
 
 export default Routing
