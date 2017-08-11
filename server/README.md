@@ -17,6 +17,11 @@
 | /api/stores/:store_id/:good_id | DELETE | Delete a goods in a store | Replace :good_id with goods_id and :store_id with store_id | Success messsage if deleted |
 | /api/stores/:store_id/:good_id/pricing | PUT | Edit price to specific item on specific store| Send form-urlencoded with price as attribute | Updated price in goods store |
 
+## Search Store (MVP), Development
+| Routes | Methods | Purpose |Usages | Returns |
+| :--- | :---: | :--- |:--- | :---|
+| /api/stores/nearbystore | POST | Search nearby store  | null  | null |
+
 ## Goods
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|

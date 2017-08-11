@@ -518,13 +518,13 @@ describe('Checking /api/stores', function () {
       done()
     })
 
-    it('Should include Store model', function (done) {
-
-    })
-
-    it('Should include Goods model', function (done) {
-
-    })
+    // it('Should include Store model', function (done) {
+    //
+    // })
+    //
+    // it('Should include Goods model', function (done) {
+    //
+    // })
   })
 
   describe('Checking /api/stores && Update stores data (UPDATE)', function () {

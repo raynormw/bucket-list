@@ -27,7 +27,7 @@ var signIn = function (req, res) {
       res.send({msg: `${req.body.email} not found!`})
     } else {
       if (member.password === hash(req.body.password)) {
-        res.send({token: jwt.sign({member_id: member.id}, 'blablabla')})
+        res.send({token: jwt.sign({member_id: member.id}, process.env.JWT)})
       } else {
         res.send({msg: `Password not match`})
       }
