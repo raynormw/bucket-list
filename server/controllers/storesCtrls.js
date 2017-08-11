@@ -247,6 +247,7 @@ var searchNearbyStore = function (req, res) {
   var requestData = req.body
   var userLocation = requestData.location
   var items = requestData.items
+
   findStoresGoodsMatchItemsAndLocation(items, userLocation)
   .then((storesGoodsMatchItemsAndLocation) => {
     var pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItemsAndLocation, items)
