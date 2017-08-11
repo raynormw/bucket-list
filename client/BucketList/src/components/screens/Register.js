@@ -20,6 +20,7 @@ export default class Home extends React.Component {
         <Icon.Button name="home" size={30} color={color.black} onPress={() => this.props.navigation.goBack()}>
           Go back home
         </Icon.Button>
+        <Icon.Button name="user" size={25} backgroundColor="#3b3898" onPress={() => this.props.navigation.navigate('Maps')}>Maps</Icon.Button>
       </View>
     )
   }

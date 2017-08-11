@@ -46,6 +46,7 @@ export const styles = StyleSheet.create({
 
 export const styleMenu = StyleSheet.create({
   container: {
+    ...StyleSheet.absoluteFillObject,
     flex: 1,
     flexDirection: 'column',
     backgroundColor: color.gray,
@@ -77,4 +78,32 @@ export const styleMenu = StyleSheet.create({
     color: color.black,
     marginBottom: 5,
   },
+  radius: {
+    height: 50,
+    width: 50,
+    borderRadius: 50 / 2,
+    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    overflow: 'hidden',
+    borderColor: 'rgba(0, 112, 255, 0.3)',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  marker: {
+    height: 20,
+    width: 20,
+    borderWidth: 3,
+    borderColor: 'white',
+    borderRadius: 20 / 2,
+    overflow: 'hidden',
+    backgroundColor: '#007AFF'
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject
+  },
+  containerMap: {
+    ...StyleSheet.absoluteFillObject,
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  }
 })
