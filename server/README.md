@@ -20,7 +20,7 @@
 ## Search Store (MVP), Development
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
-| /api/stores/nearbystore | POST | Search nearby store  | null  | null |
+| /api/stores/nearbystore | POST | Search nearby store  | Send form-urlencoded with location and items as attribute  | null |
 
 ## Goods
 | Routes | Methods | Purpose |Usages | Returns |

@@ -1,6 +1,6 @@
 
-const _ = require('lodash')
-const distance = require('geo-coords-distance')
+var _ = require('lodash')
+var distance = require('geo-coords-distance')
 var storesModel = require('../models').Store
 var storeGoodsModel = require('../models').Stores_Good
 var goodsModel = require('../models').Good
@@ -184,38 +184,36 @@ var updateGoodsPriceInAStore = function (req, res) {
   })
 }
 
-const findStoresWithinRadius = function (location) {
-  const MAXIMUM_STORE_RANGE = 5000
+var findStoresWithinRadius = function (location) {
+  var MAXIMUM_STORE_RANGE = 5000
 
   return new Promise((resolve, reject) => {
     storesModel.findAll({
       where: {}
     })
     .then((stores) => {
-      const result = []
+      var result = []
       for (var i = 0; i < stores.length; i += 1) {
-        const store = stores[i]
-        const firstPoint = { lat: location.lat, lng: location.lng }
-        const secondPoint = { lat: store.lat, lng: store.lng }
-
-        const storeDistance = distance.default(firstPoint, secondPoint)
+        var store = stores[i]
+        var firstPoint = { lat: location.lat, lng: location.lng }
+        var secondPoint = { lat: store.lat_long[0], lng: store.lat_long[1] }
+        var storeDistance = distance.default(firstPoint, secondPoint)
         if (storeDistance <= MAXIMUM_STORE_RANGE) {
           result.push(store)
         }
       }
-
       resolve(result)
     })
   })
 }
 
-const findStoresGoodsMatchItemsAndLocation = function (items, location) {
+var findStoresGoodsMatchItemsAndLocation = function (items, location) {
   return new Promise((resolve, reject) => {
-    const itemIds = _.map(items, 'goodId')
+    var itemIds = _.map(items, 'goodId')
     findStoresWithinRadius(location)
     .then((stores) => {
-      const storeIds = _.stores(stores, 'id')
-
+      var storeIds = _.map(stores, 'id')
+      console.log('--------> storeIds: ', storeIds);
       storeGoodsModel.findAll({
         where: {
         },
@@ -235,24 +233,30 @@ const findStoresGoodsMatchItemsAndLocation = function (items, location) {
         ]
       })
       .then((storesGoodsMatchItems) => {
-        resolve(storesGoodsMatchItems)
+        if (storesGoodsMatchItems && storesGoodsMatchItems.length > 0) {
+          resolve(storesGoodsMatchItems)
+        } else {
+          reject();
+        }
       })
     })
   })
 }
 
-const searchNearbyStore = function (req, res) {
-  const requestData = req.body
-  const userLocation = requestData.location
-  const items = requestData.items
-
+var searchNearbyStore = function (req, res) {
+  var requestData = req.body
+  var userLocation = requestData.location
+  var items = requestData.items
   findStoresGoodsMatchItemsAndLocation(items, userLocation)
   .then((storesGoodsMatchItemsAndLocation) => {
-    const pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItemsAndLocation, items)
-    const result = pricingAlgorithm.getOptmizedModels()
-
-    res.json(result)
+    var pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItemsAndLocation, items)
+    var result = pricingAlgorithm.getOptmizedModels()
+    res.send(result)
+    // TODO: possibly async problem
   })
+  .catch(() => {
+    res.status(404).send('No store found');
+  });
 }
 
 module.exports = {
