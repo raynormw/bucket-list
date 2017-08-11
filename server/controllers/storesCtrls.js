@@ -1,5 +1,11 @@
+
+const _ = require('lodash');
+const distance = require('geo-coords-distance');
 var storesModel = require('../models').Store
 var storeGoodsModel = require('../models').Stores_Good
+var goodsModel = require('../models').Good
+
+const PricingAlgorithm = require('../algorithm/pricing');
 
 var addStore = function (req, res) {
   storesModel.create({
@@ -166,6 +172,79 @@ var updateGoodsPriceInAStore = function (req, res) {
   })
 }
 
+const findStoresWithinRadius = function(location) {
+
+  const MAXIMUM_STORE_RANGE = 5000;
+
+  return new Promise((resolve, reject) => {
+    storesModel.findAll({
+      where: {}
+    })
+    .then((stores) => {
+      const result = [];
+      for (let i = 0; i < stores.length; i += 1) {
+        const store = stores[i];
+        const firstPoint = { lat: location.lat, lng: location.lng };
+        const secondPoint = { lat: store.lat, lng: store.lng };
+
+        const storeDistance = distance.default(firstPoint, secondPoint);
+        if (storeDistance <= MAXIMUM_STORE_RANGE) {
+          result.push(store);
+        }
+      }
+
+      resolve(result);
+    });
+  });
+};
+
+const findStoresGoodsMatchItemsAndLocation = function(items, location) {
+
+  return new Promise((resolve, reject) => {
+    const itemIds = _.map(items, 'goodId');
+    findStoresWithinRadius(location)
+    .then((stores) => {
+      const storeIds = _.stores(stores, 'id');
+
+      storeGoodsModel.findAll({
+        where: {
+        },
+        include: [
+          {
+            model: goodsModel,
+            where: {
+              id: itemIds,
+            },
+          },
+          {
+            model: storesModel,
+            where: {
+              id: storeIds,
+            },
+          },
+        ],
+      })
+      .then((storesGoodsMatchItems) => {
+        resolve(storesGoodsMatchItems);
+      });
+    });
+  });
+};
+
+const searchNearbyStore = function (req, res) {
+  const requestData = req.body;
+  const userLocation = requestData.location;
+  const items = requestData.items;
+
+  findStoresGoodsMatchItemsAndLocation(items, userLocation)
+  .then((storesGoodsMatchItemsAndLocation) => {
+    const pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItemsAndLocation, items);
+    const result = pricingAlgorithm.getOptmizedModels();
+
+    res.json(result);
+  });
+};
+
 module.exports = {
   addStore,
   getAllStores,
@@ -175,5 +254,6 @@ module.exports = {
   addGoodsInStore,
   getAllGoodsInAStore,
   deleteGoodsFromStore,
-  updateGoodsPriceInAStore
+  updateGoodsPriceInAStore,
+  searchNearbyStore
 }
