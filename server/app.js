@@ -1,13 +1,17 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
+var cors = require('cors')
+require('dotenv').config()
 
 var stores = require('./routes/stores')
 var goods = require('./routes/goods')
 var carts = require('./routes/carts')
+var members = require('./routes/members')
 
 var app = express()
 
+app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
@@ -15,6 +19,7 @@ app.use(cookieParser())
 app.use('/api/stores', stores)
 app.use('/api/goods', goods)
 app.use('/api/carts', carts)
+app.use('/api/members', members)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

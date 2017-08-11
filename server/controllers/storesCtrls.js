@@ -1,11 +1,10 @@
 
-const _ = require('lodash');
-const distance = require('geo-coords-distance');
+const _ = require('lodash')
+const distance = require('geo-coords-distance')
 var storesModel = require('../models').Store
 var storeGoodsModel = require('../models').Stores_Good
 var goodsModel = require('../models').Good
-
-const PricingAlgorithm = require('../algorithm/pricing');
+var PricingAlgorithm = require('../algorithm/pricing')
 
 var addStore = function (req, res) {
   storesModel.create({
@@ -37,7 +36,11 @@ var getStore = function (req, res) {
     }
   })
   .then(function (store) {
-    res.send(store)
+    if (!store) {
+      res.status(404).send({msg: `Store with id ${req.params.id} not found`})
+    } else {
+      res.send(store)
+    }
   })
   .catch(function (err) {
     res.status(500).send(err)
@@ -71,22 +74,26 @@ var updateStore = function (req, res) {
     }
   })
   .then(function (store) {
-    storesModel.update({
-      name: req.body.name || store.name,
-      lat_long: req.body.lat_long || store.lat_long
-    }, {
-      where: {
-        id: req.params.id
-      },
-      returning: true,
-      plain: true
-    })
-    .then(function (updatedStore) {
-      res.send(updatedStore[1])
-    })
-    .catch(function (err) {
-      res.status(500).send(err)
-    })
+    if (!store) {
+      res.send({msg: `Store with id ${req.params.id} not found`})
+    } else {
+      storesModel.update({
+        name: req.body.name || store.dataValues.name,
+        lat_long: req.body.lat_long || store.dataValues.lat_long
+      }, {
+        where: {
+          id: req.params.id
+        },
+        returning: true,
+        plain: true
+      })
+      .then(function (updatedStore) {
+        res.send(updatedStore[1])
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
   })
   .catch(function (err) {
     res.status(500).send(err)
@@ -111,7 +118,12 @@ var getAllGoodsInAStore = function (req, res) {
   storeGoodsModel.findAll({
     where: {
       store_id: req.params.store_id
-    }
+    },
+    include: [{
+      model: storesModel
+    }, {
+      model: goodsModel
+    }]
   })
   .then(function (goodsList) {
     res.send(goodsList)
@@ -172,39 +184,37 @@ var updateGoodsPriceInAStore = function (req, res) {
   })
 }
 
-const findStoresWithinRadius = function(location) {
-
-  const MAXIMUM_STORE_RANGE = 5000;
+const findStoresWithinRadius = function (location) {
+  const MAXIMUM_STORE_RANGE = 5000
 
   return new Promise((resolve, reject) => {
     storesModel.findAll({
       where: {}
     })
     .then((stores) => {
-      const result = [];
-      for (let i = 0; i < stores.length; i += 1) {
-        const store = stores[i];
-        const firstPoint = { lat: location.lat, lng: location.lng };
-        const secondPoint = { lat: store.lat, lng: store.lng };
+      const result = []
+      for (var i = 0; i < stores.length; i += 1) {
+        const store = stores[i]
+        const firstPoint = { lat: location.lat, lng: location.lng }
+        const secondPoint = { lat: store.lat, lng: store.lng }
 
-        const storeDistance = distance.default(firstPoint, secondPoint);
+        const storeDistance = distance.default(firstPoint, secondPoint)
         if (storeDistance <= MAXIMUM_STORE_RANGE) {
-          result.push(store);
+          result.push(store)
         }
       }
 
-      resolve(result);
-    });
-  });
-};
+      resolve(result)
+    })
+  })
+}
 
-const findStoresGoodsMatchItemsAndLocation = function(items, location) {
-
+const findStoresGoodsMatchItemsAndLocation = function (items, location) {
   return new Promise((resolve, reject) => {
-    const itemIds = _.map(items, 'goodId');
+    const itemIds = _.map(items, 'goodId')
     findStoresWithinRadius(location)
     .then((stores) => {
-      const storeIds = _.stores(stores, 'id');
+      const storeIds = _.stores(stores, 'id')
 
       storeGoodsModel.findAll({
         where: {
@@ -213,37 +223,37 @@ const findStoresGoodsMatchItemsAndLocation = function(items, location) {
           {
             model: goodsModel,
             where: {
-              id: itemIds,
-            },
+              id: itemIds
+            }
           },
           {
             model: storesModel,
             where: {
-              id: storeIds,
-            },
-          },
-        ],
+              id: storeIds
+            }
+          }
+        ]
       })
       .then((storesGoodsMatchItems) => {
-        resolve(storesGoodsMatchItems);
-      });
-    });
-  });
-};
+        resolve(storesGoodsMatchItems)
+      })
+    })
+  })
+}
 
 const searchNearbyStore = function (req, res) {
-  const requestData = req.body;
-  const userLocation = requestData.location;
-  const items = requestData.items;
+  const requestData = req.body
+  const userLocation = requestData.location
+  const items = requestData.items
 
   findStoresGoodsMatchItemsAndLocation(items, userLocation)
   .then((storesGoodsMatchItemsAndLocation) => {
-    const pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItemsAndLocation, items);
-    const result = pricingAlgorithm.getOptmizedModels();
+    const pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItemsAndLocation, items)
+    const result = pricingAlgorithm.getOptmizedModels()
 
-    res.json(result);
-  });
-};
+    res.json(result)
+  })
+}
 
 module.exports = {
   addStore,
