@@ -4,6 +4,10 @@ const distance = require('geo-coords-distance');
 
 const DISTANCE_PRICE = 1;
 
+const round = (value, decimals) => {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+};
+
 class PricingAlgorithm {
   constructor(storesGoods, items, initLocation) {
     this._storesGoods = storesGoods;
@@ -67,7 +71,6 @@ class PricingAlgorithm {
   getPermutations() {
     const result = [];
     const storeIds = this.getStoreIds();
-    console.log('------> storeIds: ', storeIds);
     for (const perm of G.permutation(storeIds)) {
       result.push(Array.from(perm));
     }
@@ -85,12 +88,12 @@ class PricingAlgorithm {
         if (j === 0) {
           const firstPoint = { lat: this._initLocation.lat, lng: this._initLocation.lng };
           const secondPoint = { lat: clonedObject.lat_long[0], lng: clonedObject.lat_long[1] };
-          const storeDistance = distance.default(firstPoint, secondPoint);
+          const storeDistance = round(distance.default(firstPoint, secondPoint), 2);
           clonedObject.storeDistance = storeDistance;
         } else {
           const firstPoint = { lat: innerMatrix[j - 1].lat_long[0], lng: innerMatrix[j - 1].lat_long[1] };
           const secondPoint = { lat: clonedObject.lat_long[0], lng: clonedObject.lat_long[1] };
-          const storeDistance = distance.default(firstPoint, secondPoint);
+          const storeDistance = round(distance.default(firstPoint, secondPoint), 2);
           clonedObject.storeDistance = storeDistance;
         }
         innerMatrix.push(clonedObject);
@@ -118,6 +121,8 @@ class PricingAlgorithm {
             result.subTotal += storesGood.total;
           }
         }
+
+        result.distanceTotal = round(result.distanceTotal, 2);
       }
       return result;
     };
@@ -141,6 +146,7 @@ class PricingAlgorithm {
           innerResult.matrixTotal = theTotal.total;
           innerResult.matrixSubTotal = theTotal.subTotal;
           innerResult.matrixDistanceTotal = theTotal.distanceTotal;
+          innerResult.matrixDistance = round((theTotal.distanceTotal / DISTANCE_PRICE), 2);
           result.push(innerResult);
           break;
         }
@@ -200,7 +206,7 @@ class PricingAlgorithm {
               nextStore = matrix[j + 1];
               const firstPoint = { lat: store.lat_long[0], lng: store.lat_long[1] };
               const secondPoint = { lat: nextStore.lat_long[0], lng: nextStore.lat_long[1] };
-              const storeDistance = distance.default(firstPoint, secondPoint);
+              const storeDistance = round(distance.default(firstPoint, secondPoint), 2);
               nextStore.storeDistance = storeDistance;
             }
 
@@ -232,6 +238,20 @@ class PricingAlgorithm {
     return result;
   }
 
+  getFinalOptimizedMatrix() {
+    const optimizedMatrices = this.getOptimizedMatrix();
+
+    const singleMinimumMatrix = _.minBy(optimizedMatrices, (o) => { return o.matrixTotal; });
+
+    const minimumPricesMatrices = _.filter(optimizedMatrices, (o) => {
+      return o.matrixTotal === singleMinimumMatrix.matrixTotal;
+    });
+
+    return {
+      optimizedMatrices,
+      minimumPricesMatrices,
+    };
+  }
   getStoreIds() {
     const result = [];
     for (let i = 0; i < this._stores.length; i += 1) {
