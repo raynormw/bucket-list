@@ -83,8 +83,8 @@ describe('Test pricing algorithm', () => {
     const permutations = pricingAlgorithm.getPermutations();
     // console.log('------------> permutations: ', permutations);
 
-    const permutationMatrixs = pricingAlgorithm.getPermutationMatrix();
-    console.log('------------> permutationMatrixs: ', permutationMatrixs);
+    const optimizedMatrix = pricingAlgorithm.getOptimizedMatrix();
+    console.log('------------> optimizedMatrix: ', JSON.stringify(optimizedMatrix, null, 2));
     // expect(storesGoods).to.have.lengthOf(1);
     // expect(storesGoods[0].price).to.equal(5000);
     //

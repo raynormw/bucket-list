@@ -2,6 +2,8 @@ const _ = require('lodash');
 const G = require('generatorics');
 const distance = require('geo-coords-distance');
 
+const DISTANCE_PRICE = 10;
+
 class PricingAlgorithm {
   constructor(storesGoods, items, initLocation) {
     this._storesGoods = storesGoods;
@@ -22,14 +24,30 @@ class PricingAlgorithm {
     const storesAsObject = {};
     for (let i = 0; i < stores.length; i += 1) {
       const store = stores[i];
-      const items = _.filter(this._storesGoods, (storesGood) => {
+      const storesGoods = _.filter(this._storesGoods, (storesGood) => {
         return store.id === storesGood.Store.id;
       });
+
+      const mappedStoresGoods = storesGoods.map((storesGood) => {
+        const item = _.find(this._items, (_item) => {
+          return storesGood.Good.id === _item.goodId;
+        });
+        return {
+          id: storesGood.id,
+          goodId: storesGood.Good.id,
+          goodName: storesGood.Good.name,
+          price: storesGood.price,
+          quantity: item.quantity,
+          total: item.quantity * storesGood.price,
+          isMinimumPrice: true,
+        };
+      });
+
       storesAsObject[store.id] = {
         id: store.id,
         name: store.name,
         lat_long: store.lat_long,
-        items,
+        storesGoods: mappedStoresGoods,
       };
     }
 
@@ -52,7 +70,6 @@ class PricingAlgorithm {
   getPermutationMatrix() {
     const result = [];
     const permutations = this.getPermutations();
-    console.log(this._storesAsObject);
     for (let i = 0; i < permutations.length; i += 1) {
       const permutation = permutations[i];
       const innerMatrix = [];
@@ -73,6 +90,99 @@ class PricingAlgorithm {
       }
       result.push(innerMatrix);
     }
+    return result;
+  }
+
+  getOptimizedMatrix() {
+    const result = [];
+    const permutationMatrixOriginal = this.getPermutationMatrix();
+    const permutationMatrixs = _.cloneDeep(permutationMatrixOriginal);
+    for (let i = 0; i < permutationMatrixs.length; i += 1) {
+      const matrix = permutationMatrixs[i];
+      const innerResult = [];
+      for (let j = 0; j < matrix.length - 1; j += 1) {
+        const store = matrix[j];
+        const storesGoods = store.storesGoods;
+        const storeGoodsGoodIds = storesGoods.map((storesGood) => {
+          return storesGood.goodId;
+        });
+
+        let nextStore = matrix[j + 1];
+        const nextStoresGoods = nextStore.storesGoods;
+        const nextStoreGoodsGoodIds = nextStoresGoods.map((storesGood) => {
+          return storesGood.goodId;
+        });
+
+        const intersectionIds = _.intersection(storeGoodsGoodIds, nextStoreGoodsGoodIds);
+        if (intersectionIds.length < nextStoreGoodsGoodIds.length) {
+          for (let x = 0; x < intersectionIds.length; x += 1) {
+            const intersectionId = intersectionIds[x];
+            const storesGood1 = _.find(storesGoods, (storesGood) => {
+              return storesGood.goodId === intersectionId;
+            });
+            const storesGood2 = _.find(nextStoresGoods, (storesGood) => {
+              return storesGood.goodId === intersectionId;
+            });
+
+            if (storesGood1.price < storesGood1.price) {
+              storesGood1.isMinimumPrice = true;
+              storesGood2.isMinimumPrice = false;
+            } else if (storesGood1.price > storesGood1.price) {
+              storesGood1.isMinimumPrice = false;
+              storesGood2.isMinimumPrice = true;
+            }
+          }
+        } else {
+          const storesGoodsTotal1 = storesGoods.map((storesGood) => {
+            return storesGood.total;
+          })
+          const total1 = storesGoodsTotal1.reduce((sum, value) => {
+            return sum + value;
+          });
+
+          const storesGoodsTotal2 = nextStoresGoods.map((storesGood) => {
+            return storesGood.total;
+          })
+          const total2 = storesGoodsTotal2.reduce((sum, value) => {
+            return sum + value;
+          }) + (DISTANCE_PRICE * nextStore.storeDistance);
+
+          if (total1 <= total2) {
+            matrix.splice((j + 1), 1);
+
+            if (matrix.length < j + 1) {
+              nextStore = matrix[j + 1];
+              const firstPoint = { lat: store.lat_long[0], lng: store.lat_long[1] };
+              const secondPoint = { lat: nextStore.lat_long[0], lng: nextStore.lat_long[1] };
+              const storeDistance = distance.default(firstPoint, secondPoint);
+              nextStore.storeDistance = storeDistance;
+
+              j -= 1;
+            }
+          } else {
+            for (let x = 0; x < intersectionIds.length; x += 1) {
+              const intersectionId = intersectionIds[x];
+              const storesGood1 = _.find(storesGoods, (storesGood) => {
+                return storesGood.goodId === intersectionId;
+              });
+              const storesGood2 = _.find(nextStoresGoods, (storesGood) => {
+                return storesGood.goodId === intersectionId;
+              });
+
+              if (storesGood1.price < storesGood1.price) {
+                storesGood1.isMinimumPrice = true;
+                storesGood2.isMinimumPrice = false;
+              } else if (storesGood1.price > storesGood1.price) {
+                storesGood1.isMinimumPrice = false;
+                storesGood2.isMinimumPrice = true;
+              }
+            }
+          }
+        }
+      }
+      result.push(matrix);
+    }
+
     return result;
   }
 
