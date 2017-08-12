@@ -179,10 +179,10 @@ class PricingAlgorithm {
               return storesGood.goodId === intersectionId;
             });
 
-            if (storesGood1.price < storesGood1.price) {
+            if (storesGood1.price < storesGood2.price) {
               storesGood1.isMinimumPrice = true;
               storesGood2.isMinimumPrice = false;
-            } else if (storesGood1.price > storesGood1.price) {
+            } else if (storesGood1.price > storesGood2.price) {
               storesGood1.isMinimumPrice = false;
               storesGood2.isMinimumPrice = true;
             } else {

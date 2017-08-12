@@ -1,4 +1,7 @@
 const distance = require('geo-coords-distance');
+const _ = require('lodash');
+
+const DISTANCE_PRICE = 1;
 
 const round = (value, decimals) => {
   return Number(Math.round(`${value}e${decimals}`) + `e-${decimals}`);
@@ -16,12 +19,28 @@ class Store {
     return round(distance.default(this.location, store.location), 2);
   }
 
+  getDistancePriceFrom(store) {
+    return this.getDistanceFrom(store) * DISTANCE_PRICE;
+  }
+
   addStoresGood(storesGood) {
     this._storesGoods.push(storesGood);
   }
 
   get storesGoods() {
     return this._storesGoods;
+  }
+
+  getGoodIds() {
+    return this._storesGoods.map((storesGood) => {
+      return storesGood.good.id;
+    });
+  }
+
+  getStoresGoodByGoodId(goodId) {
+    return _.find(this._storesGoods, (storesGood) => {
+      return storesGood.good.id === goodId;
+    });
   }
 
   getTotal() {
@@ -38,6 +57,17 @@ class Store {
     for (let i = 0; i < this._storesGoods.length; i += 1) {
       const storesGood = this._storesGoods[i];
       if (storesGood.selected) {
+        result += storesGood.getTotal();
+      }
+    }
+    return result;
+  }
+
+  getTotalByGivenGoodIds(goodIds) {
+    let result = 0;
+    for (let i = 0; i < this._storesGoods.length; i += 1) {
+      const storesGood = this._storesGoods[i];
+      if (_.includes(goodIds, storesGood.good.id)) {
         result += storesGood.getTotal();
       }
     }
