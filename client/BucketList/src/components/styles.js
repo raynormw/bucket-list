@@ -190,7 +190,10 @@ export const styleSearch = StyleSheet.create({
     paddingLeft: 20,
   },
   searchText: {
-    flex: 3.5,
+    flex: 3,
+  },
+  clearIcon: {
+    flex: 0.5
   },
   listContainer: {
     flex: 3.5

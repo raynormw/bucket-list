@@ -38,12 +38,15 @@ export default class Search extends React.Component {
     }
   }
 
+  _handleQuery(query) {
+    this.setState({query})
+  }
+
   render() {
-    console.log(this.state)
-    console.log(this.state.search)
+    console.log(this.state, 'State in Search')
     return (
       <View style={styleSearch.container}>
-        <SearchNav navigation = {this.props.navigation}/>
+        <SearchNav navigation={this.props.navigation} handleQuery={this._handleQuery.bind(this)}/>
         <View style={styleSearch.listContainer}>
           <Text>Hasil Query: {this.state.query}</Text>
         </View>
