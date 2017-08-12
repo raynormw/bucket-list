@@ -102,14 +102,20 @@ class PricingAlgorithm {
 
   getOptimizedMatrix() {
     const countMatrixTotal = (stores) => {
-      let result = 0;
+      const result = {
+        total: 0,
+        subTotal: 0,
+        distanceTotal: 0,
+      };
       for (let i = 0; i < stores.length; i += 1) {
         const store = stores[i];
-        result += (DISTANCE_PRICE * store.storeDistance);
+        result.distanceTotal += (DISTANCE_PRICE * store.storeDistance);
+        result.total += (DISTANCE_PRICE * store.storeDistance);
         for (let j = 0; j < store.storesGoods.length; j += 1) {
           const storesGood = store.storesGoods[j];
           if (storesGood.isMinimumPrice) {
-            result += storesGood.total;
+            result.total += storesGood.total;
+            result.subTotal += storesGood.total;
           }
         }
       }
@@ -124,13 +130,17 @@ class PricingAlgorithm {
       const innerResult = {
         matrixNo: i,
         matrixTotal: 0,
+        matrixSubTotal: 0,
         stores: [],
       };
       for (let j = 0; j < matrix.length; j += 1) {
         const store = matrix[j];
         innerResult.stores.push(store);
         if (j === (matrix.length - 1)) {
-          innerResult.matrixTotal = countMatrixTotal(innerResult.stores);
+          const theTotal = countMatrixTotal(innerResult.stores);
+          innerResult.matrixTotal = theTotal.total;
+          innerResult.matrixSubTotal = theTotal.subTotal;
+          innerResult.matrixDistanceTotal = theTotal.distanceTotal;
           result.push(innerResult);
           break;
         }
