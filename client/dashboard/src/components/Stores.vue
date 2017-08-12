@@ -35,6 +35,7 @@
               <th> Latitude Longitude </th>
               <th> Delete Store </th>
               <th> Update Store </th>
+              <th> Store Goods </th>
             </tr>
           </thead>
           <tfoot>
@@ -45,6 +46,7 @@
               <th> Latitude Longitude </th>
               <th> Delete Store </th>
               <th> Update Store </th>
+              <th> Store Goods </th>
             </tr>
           </tfoot>
           <tbody>
@@ -54,18 +56,19 @@
               <td> {{store.name}} </td>
               <td> {{store.lat_long}} </td>
               <td> <button class="button" type="button" @click="confirmDelete(store)" > Delete </button> </td>
-              <td> <button class="button" type="button"> Update </button> </td>
+              <td> <button class="button" type="button" @click='showUpdateModal(store)'> Update </button> </td>
+              <td> <button class="button" type="button"> <router-link to=`/store/${store.id}`></router-link> </button> </td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
-    <div v-model='updateModal'>
+    <div :class='updateModal'>
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Update Store</p>
-          <button class="delete" aria-label="close"></button>
+          <button @click='closeModal' class="delete" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
           <div class="field">
@@ -84,8 +87,8 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success">Save changes</button>
-          <button class="button">Cancel</button>
+          <button class="button is-success" @click='submitStoreUpdate'>Save changes</button>
+          <button class="button" @click='closeModal'>Cancel</button>
         </footer>
       </div>
     </div>
@@ -103,6 +106,7 @@ export default {
       storeLat: '',
       storeLng: '',
       updateModal: 'modal',
+      UpdateStoreId: '',
       UpdateStoreName: '',
       UpdateStoreLat: '',
       UpdateStoreLng: ''
@@ -151,6 +155,37 @@ export default {
           console.log(err)
         })
       }
+    },
+    showUpdateModal: function (store) {
+      var self = this
+      self.updateModal = 'modal is-active'
+      self.UpdateStoreId = store.id
+      self.UpdateStoreName = store.name
+      self.UpdateStoreLat = store.lat_long[0]
+      self.UpdateStoreLng = store.lat_long[1]
+    },
+    closeModal: function () {
+      var self = this
+      self.updateModal = 'modal'
+      self.UpdateStoreId = ''
+      self.UpdateStoreName = ''
+      self.UpdateStoreLat = ''
+      self.UpdateStoreLng = ''
+    },
+    submitStoreUpdate: function () {
+      var self = this
+      axios.put(`http://localhost:3000/api/stores/${self.UpdateStoreId}`,
+        {
+          name: self.UpdateStoreName,
+          lat_long: [self.UpdateStoreLat, self.UpdateStoreLng]
+        })
+      .then(function (result) {
+        self.closeModal()
+        self.getStores()
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
     }
   },
   created: function () {

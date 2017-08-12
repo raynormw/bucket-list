@@ -8,8 +8,8 @@
     </div>
     <div class="navbar-menu">
       <div class="navbar-start">
-        <router-link class="navbar-item" to=""> /api/stores </router-link>
-        <router-link class="navbar-item" to=""> /api/goods </router-link>
+        <router-link class="navbar-item" to="/"> /api/stores </router-link>
+        <router-link class="navbar-item" to="/goods"> /api/goods </router-link>
         <router-link class="navbar-item" to=""> /api/carts </router-link>
         <router-link class="navbar-item" to=""> /api/members </router-link>
       </div>
