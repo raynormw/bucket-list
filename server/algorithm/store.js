@@ -23,6 +23,26 @@ class Store {
   get storesGoods() {
     return this._storesGoods;
   }
+
+  getTotal() {
+    let result = 0;
+    for (let i = 0; i < this._storesGoods.length; i += 1) {
+      const storesGood = this._storesGoods[i];
+      result += storesGood.getTotal();
+    }
+    return result;
+  }
+
+  getTotalOfSelectedStoresGoods() {
+    let result = 0;
+    for (let i = 0; i < this._storesGoods.length; i += 1) {
+      const storesGood = this._storesGoods[i];
+      if (storesGood.selected) {
+        result += storesGood.getTotal();
+      }
+    }
+    return result;
+  }
 }
 
 module.exports = Store;
