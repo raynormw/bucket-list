@@ -99,7 +99,11 @@ class PricingAlgorithm {
     const permutationMatrixs = _.cloneDeep(permutationMatrixOriginal);
     for (let i = 0; i < permutationMatrixs.length; i += 1) {
       const matrix = permutationMatrixs[i];
-      const innerResult = [];
+      const innerResult = {
+        matrixNo: i,
+        total: 0,
+        stores: [],
+      };
       for (let j = 0; j < matrix.length - 1; j += 1) {
         const store = matrix[j];
         const storesGoods = store.storesGoods;
@@ -112,6 +116,16 @@ class PricingAlgorithm {
         const nextStoreGoodsGoodIds = nextStoresGoods.map((storesGood) => {
           return storesGood.goodId;
         });
+
+        const storesGoodsTotal1 = storesGoods.map((storesGood) => {
+          return storesGood.total;
+        });
+        const total1 = storesGoodsTotal1.reduce((sum, value) => {
+          return sum + value;
+        });
+
+        innerResult.total = total1;
+        innerResult.stores.push(store);
 
         const intersectionIds = _.intersection(storeGoodsGoodIds, nextStoreGoodsGoodIds);
         if (intersectionIds.length < nextStoreGoodsGoodIds.length) {
@@ -133,12 +147,12 @@ class PricingAlgorithm {
             }
           }
         } else {
-          const storesGoodsTotal1 = storesGoods.map((storesGood) => {
-            return storesGood.total;
-          })
-          const total1 = storesGoodsTotal1.reduce((sum, value) => {
-            return sum + value;
-          });
+          // const storesGoodsTotal1 = storesGoods.map((storesGood) => {
+          //   return storesGood.total;
+          // })
+          // const total1 = storesGoodsTotal1.reduce((sum, value) => {
+          //   return sum + value;
+          // });
 
           const storesGoodsTotal2 = nextStoresGoods.map((storesGood) => {
             return storesGood.total;
@@ -157,7 +171,8 @@ class PricingAlgorithm {
               const storeDistance = distance.default(firstPoint, secondPoint);
               nextStore.storeDistance = storeDistance;
 
-              j -= 1;
+              j = 0;
+              innerResult.stores = [];
             }
           } else {
             for (let x = 0; x < intersectionIds.length; x += 1) {
@@ -180,7 +195,7 @@ class PricingAlgorithm {
           }
         }
       }
-      result.push(matrix);
+      result.push(innerResult);
     }
 
     return result;
