@@ -5,6 +5,32 @@ class PricingAlgorithm {
   constructor(storesGoods, items) {
     this._storesGoods = storesGoods;
     this._items = items;
+
+    const stores = [];
+    for (let i = 0; i < this._storesGoods.length; i += 1) {
+      const store = this._storesGoods[i].Store;
+      stores.push(store);
+    }
+
+    this._stores = stores;
+    this._storesAsObject = this.fillStoresAsObject(stores);
+  }
+
+  fillStoresAsObject(stores) {
+    const storesAsObject = {};
+    for (let i = 0; i < stores.length; i += 1) {
+      const store = stores[i];
+      const items = _.filter(this._storesGoods, (storesGood) => {
+        return store.id === storesGood.Store.id;
+      });
+      storesAsObject[store.id] = {
+        id: store.id,
+        name: store.name,
+        items,
+      };
+    }
+
+    return storesAsObject;
   }
 
   getStoresGoods() {
@@ -15,16 +41,31 @@ class PricingAlgorithm {
     const result = [];
     const storeIds = this.getStoreIds();
     for (const perm of G.permutation(storeIds)) {
-      result.push(perm);
+      result.push(Array.from(perm));
+    }
+    return result;
+  }
+
+  getPermutationMatrix() {
+    const result = [];
+    const permutations = this.getPermutations();
+    console.log(this._storesAsObject);
+    for (let i = 0; i < permutations.length; i += 1) {
+      const permutation = permutations[i];
+      const innerMatrix = [];
+      for (let j = 0; j < permutation.length; j += 1) {
+        innerMatrix.push(_.cloneDeep(this._storesAsObject[permutation[j]]));
+      }
+      result.push(innerMatrix);
     }
     return result;
   }
 
   getStoreIds() {
     const result = [];
-    for (let i = 0; i < this._storesGoods.length; i += 1) {
-      const store = this._storesGoods[i].Store;
-      result.push(store.id);
+    for (let i = 0; i < this._stores.length; i += 1) {
+      const store = this._stores[i];
+      result.push(`${store.id}`);
     }
     return result;
   }
