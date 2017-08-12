@@ -63,7 +63,10 @@ describe('Test pricing algorithm', () => {
           ],
         })
         .then((storesGoodsMatchItems) => {
-          pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItems, cartItems);
+          pricingAlgorithm = new PricingAlgorithm(
+            storesGoodsMatchItems,
+            cartItems,
+            { lat: -6.261580, lng: 106.782640 });
           done();
         });
       });
@@ -78,7 +81,7 @@ describe('Test pricing algorithm', () => {
 
   it('Should list all permutations', (done) => {
     const permutations = pricingAlgorithm.getPermutations();
-    console.log('------------> permutations: ', permutations);
+    // console.log('------------> permutations: ', permutations);
 
     const permutationMatrixs = pricingAlgorithm.getPermutationMatrix();
     console.log('------------> permutationMatrixs: ', permutationMatrixs);

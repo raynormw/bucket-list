@@ -1,10 +1,12 @@
 const _ = require('lodash');
 const G = require('generatorics');
+const distance = require('geo-coords-distance');
 
 class PricingAlgorithm {
-  constructor(storesGoods, items) {
+  constructor(storesGoods, items, initLocation) {
     this._storesGoods = storesGoods;
     this._items = items;
+    this._initLocation = initLocation;
 
     const stores = [];
     for (let i = 0; i < this._storesGoods.length; i += 1) {
@@ -26,6 +28,7 @@ class PricingAlgorithm {
       storesAsObject[store.id] = {
         id: store.id,
         name: store.name,
+        lat_long: store.lat_long,
         items,
       };
     }
@@ -54,7 +57,19 @@ class PricingAlgorithm {
       const permutation = permutations[i];
       const innerMatrix = [];
       for (let j = 0; j < permutation.length; j += 1) {
-        innerMatrix.push(_.cloneDeep(this._storesAsObject[permutation[j]]));
+        const clonedObject = _.cloneDeep(this._storesAsObject[permutation[j]]);
+        if (j === 0) {
+          const firstPoint = { lat: this._initLocation.lat, lng: this._initLocation.lng };
+          const secondPoint = { lat: clonedObject.lat_long[0], lng: clonedObject.lat_long[1] };
+          const storeDistance = distance.default(firstPoint, secondPoint);
+          clonedObject.storeDistance = storeDistance;
+        } else {
+          const firstPoint = { lat: innerMatrix[j - 1].lat_long[0], lng: innerMatrix[j - 1].lat_long[1] };
+          const secondPoint = { lat: clonedObject.lat_long[0], lng: clonedObject.lat_long[1] };
+          const storeDistance = distance.default(firstPoint, secondPoint);
+          clonedObject.storeDistance = storeDistance;
+        }
+        innerMatrix.push(clonedObject);
       }
       result.push(innerMatrix);
     }
