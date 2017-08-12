@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const G = require('generatorics');
 
 class PricingAlgorithm {
   constructor(storesGoods, items) {
@@ -8,6 +9,24 @@ class PricingAlgorithm {
 
   getStoresGoods() {
     return this._storesGoods;
+  }
+
+  getPermutations() {
+    const result = [];
+    const storeIds = this.getStoreIds();
+    for (const perm of G.permutation(storeIds)) {
+      result.push(perm);
+    }
+    return result;
+  }
+
+  getStoreIds() {
+    const result = [];
+    for (let i = 0; i < this._storesGoods.length; i += 1) {
+      const store = this._storesGoods[i].Store;
+      result.push(store.id);
+    }
+    return result;
   }
 
   getStoresGoodsWithMinimumPrice() {

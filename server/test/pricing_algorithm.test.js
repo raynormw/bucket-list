@@ -76,12 +76,13 @@ describe('Test pricing algorithm', () => {
     done();
   });
 
-  it('Should list store goods minimum price', (done) => {
-    const storesGoods = pricingAlgorithm.getStoresGoodsWithMinimumPrice();
-    expect(storesGoods).to.have.lengthOf(1);
-    expect(storesGoods[0].price).to.equal(5000);
-
-    console.log(JSON.stringify(pricingAlgorithm.getOptmizedModels()));
+  it('Should list all permutations', (done) => {
+    const permutations = pricingAlgorithm.getPermutations();
+    console.log('------------> permutations: ', permutations);
+    // expect(storesGoods).to.have.lengthOf(1);
+    // expect(storesGoods[0].price).to.equal(5000);
+    //
+    // console.log(JSON.stringify(pricingAlgorithm.getOptmizedModels()));
     done();
   });
 });
