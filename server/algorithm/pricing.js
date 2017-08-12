@@ -2,6 +2,10 @@ const _ = require('lodash');
 const G = require('generatorics');
 const distance = require('geo-coords-distance');
 
+const Store = require('./store');
+const Matrix = require('./matrix');
+const StoresGood = require('./stores_good');
+
 const DISTANCE_PRICE = 1;
 
 const round = (value, decimals) => {
@@ -99,6 +103,50 @@ class PricingAlgorithm {
         innerMatrix.push(clonedObject);
       }
       result.push(innerMatrix);
+    }
+    return result;
+  }
+
+  getPermutationMatrices() {
+    const result = [];
+    const permutations = this.getPermutations();
+    for (let i = 0; i < permutations.length; i += 1) {
+      const permutation = permutations[i];
+      const matrix = new Matrix({
+        id: i,
+      });
+      for (let j = 0; j < permutation.length; j += 1) {
+        const storeAsObject = this._storesAsObject[permutation[j]];
+        const storeOptions = {
+          id: storeAsObject.id,
+          name: storeAsObject.name,
+          location: {
+            lat: storeAsObject.lat_long[0],
+            lng: storeAsObject.lat_long[1],
+          },
+          _storesGoods: [],
+        };
+
+        const store = new Store(storeOptions);
+        const storeAsObjectItems = storeAsObject.storesGoods;
+        for (let k = 0; k < storeAsObjectItems.length; k += 1) {
+          const storeAsObjectItem = storeAsObjectItems[k];
+          const storesGoodOptions = {
+            id: storeAsObjectItem.id,
+            good: {
+              id: storeAsObjectItem.goodId,
+              name: storeAsObjectItem.goodName,
+            },
+            price: storeAsObjectItem.price,
+            quantity: storeAsObjectItem.quantity,
+          };
+
+          const storesGood = new StoresGood(storesGoodOptions);
+          store.addStoresGood(storesGood);
+        }
+        matrix.addStore(store);
+      }
+      result.push(matrix);
     }
     return result;
   }
