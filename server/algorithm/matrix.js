@@ -11,10 +11,32 @@ class Matrix {
   }
 
   getTotal() {
+    const totalFromStores = this.getTotalFromStores();
+    const distancePriceTotal = this.getDistancePriceTotalFromStores();
+
+    return totalFromStores + distancePriceTotal;
+  }
+
+  getTotalFromStores() {
     let result = 0;
     for (let i = 0; i < this._stores.length; i += 1) {
       const store = this._stores[i];
       result += store.getTotalOfSelectedStoresGoods();
+    }
+    return result;
+  }
+
+  getDistancePriceTotalFromStores() {
+    let result = 0;
+    for (let i = 0; i < this._stores.length; i += 1) {
+      const store = this._stores[i];
+      let targetStore = null;
+      if (i === 0) {
+        targetStore = { location: this.userLocation };
+      } else {
+        targetStore = this._store[i - 1];
+      }
+      result += store.getDistancePriceFrom(targetStore);
     }
     return result;
   }
@@ -28,7 +50,6 @@ class Matrix {
     }
 
     while (!optimized) {
-
       const store1Index = i;
       const store2Index = i + 1;
       const store1 = this._stores[store1Index];
@@ -71,6 +92,9 @@ class Matrix {
         // All items in store1 are cheaper then store2
         if (intersectionTotal1 <= intersectionTotal2) {
           this._store.splice(store2Index, 1);
+          if (this._stores.length === 1) {
+            optimized = true;
+          }
         } else {
           for (let j = 0; j < intersectionIds.length; j += 1) {
             const intersectionId = intersectionIds[j];
