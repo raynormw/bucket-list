@@ -51,7 +51,6 @@ export const styleMenu = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: color.gray,
   },
   banner: {
     flex: 2,
@@ -159,5 +158,41 @@ export const styleMenu = StyleSheet.create({
     borderColor: color.lightGray,
     backgroundColor: color.white,
     margin: 5,
+  }
+})
+
+export const styleSearch = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  headerContainer: {
+    flex: 0.5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backContainer: {
+    flex: 1,
+    marginLeft: 20
+  },
+  searchBoxContainer: {
+    flex: 7,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 20,
+    backgroundColor: color.white,
+    borderWidth: 2,
+    borderRadius: 4,
+    borderColor: color.lightGray,
+  },
+  searchIcon: {
+    flex: 0.5,
+    paddingLeft: 20,
+  },
+  searchText: {
+    flex: 3.5,
+  },
+  listContainer: {
+    flex: 3.5
   }
 })

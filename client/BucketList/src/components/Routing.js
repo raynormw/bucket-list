@@ -8,6 +8,7 @@ import GroceryButton from './buttons/GroceryButton'
 import DrawerContent from './screens/DrawerContent'
 import Home from './screens/Home'
 import Product from './screens/Product'
+import Search from './screens/Search'
 import Login from './screens/Login'
 import Register from './screens/Register'
 
@@ -28,6 +29,12 @@ const MainNavigator = StackNavigator({
   },
   Product: {
     screen: Product
+  },
+  Search: {
+    screen: Search,
+    navigationOptions: () => ({
+      header: null
+    })
   }
 }, { headerMode: 'screen' })
 
