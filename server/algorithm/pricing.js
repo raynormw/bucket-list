@@ -2,7 +2,7 @@ const _ = require('lodash');
 const G = require('generatorics');
 const distance = require('geo-coords-distance');
 
-const DISTANCE_PRICE = 10;
+const DISTANCE_PRICE = 1;
 
 class PricingAlgorithm {
   constructor(storesGoods, items, initLocation) {
@@ -13,7 +13,13 @@ class PricingAlgorithm {
     const stores = [];
     for (let i = 0; i < this._storesGoods.length; i += 1) {
       const store = this._storesGoods[i].Store;
-      stores.push(store);
+      const foundStore = _.find(stores, (theStore) => {
+        return theStore.id === store.id;
+      });
+
+      if (!foundStore) {
+        stores.push(store);
+      }
     }
 
     this._stores = stores;
@@ -61,6 +67,7 @@ class PricingAlgorithm {
   getPermutations() {
     const result = [];
     const storeIds = this.getStoreIds();
+    console.log('------> storeIds: ', storeIds);
     for (const perm of G.permutation(storeIds)) {
       result.push(Array.from(perm));
     }
@@ -98,6 +105,7 @@ class PricingAlgorithm {
       let result = 0;
       for (let i = 0; i < stores.length; i += 1) {
         const store = stores[i];
+        result += (DISTANCE_PRICE * store.storeDistance);
         for (let j = 0; j < store.storesGoods.length; j += 1) {
           const storesGood = store.storesGoods[j];
           if (storesGood.isMinimumPrice) {
@@ -159,6 +167,10 @@ class PricingAlgorithm {
               storesGood1.isMinimumPrice = true;
               storesGood2.isMinimumPrice = false;
             } else if (storesGood1.price > storesGood1.price) {
+              storesGood1.isMinimumPrice = false;
+              storesGood2.isMinimumPrice = true;
+            } else {
+              //must pick one
               storesGood1.isMinimumPrice = false;
               storesGood2.isMinimumPrice = true;
             }

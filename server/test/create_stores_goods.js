@@ -19,7 +19,12 @@ const createStoresGoods = () => {
           {
             store: stores[1],
             good: goods[0],
-            price: 6000,
+            price: 5000,
+          },
+          {
+            store: stores[1],
+            good: goods[1],
+            price: 4000,
           },
         ];
 

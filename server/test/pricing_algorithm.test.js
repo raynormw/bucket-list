@@ -37,6 +37,11 @@ const cartItems = [
     goodId: 1,
     quantity: 10,
   },
+  {
+    id: 2,
+    goodId: 2,
+    quantity: 5,
+  },
 ];
 
 describe('Test pricing algorithm', () => {
@@ -75,7 +80,7 @@ describe('Test pricing algorithm', () => {
 
   it('Should list all store goods match items', (done) => {
     const storesGoods = pricingAlgorithm.getStoresGoods();
-    expect(storesGoods).to.have.lengthOf(2);
+    expect(storesGoods).to.have.lengthOf(3);
     done();
   });
 
