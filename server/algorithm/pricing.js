@@ -5,6 +5,7 @@ const distance = require('geo-coords-distance');
 const Store = require('./store');
 const Matrix = require('./matrix');
 const StoresGood = require('./stores_good');
+const Matrices = require('./matrices');
 
 const DISTANCE_PRICE = 1;
 
@@ -108,7 +109,7 @@ class PricingAlgorithm {
   }
 
   getPermutationMatrices() {
-    const result = [];
+    const matrices = new Matrices();
     const permutations = this.getPermutations();
     for (let i = 0; i < permutations.length; i += 1) {
       const permutation = permutations[i];
@@ -146,9 +147,9 @@ class PricingAlgorithm {
         }
         matrix.addStore(store);
       }
-      result.push(matrix);
+      matrices.addMatrix(matrix);
     }
-    return result;
+    return matrices;
   }
 
   getOptimizedMatrix() {
