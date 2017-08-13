@@ -14,10 +14,10 @@ const round = (value, decimals) => {
 };
 
 class PricingAlgorithm {
-  constructor(storesGoods, items, initLocation) {
+  constructor(storesGoods, items, userLocation) {
     this._storesGoods = storesGoods;
     this._items = items;
-    this._initLocation = initLocation;
+    this._userLocation = userLocation;
 
     const stores = [];
     for (let i = 0; i < this._storesGoods.length; i += 1) {
@@ -91,7 +91,7 @@ class PricingAlgorithm {
       for (let j = 0; j < permutation.length; j += 1) {
         const clonedObject = _.cloneDeep(this._storesAsObject[permutation[j]]);
         if (j === 0) {
-          const firstPoint = { lat: this._initLocation.lat, lng: this._initLocation.lng };
+          const firstPoint = { lat: this._userLocation.lat, lng: this._userLocation.lng };
           const secondPoint = { lat: clonedObject.lat_long[0], lng: clonedObject.lat_long[1] };
           const storeDistance = round(distance.default(firstPoint, secondPoint), 2);
           clonedObject.storeDistance = storeDistance;
@@ -109,7 +109,9 @@ class PricingAlgorithm {
   }
 
   getPermutationMatrices() {
-    const matrices = new Matrices();
+    const matrices = new Matrices({
+      userLocation: this._userLocation,
+    });
     const permutations = this.getPermutations();
     for (let i = 0; i < permutations.length; i += 1) {
       const permutation = permutations[i];
@@ -155,7 +157,7 @@ class PricingAlgorithm {
   getOptimizedMatrices() {
     const matrices = this.getPermutationMatrices();
     matrices.optimizeMatrices();
-    return matrices;
+    return matrices.getResult();
   }
 
   getOptimizedMatrix() {

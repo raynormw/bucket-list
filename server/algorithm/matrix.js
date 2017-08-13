@@ -4,6 +4,11 @@ class Matrix {
   constructor(options) {
     this.id = options.id;
     this._stores = [];
+    this._userLocation = options.userLocation;
+  }
+
+  get stores() {
+    return this._stores;
   }
 
   addStore(store) {
@@ -32,7 +37,7 @@ class Matrix {
       const store = this._stores[i];
       let targetStore = null;
       if (i === 0) {
-        targetStore = { location: this.userLocation };
+        targetStore = { location: this._userLocation };
       } else {
         targetStore = this._store[i - 1];
       }
