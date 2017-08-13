@@ -1,4 +1,9 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+
+const windowWidth = Dimensions.get('window').width
+const windowHeight = Dimensions.get('window').height
+const newWidth = (windowWidth / 2) - 10
+const newHeight = (windowHeight / 100) * 40
 
 export const color = {
   white: '#F8F8F8',
@@ -10,6 +15,7 @@ export const color = {
   darkBlue: '#3A539B',
   orange: '#F6846A',
   lightOrange: '#FFEEE4',
+  niceOrange: '#F2784B'
 }
 
 export const styles = StyleSheet.create({
@@ -94,7 +100,7 @@ export const styleMenu = StyleSheet.create({
   },
   buttonBanner: {
     flex: 1,
-    backgroundColor: color.orange,
+    backgroundColor: color.niceOrange,
     justifyContent: 'center',
     borderRadius: 4,
     padding: 8
@@ -164,6 +170,7 @@ export const styleMenu = StyleSheet.create({
 export const styleSearch = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 5
   },
   headerContainer: {
     flex: 0.5,
@@ -197,5 +204,81 @@ export const styleSearch = StyleSheet.create({
   },
   listContainer: {
     flex: 3.5
+  },
+  list: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  item: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: color.lightGray,
+    backgroundColor: color.white,
+    margin: 5,
+    width: newWidth,
+    height: newHeight
+  },
+  imgStyle: {
+    width: newWidth - 35,
+    height: newHeight - 110,
+  },
+  headingStyle: {
+    marginBottom: 5,
+    fontWeight: 'bold'
+  },
+  infoStyle: {
+    marginBottom: 5,
+  },
+  containerModal: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#00000080'
+  },
+  modalStyle: {
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: color.white,
+    backgroundColor: color.white,
+    padding: 20,
+    width: newWidth,
+    height: newHeight / 2,
+  },
+  textModal: {
+    color: color.black,
+    fontWeight: 'bold'
+  },
+  containerButton: {
+    marginTop: 10,
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  buttonYes: {
+    alignItems: 'center',
+    backgroundColor: '#2ecc71',
+    borderRadius: 4,
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 10,
+    margin: 5
+  },
+  buttonNo: {
+    alignItems: 'center',
+    backgroundColor: '#e74c3c',
+    borderRadius: 4,
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 10,
+    margin: 5
+  },
+  textButton: {
+    color: color.white
   }
 })

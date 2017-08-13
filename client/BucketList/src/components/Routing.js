@@ -7,7 +7,7 @@ import BurgerButton from './buttons/BurgerButton'
 import GroceryButton from './buttons/GroceryButton'
 import DrawerContent from './screens/DrawerContent'
 import Home from './screens/Home'
-import Product from './screens/Product'
+import Basket from './screens/Basket'
 import Search from './screens/Search'
 import Login from './screens/Login'
 import Register from './screens/Register'
@@ -27,15 +27,15 @@ const MainNavigator = StackNavigator({
       },
     })
   },
-  Product: {
-    screen: Product
+  Basket: {
+    screen: Basket
   },
   Search: {
     screen: Search,
     navigationOptions: () => ({
       header: null
     })
-  }
+  },
 }, { headerMode: 'screen' })
 
 const Routing = DrawerNavigator({

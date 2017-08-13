@@ -32,7 +32,7 @@ export default class SearchNav extends React.Component {
       <View style={styleSearch.headerContainer}>
         <TouchableOpacity style={styleSearch.backContainer}
           onPress = {() => this.props.navigation.goBack()} >
-          <Icon name="ios-arrow-back" size={30} color={color.black}/>
+          <Icon name="md-arrow-back" size={30} />
         </TouchableOpacity>
         <View style={styleSearch.searchBoxContainer}>
           <Icon
@@ -47,13 +47,13 @@ export default class SearchNav extends React.Component {
             autoCorrect={false}
             returnKeyType='search'
             value={this.state.query}
-            onEndEditing={this._handleSubmit.bind(this)}
+            onSubmitEditing={this._handleSubmit.bind(this)}
             onChangeText={(query) => this.setState({ query, edit: true })}
           />
           {  this.state.edit &&
             <Icon
               name="ios-close"
-              size={25}
+              size={30}
               color='red'
               style={styleSearch.clearIcon}
               onPress = {this._handleClear.bind(this)}
