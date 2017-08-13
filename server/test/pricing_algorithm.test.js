@@ -91,8 +91,11 @@ describe('Test pricing algorithm', () => {
     // const optimizedMatrix = pricingAlgorithm.getOptimizedMatrix();
     // console.log('------------> optimizedMatrix: ', JSON.stringify(optimizedMatrix, null, 2));
 
-    const permutationMatrices = pricingAlgorithm.getPermutationMatrices();
-    console.log('------------> permutationMatrices: ', JSON.stringify(permutationMatrices, null, 2));
+    // const permutationMatrices = pricingAlgorithm.getPermutationMatrices();
+    // console.log('------------> permutationMatrices: ', JSON.stringify(permutationMatrices, null, 2));
+
+    const optimizedMatrices = pricingAlgorithm.getOptimizedMatrices();
+    console.log('------------> optimizedMatrices: ', JSON.stringify(optimizedMatrices, null, 2));
     //
     // const finalOptimizedMatrix = pricingAlgorithm.getFinalOptimizedMatrix();
     // console.log('------------> finalOptimizedMatrix: ', JSON.stringify(finalOptimizedMatrix, null, 2));

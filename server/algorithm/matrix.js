@@ -49,7 +49,12 @@ class Matrix {
       optimized = true;
     }
 
-    while (!optimized) {
+    // Guard to prevent infinite loop
+    let guard = 0;
+
+    while (!optimized && guard < 3000) {
+      guard += 1;
+
       const store1Index = i;
       const store2Index = i + 1;
       const store1 = this._stores[store1Index];
@@ -91,7 +96,7 @@ class Matrix {
 
         // All items in store1 are cheaper then store2
         if (intersectionTotal1 <= intersectionTotal2) {
-          this._store.splice(store2Index, 1);
+          this._stores.splice(store2Index, 1);
           if (this._stores.length === 1) {
             optimized = true;
           }

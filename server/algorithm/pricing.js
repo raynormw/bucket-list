@@ -152,6 +152,12 @@ class PricingAlgorithm {
     return matrices;
   }
 
+  getOptimizedMatrices() {
+    const matrices = this.getPermutationMatrices();
+    matrices.optimizeMatrices();
+    return matrices;
+  }
+
   getOptimizedMatrix() {
     const countMatrixTotal = (stores) => {
       const result = {
