@@ -101,7 +101,7 @@ class Matrix {
           i += 1;
         }
       } else {
-        const intersectionTotal1 = store1.getTotalOfSelectedStoresGoodsByGivenGoodIds(intersectionIds);
+        const intersectionTotal1 = store1.getTotalByGivenGoodIds(intersectionIds);
         const intersectionTotal2 = store2.getTotalOfSelectedStoresGoods() + store2.getDistancePriceFrom(store1);
 
         // All items in store1 are cheaper then store2
