@@ -75,6 +75,7 @@ class Matrices {
 
 
     const result = {
+      matricesCount: this._matrices.length,
       optimizedMatrices,
       mostOptimizedMatrices,
       mostOptimizedMatrix: singleMinimumMatrix,
