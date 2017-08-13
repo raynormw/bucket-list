@@ -65,9 +65,19 @@ class Matrices {
       });
     }
 
+    const singleMinimumMatrix = _.minBy(optimizedMatrices, (o) => {
+      return o.storesOptimizedTotalWithDistance;
+    });
+
+    const mostOptimizedMatrices = _.filter(optimizedMatrices, (o) => {
+      return o.storesOptimizedTotalWithDistance === singleMinimumMatrix.storesOptimizedTotalWithDistance;
+    });
+
+
     const result = {
       optimizedMatrices,
-      mostOptimizedMatrices: [],
+      mostOptimizedMatrices,
+      mostOptimizedMatrix: singleMinimumMatrix,
     };
 
     return result;
