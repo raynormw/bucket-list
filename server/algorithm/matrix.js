@@ -65,7 +65,7 @@ class Matrix {
       const store1 = this._stores[store1Index];
       const store2 = this._stores[store2Index];
 
-      let store1GoodIds = store1.getGoodIds();
+      const store1GoodIds = store1.getGoodIds();
       let store2GoodIds = store2.getGoodIds();
 
       let intersectionIds = _.intersection(store1GoodIds, store2GoodIds);
@@ -88,7 +88,7 @@ class Matrix {
         }
       }
 
-      store1GoodIds = store1.getSelectedGoodIds();
+      // store1GoodIds = store1.getSelectedGoodIds();
       store2GoodIds = store2.getSelectedGoodIds();
 
       intersectionIds = _.intersection(store1GoodIds, store2GoodIds);
