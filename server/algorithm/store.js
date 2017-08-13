@@ -37,6 +37,17 @@ class Store {
     });
   }
 
+  getSelectedGoodIds() {
+    const result = [];
+    for (let i = 0; i < this._storesGoods.length; i += 1) {
+      const storesGood = this._storesGoods[i];
+      if (storesGood.selected) {
+        result.push(storesGood.good.id);
+      }
+    }
+    return result;
+  }
+
   getStoresGoodByGoodId(goodId) {
     return _.find(this._storesGoods, (storesGood) => {
       return storesGood.good.id === goodId;
@@ -68,6 +79,17 @@ class Store {
     for (let i = 0; i < this._storesGoods.length; i += 1) {
       const storesGood = this._storesGoods[i];
       if (_.includes(goodIds, storesGood.good.id)) {
+        result += storesGood.getTotal();
+      }
+    }
+    return result;
+  }
+
+  getTotalOfSelectedStoresGoodsByGivenGoodIds(goodIds) {
+    let result = 0;
+    for (let i = 0; i < this._storesGoods.length; i += 1) {
+      const storesGood = this._storesGoods[i];
+      if (_.includes(goodIds, storesGood.good.id) && storesGood.selected) {
         result += storesGood.getTotal();
       }
     }
