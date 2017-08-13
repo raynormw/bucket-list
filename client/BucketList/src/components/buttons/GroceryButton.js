@@ -6,7 +6,7 @@ import { styles } from '../styles'
 
 const GroceryButton = ({nav}) => (
   <TouchableOpacity
-    onPress = {() => nav.navigate('Product')} >
+    onPress = {() => nav.navigate('Basket')} >
     <Icon name="shopping-basket" size={25} style={styles.groceryButton} />
   </TouchableOpacity>
 )

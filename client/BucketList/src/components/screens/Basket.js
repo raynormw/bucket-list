@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export default class Product extends React.Component {
+export default class Basket extends React.Component {
   // static navigationOptions = {
   //   title: 'Bucket List',
   //   headerStyle: {
@@ -41,9 +41,9 @@ export default class Product extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to Product!
+          Welcome to Basket!
         </Text>
-        <Icon.Button name="home" size={30} color={color.black} onPress={() => this.props.navigation.goBack()}
+        <Icon.Button name="home" size={30} color={color.black} onPress={() => this.props.navigation.navigate('Home')}
         title="Go back home"/>
         {/* <Text style={styles.instructions}>
           To get started, JUST DO IT!!

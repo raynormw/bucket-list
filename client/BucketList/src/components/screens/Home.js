@@ -14,15 +14,9 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      beras : {
-
-      },
-      minyak: {
-
-      },
-      gula: {
-
-      }
+      beras : require('../../assets/berasCrop.png'),
+      minyak: require('../../assets/minyakCrop.png'),
+      gula: require('../../assets/gulaCrop.png')
     }
   }
   render() {
@@ -32,7 +26,7 @@ export default class Home extends React.Component {
           <View style={styleMenu.imgBanner}>
             <Image
               // source={{ uri: 'http://berasmaknyuss.com/wp-content/themes/maknyuss/images/berasMaknyuss5kg.png' }}
-              source={require('../../assets/berasCrop.png')}
+              source={this.state.beras}
               style={styleMenu.imgStyle}
             />
           </View>
@@ -50,7 +44,7 @@ export default class Home extends React.Component {
         </View>
         <View style={styleMenu.searchContainer}>
           <TouchableOpacity style={styleMenu.searchBox}
-            onPress = {() => this.props.navigation.navigate('Product')} >
+            onPress = {() => this.props.navigation.navigate('Search')} >
             <Icon
               name="search"
               size={20}
@@ -66,13 +60,13 @@ export default class Home extends React.Component {
         <View style={styleMenu.products}>
           <View style={styleMenu.boxProduct}>
             <Image
-              source={require('../../assets/minyakCrop.png')}
+              source={this.state.minyak}
               style={styleMenu.imgStyle}
             />
           </View>
           <View style={styleMenu.boxProduct}>
             <Image
-              source={require('../../assets/gulaCrop.png')}
+              source={this.state.gula}
               style={styleMenu.imgStyle}
             />
           </View>
