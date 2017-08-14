@@ -1,8 +1,8 @@
 <template>
   <div id="stores_goods" class="container">
     <section>
-      <h1 class="title"> Store :  </h1>
-      <h1 class="title"> Location :  </h1>
+      <h1 class="title"> Store : {{storeName}} </h1>
+      <h1 class="title"> Location : {{storeLoc}} </h1>
     </section>
     <section class="section" id="form_stores_goods">
       <div class="field">
@@ -12,12 +12,12 @@
         </div>
         <label class="label"> Price </label>
         <div class="control">
-          <input v-model='priceForm' type="text" class="input" placeholder="Input price here">
+          <input v-model='priceForm' type="text" class="input" placeholder="Input price here...">
         </div>
       </div>
       <div class="field is-grouped">
         <div class="control">
-          <button @click="postGoodsStore" class="button is-primary" >Submit</button>
+          <button @click="postGoodsStores" class="button is-primary" >Submit</button>
         </div>
         <div class="control">
           <button @click='emptyGoodsStoreForm' class="button is-link">Cancel</button>
@@ -31,6 +31,7 @@
             <tr>
               <th> No </th>
               <th> Id </th>
+              <th> Good Id </th>
               <th> Goods Name </th>
               <th> Price </th>
               <th> Delete Goods From Store </th>
@@ -41,6 +42,7 @@
             <tr>
               <th> No </th>
               <th> Id </th>
+              <th> Good Id </th>
               <th> Goods Name </th>
               <th> Price </th>
               <th> Delete Goods From Store </th>
@@ -48,15 +50,15 @@
             </tr>
           </tfoot>
           <tbody>
-            <!-- <tr v-for='store in stores'>
-              <td> {{stores.indexOf(store) + 1}} </td>
-              <td> {{store.id}} </td>
-              <td> {{store.name}} </td>
-              <td> {{store.lat_long}} </td>
-              <td> <button class="button" type="button" @click="confirmDelete(store)" > Delete </button> </td>
-              <td> <button class="button" type="button" @click='showUpdateModal(store)'> Update </button> </td>
-              <td> <button class="button" type="button"> <router-link to=`/store/${store.id}`></router-link> </button> </td>
-            </tr> -->
+            <tr v-for='goods in storesGoods'>
+              <td> {{storesGoods.indexOf(goods) + 1}} </td>
+              <td> {{goods.id}} </td>
+              <td> {{goods.good_id}} </td>
+              <td> {{goods.Good.name}} </td>
+              <td> {{goods.price}} </td>
+              <td> <button class="button" type="button" @click="confirmDelete(goods)" > Delete </button> </td>
+              <td> <button class="button" type="button" @click='showUpdateModal(goods)'> Update </button> </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -95,18 +97,32 @@ export default {
   name: 'stores',
   data () {
     return {
+      storeName: '',
+      storeLoc: '',
       storesGoods: [],
       goodsIdForm: '',
       priceForm: '',
       updateModal: 'modal',
+      storeIdFormUpdate: '',
       goodsIdFormUpdate: '',
       priceFormUpdate: ''
     }
   },
   methods: {
+    getStore: function () {
+      var self = this
+      axios.get(`http://localhost:3000/api/stores/${self.$route.params.store_id}/`)
+      .then(function (store) {
+        self.storeName = store.data.name
+        self.storeLoc = store.data.lat_long
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
+    },
     getGoodsStores: function () {
       var self = this
-      axios.get(`http://localhost:3000/api/stores/$route.params.store_id/getgoods`)
+      axios.get(`http://localhost:3000/api/stores/${self.$route.params.store_id}/getgoods`)
       .then(function (storesGoods) {
         self.storesGoods = storesGoods.data
       })
@@ -114,15 +130,15 @@ export default {
         console.log(err)
       })
     },
-    adGoodsStores: function () {
+    postGoodsStores: function () {
       var self = this
-      axios.post(`http://localhost:3000/api/stores/$route.params.store_id/addgoods`, {
+      axios.post(`http://localhost:3000/api/stores/${self.$route.params.store_id}/addgoods`, {
         good_id: self.goodsIdForm,
         price: self.priceForm
       })
       .then(function (store) {
-        self.getGoodsStores()
-        self.emptyStoreForm()
+        // self.getGoodsStores()
+        self.emptyGoodsStoreForm()
       })
       .catch(function (err) {
         console.log(err)
@@ -133,45 +149,41 @@ export default {
       self.goodsIdForm = ''
       self.priceForm = ''
     },
-    // confirmDelete: function (store) {
-    //   var self = this
-    //   var choice = confirm(`Are you sure want to delete this?\n Goods Id: ${store.id} \n Name: ${store.name} \n Latitude Longitude: ${store.lat_long}`)
-    //   if (choice === true) {
-    //     axios.delete(`http://localhost:3000/api/stores/${store.id}`)
-    //     .then(function (msg) {
-    //       self.getStores()
-    //     })
-    //     .catch(function (err) {
-    //       console.log(err)
-    //     })
-    //   }
-    // },
-    showUpdateModal: function (store) {
+    confirmDelete: function (goods) {
+      var self = this
+      var choice = confirm(`Are you sure want to delete this goods from this store?\n Id: ${goods.id} \n Goods Id: ${goods.good_id} \n Goods Name: ${goods.Good.name} \n Store: ${goods.Store.name}`)
+      if (choice === true) {
+        axios.delete(`http://localhost:3000/api/stores/${goods.store_id}/${goods.good_id}`)
+        .then(function (msg) {
+          self.getGoodsStores()
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+      }
+    },
+    showUpdateModal: function (goods) {
       var self = this
       self.updateModal = 'modal is-active'
-      self.UpdateStoreId = store.id
-      self.UpdateStoreName = store.name
-      self.UpdateStoreLat = store.lat_long[0]
-      self.UpdateStoreLng = store.lat_long[1]
+      self.storeIdFormUpdate = goods.store_id
+      self.goodsIdFormUpdate = goods.good_id
+      self.priceFormUpdate = goods.price
     },
     closeModal: function () {
       var self = this
       self.updateModal = 'modal'
-      self.UpdateStoreId = ''
-      self.UpdateStoreName = ''
-      self.UpdateStoreLat = ''
-      self.UpdateStoreLng = ''
+      self.goodsIdFormUpdate = ''
+      self.priceFormUpdate = ''
     },
-    submitStoreUpdate: function () {
+    submitStoreGoodsUpdate: function () {
       var self = this
-      axios.put(`http://localhost:3000/api/stores/${self.UpdateStoreId}`,
+      axios.put(`http://localhost:3000/api/stores/${self.storeIdFormUpdate}/${self.goodsIdFormUpdate}/pricing`,
         {
-          name: self.UpdateStoreName,
-          lat_long: [self.UpdateStoreLat, self.UpdateStoreLng]
+          price: self.priceFormUpdate
         })
       .then(function (result) {
         self.closeModal()
-        self.getStores()
+        self.getGoodsStores()
       })
       .catch(function (err) {
         console.log(err)
@@ -179,7 +191,8 @@ export default {
     }
   },
   created: function () {
-    this.getStores()
+    this.getStore()
+    this.getGoodsStores()
   }
 }
 </script>
@@ -191,7 +204,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
-#form_store {
+#form_stores_goods {
   width: 25%
 }
 </style>

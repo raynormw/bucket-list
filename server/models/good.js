@@ -4,7 +4,8 @@ module.exports = function (sequelize, DataTypes) {
     name: DataTypes.STRING,
     url_pict: DataTypes.STRING,
     desc: DataTypes.TEXT,
-    barcode: DataTypes.INTEGER
+    barcode: DataTypes.STRING,
+    goods_size: DataTypes.STRING
   })
   Good.associate = function (models) {
     Good.hasMany(models.Stores_Good, {foreignKey: 'good_id'})

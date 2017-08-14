@@ -17,6 +17,12 @@ module.exports = {
       desc: {
         type: Sequelize.TEXT
       },
+      goods_size: {
+        type: Sequelize.STRING
+      },
+      barcode: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

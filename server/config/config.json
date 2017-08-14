@@ -2,7 +2,7 @@
   "development": {
     "username": "zulfikarannur",
     "password": "zoelfiekar231094",
-    "database": "price_police",
+    "database": "price_police_4",
     "host": "127.0.0.1",
     "port": "5432",
     "dialect": "postgres"

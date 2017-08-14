@@ -18,6 +18,10 @@
         <div class="control">
           <input v-model='goodsDesc' type="text" class="input" placeholder="Insert goods description here">
         </div>
+        <label class="label"> Goods Size </label>
+        <div class="control">
+          <input v-model='goodsSize' type="text" class="input" placeholder="Insert goods size here">
+        </div>
       </div>
       <div class="field is-grouped">
         <div class="control">
@@ -35,9 +39,11 @@
             <tr>
               <th> No </th>
               <th> Id </th>
+              <th> Barcode </th>
               <th> Goods Name </th>
               <th> URl Picture </th>
               <th> Description </th>
+              <th> Goods Size </th>
               <th> Delete Goods </th>
               <th> Update Goods </th>
             </tr>
@@ -46,9 +52,11 @@
             <tr>
               <th> No </th>
               <th> Id </th>
+              <th> Barcode </th>
               <th> Goods Name </th>
               <th> URl Picture </th>
               <th> Description </th>
+              <th> Goods Size </th>
               <th> Delete Goods </th>
               <th> Update Goods </th>
             </tr>
@@ -61,6 +69,7 @@
               <td> {{good.name}} </td>
               <td> {{good.url_pict}} </td>
               <td> {{good.desc}} </td>
+              <td> {{good.goods_size}} </td>
               <td> <button class="button" type="button" @click="confirmDelete(good)" > Delete </button> </td>
               <td> <button class="button" type="button" @click='showUpdateModal(good)'> Update </button> </td>
             </tr>
@@ -80,8 +89,8 @@
             <label class="label"> Goods Barcode </label>
             <div class="control">
               <input v-model='UpdateGoodsBarcode' type="text" class="input" placeholder="Insert goods barcode here">
-            </div>  
-            <label class="label"> Goods name </label>
+            </div>
+            <label class="label"> Goods Name </label>
             <div class="control">
               <input v-model='UpdateGoodsName' type="text" class="input">
             </div>
@@ -89,8 +98,13 @@
             <div class="control">
               <input v-model='UpdateGoodsUrlPict' type="text" class="input">
             </div>
+            <label class="label"> Goods Description </label>
             <div class="control">
               <input v-model='UpdateGoodsDesc' type="text" class="input">
+            </div>
+            <label class="label"> Goods Size </label>
+            <div class="control">
+              <input v-model='UpdateGoodsSize' type="text" class="input">
             </div>
           </div>
         </section>
@@ -114,12 +128,14 @@ export default {
       goodsName: '',
       goodsUrlPict: '',
       goodsDesc: '',
+      goodsSize: '',
       updateModal: 'modal',
       UpdateGoodsBarcode: '',
       UpdateGoodsId: '',
       UpdateGoodsName: '',
       UpdateGoodsUrlPict: '',
-      UpdateGoodsDesc: ''
+      UpdateGoodsDesc: '',
+      UpdateGoodsSize: ''
     }
   },
   methods: {
@@ -139,7 +155,8 @@ export default {
         barcode: self.goodsBarcode,
         name: self.goodsName,
         url_pict: self.goodsUrlPict,
-        desc: self.goodsDesc
+        desc: self.goodsDesc,
+        goods_size: self.goodsSize
       })
       .then(function (goods) {
         self.getGoods()
@@ -155,6 +172,7 @@ export default {
       self.goodsUrlPict = ''
       self.goodsDesc = ''
       self.goodsBarcode = ''
+      self.goodsSize = ''
     },
     confirmDelete: function (goods) {
       var self = this
@@ -177,6 +195,7 @@ export default {
       self.UpdateGoodsUrlPict = goods.url_pict
       self.UpdateGoodsDesc = goods.desc
       self.UpdateGoodsBarcode = goods.barcode
+      self.UpdateGoodsSize = goods.goods_size
     },
     closeModal: function () {
       var self = this
@@ -193,7 +212,8 @@ export default {
           name: self.UpdateStoreName,
           url_pict: self.UpdateGoodsUrlPict,
           desc: self.UpdateGoodsDesc,
-          barcode: self.UpdateGoodsBarcode
+          barcode: self.UpdateGoodsBarcode,
+          goods_size: self.UpdateGoodsSize
         })
       .then(function (result) {
         self.closeModal()
