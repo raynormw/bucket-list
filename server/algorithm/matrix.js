@@ -113,10 +113,23 @@ class Matrix {
             optimized = true;
           }
         } else {
+          // Only 1 store left
           if ((store2Index) === this._stores.length - 1) {
             optimized = true;
+
+          // Still more stores
           } else {
-            i += 1;
+            if (store1.getTotalOfSelectedStoresGoods() === 0) {
+              this._stores.splice(store1Index, 1);
+              console.log('-------------------- SPLICE ----------------');
+              if (this._stores.length === 1) {
+                optimized = true;
+              } else {
+                i += 1;
+              }
+            } else {
+              i += 1;
+            }
           }
         }
       }

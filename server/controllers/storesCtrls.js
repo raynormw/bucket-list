@@ -239,7 +239,7 @@ var findStoresGoodsMatchItemsAndLocation = function (items, location) {
             return storesGood.Good.id;
           });
 
-          const differenceIds = _.difference(goodIds, itemIds);
+          const differenceIds = _.difference(itemIds, goodIds);
           if (differenceIds.length > 0) {
             goodsModel.findAll({
               where: {
