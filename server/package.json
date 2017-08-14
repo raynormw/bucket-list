@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "NODE_ENV=test mocha",
-    "start": "NODE_ENV=development nodemon ./bin/www"
+    "dev": "NODE_ENV=development nodemon ./bin/www",
+    "start": "NODE_ENV=production nodemon ./bin/www"
   },
   "dependencies": {
     "@google/maps": "^0.4.3",
