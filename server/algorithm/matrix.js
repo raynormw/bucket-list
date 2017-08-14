@@ -52,6 +52,7 @@ class Matrix {
 
     if (this._stores.length <= 1) {
       optimized = true;
+      return;
     }
 
     // Guard to prevent infinite loop
@@ -107,6 +108,7 @@ class Matrix {
         // All items in store1 are cheaper then store2
         if (intersectionTotal1 <= intersectionTotal2) {
           this._stores.splice(store2Index, 1);
+          console.log('-------------------- SPLICE ----------------');
           if (this._stores.length === 1) {
             optimized = true;
           }

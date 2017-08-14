@@ -42,9 +42,9 @@ class Matrices {
           targetStore = stores[j - 1];
         }
 
+        debugger
         const optimizedTotal = store.getTotalOfSelectedStoresGoods();
         const distancePrice = store.getDistancePriceFrom(targetStore);
-
 
         storesOptimizedTotal += optimizedTotal;
         storesOptimizedTotalWithDistance += (optimizedTotal + distancePrice);

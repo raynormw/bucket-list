@@ -275,7 +275,7 @@ var searchNearbyStore = function (req, res) {
   findStoresGoodsMatchItemsAndLocation(items, userLocation)
   .then((storesGoodsMatchItemsAndLocation) => {
 
-    var unMatchGoods = storesGoodsMatchItemsAndLocation.unMathchGoods.map((good) => {
+    var unMatchGoods = storesGoodsMatchItemsAndLocation.unMatchGoods.map((good) => {
       return {
         id: good.id,
         name: good.name,
@@ -283,10 +283,10 @@ var searchNearbyStore = function (req, res) {
     })
 
     if (storesGoodsMatchItemsAndLocation.matchStoresGoods.length > 0) {
-      var pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItemsAndLocation, items, userLocation)
+      var pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItemsAndLocation.matchStoresGoods, items, userLocation)
       var result = pricingAlgorithm.getOptimizedMatrices()
 
-      result.unMathchGoods = unMatchGoods;
+      result.unMatchGoods = unMatchGoods;
       res.send(result)
     } else {
       res.send({
