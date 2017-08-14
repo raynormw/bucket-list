@@ -37,6 +37,11 @@ const cartItems = [
     goodId: 1,
     quantity: 10,
   },
+  {
+    id: 2,
+    goodId: 2,
+    quantity: 5,
+  },
 ];
 
 describe('Test pricing algorithm', () => {
@@ -63,7 +68,10 @@ describe('Test pricing algorithm', () => {
           ],
         })
         .then((storesGoodsMatchItems) => {
-          pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItems, cartItems);
+          pricingAlgorithm = new PricingAlgorithm(
+            storesGoodsMatchItems,
+            cartItems,
+            { lat: -6.261580, lng: 106.782640 });
           done();
         });
       });
@@ -72,16 +80,14 @@ describe('Test pricing algorithm', () => {
 
   it('Should list all store goods match items', (done) => {
     const storesGoods = pricingAlgorithm.getStoresGoods();
-    expect(storesGoods).to.have.lengthOf(2);
+    expect(storesGoods).to.have.lengthOf(3);
     done();
   });
 
-  it('Should list store goods minimum price', (done) => {
-    const storesGoods = pricingAlgorithm.getStoresGoodsWithMinimumPrice();
-    expect(storesGoods).to.have.lengthOf(1);
-    expect(storesGoods[0].price).to.equal(5000);
-
-    console.log(JSON.stringify(pricingAlgorithm.getOptmizedModels()));
+  it('Should optimize matrices', (done) => {
+    const optimizedMatrices = pricingAlgorithm.getOptimizedMatrices();
+    console.log('------------> optimizedMatrices: ', JSON.stringify(optimizedMatrices, null, 2));
+    expect(optimizedMatrices.mostOptimizedMatrix.storesOptimizedTotalWithDistance).to.eql(119988.3);
     done();
   });
 });

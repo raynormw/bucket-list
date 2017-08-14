@@ -13,6 +13,7 @@
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "~4.15.2",
+    "generatorics": "^1.1.0",
     "geo-coords-distance": "^2.0.9",
     "jsonwebtoken": "^7.4.2",
     "lodash": "^4.17.4",
