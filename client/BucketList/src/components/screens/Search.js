@@ -144,26 +144,28 @@ export default class Search extends React.Component {
           animationType={"fade"}
           transparent={true}
           visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
+          onRequestClose={() => alert("Modal has been closed.")}
           >
-         <View style={styleSearch.containerModal}>
-          <View style={styleSearch.modalStyle}>
-            <Text style={styleSearch.textModal}>Add another?</Text>
-            <View style={styleSearch.containerButton}>
-              <TouchableHighlight style={styleSearch.buttonYes} activeOpacity={0.5} underlayColor={color.lightBlue} onPress={() => {
-                this._setModalVisible(!this.state.modalVisible)
-              }}>
-                <Text style={styleSearch.textButton}>Yes</Text>
-              </TouchableHighlight>
-              <TouchableHighlight style={styleSearch.buttonNo} activeOpacity={0.5} underlayColor={color.orange} onPress={() => {
-                this._setModalVisible(!this.state.modalVisible)
-                this.props.navigation.navigate('Basket')
-              }}>
-                <Text style={styleSearch.textButton}>No</Text>
-              </TouchableHighlight>
+           <View style={styleSearch.containerModal}>
+            <View style={styleSearch.modalStyle}>
+              <Text style={styleSearch.textModal}>Add another?</Text>
+              <View style={styleSearch.containerButton}>
+                <TouchableHighlight style={styleSearch.buttonYes} activeOpacity={0.5} underlayColor={color.lightBlue} onPress={() => {
+                  console.log('yes button')
+                  this._setModalVisible(!this.state.modalVisible)
+                }}>
+                  <Text style={styleSearch.textButton}>Yes</Text>
+                </TouchableHighlight>
+                <TouchableHighlight style={styleSearch.buttonNo} activeOpacity={0.5} underlayColor={color.orange} onPress={() => {
+                  console.log('no button')
+                  this._setModalVisible(!this.state.modalVisible)
+                  this.props.navigation.navigate('Basket')
+                }}>
+                  <Text style={styleSearch.textButton}>No</Text>
+                </TouchableHighlight>
+              </View>
             </View>
           </View>
-         </View>
         </Modal>
       </ScrollView>
     )

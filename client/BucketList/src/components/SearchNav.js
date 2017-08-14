@@ -32,7 +32,7 @@ export default class SearchNav extends React.Component {
       <View style={styleSearch.headerContainer}>
         <TouchableOpacity style={styleSearch.backContainer}
           onPress = {() => this.props.navigation.goBack()} >
-          <Icon name="md-arrow-back" size={30} />
+          <Icon name="md-arrow-back" size={30} color={color.white}/>
         </TouchableOpacity>
         <View style={styleSearch.searchBoxContainer}>
           <Icon
