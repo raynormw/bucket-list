@@ -87,7 +87,7 @@ describe('Test pricing algorithm', () => {
   it('Should optimize matrices', (done) => {
     const optimizedMatrices = pricingAlgorithm.getOptimizedMatrices();
     console.log('------------> optimizedMatrices: ', JSON.stringify(optimizedMatrices, null, 2));
-    expect(optimizedMatrices.mostOptimizedMatrix.storesOptimizedTotalWithDistance).to.eql(94994.15);
+    expect(optimizedMatrices.mostOptimizedMatrix.storesOptimizedTotalWithDistance).to.eql(119988.3);
     done();
   });
 });

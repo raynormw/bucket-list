@@ -20,7 +20,7 @@ class Store {
   }
 
   getDistancePriceFrom(store) {
-    return this.getDistanceFrom(store) * DISTANCE_PRICE;
+    return round((this.getDistanceFrom(store) * DISTANCE_PRICE), 2);
   }
 
   addStoresGood(storesGood) {

@@ -31,6 +31,7 @@ class Matrices {
       const storesResult = [];
       let storesOptimizedTotal = 0;
       let storesOptimizedTotalWithDistance = 0;
+      let goBackDistanceToUserLocation = 0
 
       for (let j = 0; j < stores.length; j += 1) {
         const store = stores[j];
@@ -44,8 +45,15 @@ class Matrices {
         const optimizedTotal = store.getTotalOfSelectedStoresGoods();
         const distancePrice = store.getDistancePriceFrom(targetStore);
 
+
         storesOptimizedTotal += optimizedTotal;
         storesOptimizedTotalWithDistance += (optimizedTotal + distancePrice);
+
+        if (j === (stores.length - 1)) {
+          goBackDistanceToUserLocation = store.getDistancePriceFrom({ location: this._userLocation });
+          storesOptimizedTotalWithDistance += goBackDistanceToUserLocation;
+        }
+
         storesResult.push({
           id: store.id,
           name: store.name,
@@ -61,7 +69,8 @@ class Matrices {
         matrixId: matrix.id,
         stores: storesResult,
         storesOptimizedTotal,
-        storesOptimizedTotalWithDistance,
+        storesOptimizedTotalWithDistance: round(storesOptimizedTotalWithDistance, 2),
+        goBackDistanceToUserLocation,
       });
     }
 
@@ -73,9 +82,9 @@ class Matrices {
       return o.storesOptimizedTotalWithDistance === singleMinimumMatrix.storesOptimizedTotalWithDistance;
     });
 
-
     const result = {
       matricesCount: this._matrices.length,
+      requesterLocation: this._userLocation,
       optimizedMatrices,
       mostOptimizedMatrices,
       mostOptimizedMatrix: singleMinimumMatrix,
