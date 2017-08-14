@@ -214,6 +214,7 @@ var findStoresGoodsMatchItemsAndLocation = function (items, location) {
     .then((stores) => {
       var storeIds = _.map(stores, 'id')
       console.log('--------> storeIds: ', storeIds);
+      console.log('--------> itemIds: ', itemIds);
       storeGoodsModel.findAll({
         where: {
         },
@@ -250,15 +251,18 @@ var searchNearbyStore = function (req, res) {
 
   findStoresGoodsMatchItemsAndLocation(items, userLocation)
   .then((storesGoodsMatchItemsAndLocation) => {
-    var pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItemsAndLocation, items)
-    var result = pricingAlgorithm.getOptmizedModels()
+    var pricingAlgorithm = new PricingAlgorithm(storesGoodsMatchItemsAndLocation, items, userLocation)
+    var result = pricingAlgorithm.getOptimizedMatrices()
     res.send(result)
     // TODO: possibly async problem
   })
-  .catch(() => {
+  .catch((err) => {
     res.status(404).send('No store found');
+    console.log(err)
   });
 }
+
+
 
 module.exports = {
   addStore,
