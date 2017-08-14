@@ -20,7 +20,7 @@
 ## Search Store (MVP), Development
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
-| /api/stores/nearbystore | POST | Search nearby store  | Send form-urlencoded with location and items as attribute  | null |
+| /api/stores/nearbystore | POST | Search nearby store  | Send form-urlencoded with location and items as attribute  | Route to store with calculation |
 
 ## Goods
 | Routes | Methods | Purpose |Usages | Returns |
@@ -29,6 +29,11 @@
 | /api/goods | GET | Get all goods | Just send request | All goods created |
 | /api/goods/:id | PUT | Update specific good | Send form-urlencoded with name and url_pict as attribute | Return updated goods |
 | /api/goods/:id | DELETE | Delete specific good | Replace :id with goods_id | Return succes message if deleted |
+
+## Search Store (MVP), Development
+| Routes | Methods | Purpose |Usages | Returns |
+| :--- | :---: | :--- |:--- | :---|
+| /api/goods/searchgoods | POST | Search goods with query  | Send form-urlencoded with query as attribute  | Route goods matched with query |
 
 ## Cart_Items
 | Routes | Methods | Purpose |Usages | Returns |
