@@ -3,7 +3,8 @@ var goodsModel = require('../models').Good
 var addGoods = function (req, res) {
   goodsModel.create({
     name: req.body.name,
-    url_pict: req.body.url_pict
+    url_pict: req.body.url_pict,
+    barcode: req.body.barcode
   })
   .then(function (result) {
     res.send(result)
@@ -35,7 +36,8 @@ var updateGoods = function (req, res) {
     } else {
       goodsModel.update({
         name: req.body.name || goods.name,
-        url_pict: req.body.url_pict || goods.url_pict
+        url_pict: req.body.url_pict || goods.url_pict,
+        barcode: req.body.barcode || goods.barcode
       }, {
         where: {
           id: req.params.id

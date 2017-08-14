@@ -2,6 +2,10 @@
   <div id="stores" class="container">
     <section class="section" id="form_goods">
       <div class="field">
+        <label class="label"> Goods Barcode </label>
+        <div class="control">
+          <input v-model='goodsBarcode' type="text" class="input" placeholder="Insert goods barcode here">
+        </div>
         <label class="label"> Goods name </label>
         <div class="control">
           <input v-model='goodsName' type="text" class="input" placeholder="Goods name">
@@ -53,6 +57,7 @@
             <tr v-for='good in goods'>
               <td> {{goods.indexOf(good) + 1}} </td>
               <td> {{good.id}} </td>
+              <td> {{good.barcode}} </td>
               <td> {{good.name}} </td>
               <td> {{good.url_pict}} </td>
               <td> {{good.desc}} </td>
@@ -72,6 +77,10 @@
         </header>
         <section class="modal-card-body">
           <div class="field">
+            <label class="label"> Goods Barcode </label>
+            <div class="control">
+              <input v-model='UpdateGoodsBarcode' type="text" class="input" placeholder="Insert goods barcode here">
+            </div>  
             <label class="label"> Goods name </label>
             <div class="control">
               <input v-model='UpdateGoodsName' type="text" class="input">
@@ -101,10 +110,12 @@ export default {
   data () {
     return {
       goods: [],
+      goodsBarcode: '',
       goodsName: '',
       goodsUrlPict: '',
       goodsDesc: '',
       updateModal: 'modal',
+      UpdateGoodsBarcode: '',
       UpdateGoodsId: '',
       UpdateGoodsName: '',
       UpdateGoodsUrlPict: '',
@@ -125,6 +136,7 @@ export default {
     postGoods: function () {
       var self = this
       axios.post('http://localhost:3000/api/goods', {
+        barcode: self.goodsBarcode,
         name: self.goodsName,
         url_pict: self.goodsUrlPict,
         desc: self.goodsDesc
@@ -142,10 +154,11 @@ export default {
       self.goodsName = ''
       self.goodsUrlPict = ''
       self.goodsDesc = ''
+      self.goodsBarcode = ''
     },
     confirmDelete: function (goods) {
       var self = this
-      var choice = confirm(`Are you sure want to delete this?\n Id: ${goods.id} \n Name: ${goods.name} \n URl Pict: ${goods.url_pict} \n Description: ${goods.desc}`)
+      var choice = confirm(`Are you sure want to delete this?\n Id: ${goods.id} \n Barcode: ${goods.barcode} \n Name: ${goods.name} \n URl Pict: ${goods.url_pict} \n Description: ${goods.desc}`)
       if (choice === true) {
         axios.delete(`http://localhost:3000/api/goods/${goods.id}`)
         .then(function (msg) {
@@ -163,6 +176,7 @@ export default {
       self.UpdateGoodsName = goods.name
       self.UpdateGoodsUrlPict = goods.url_pict
       self.UpdateGoodsDesc = goods.desc
+      self.UpdateGoodsBarcode = goods.barcode
     },
     closeModal: function () {
       var self = this
@@ -178,7 +192,8 @@ export default {
         {
           name: self.UpdateStoreName,
           url_pict: self.UpdateGoodsUrlPict,
-          desc: self.UpdateGoodsDesc
+          desc: self.UpdateGoodsDesc,
+          barcode: self.UpdateGoodsBarcode
         })
       .then(function (result) {
         self.closeModal()

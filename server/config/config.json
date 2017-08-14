@@ -1,16 +1,16 @@
 {
   "development": {
-    "username": "quest",
-    "password": "12345678",
-    "database": "bucket_list",
+    "username": "zulfikarannur",
+    "password": "zoelfiekar231094",
+    "database": "price_police",
     "host": "127.0.0.1",
     "port": "5432",
     "dialect": "postgres"
   },
   "test": {
-    "username": "quest",
-    "password": "12345678",
-    "database": "bucket_list",
+    "username": "zulfikarannur",
+    "password": "zoelfiekar231094",
+    "database": "price_police_test",
     "host": "127.0.0.1",
     "port": "5432",
     "dialect": "postgres"

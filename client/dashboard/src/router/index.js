@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Stores from '@/components/Stores'
 import Goods from '@/components/Goods'
+import StoresGoods from '@/components/StoresGoods'
 
 Vue.use(Router)
 
@@ -16,6 +17,10 @@ export default new Router({
       path: '/goods',
       name: 'Goods',
       component: Goods
+    }, {
+      path: '/store/:store_id',
+      name: 'Stores_Goods',
+      component: StoresGoods
     }
   ]
 })
