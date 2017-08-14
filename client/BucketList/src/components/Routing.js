@@ -28,7 +28,16 @@ const MainNavigator = StackNavigator({
     })
   },
   Basket: {
-    screen: Basket
+    screen: Basket,
+    navigationOptions: () => ({
+      title: 'Price Police',
+      headerStyle: {
+        backgroundColor: color.orange,
+      },
+      headerTitleStyle: {
+        color: color.white
+      },
+    })
   },
   Search: {
     screen: Search,
