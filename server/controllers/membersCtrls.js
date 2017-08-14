@@ -38,7 +38,22 @@ var signIn = function (req, res) {
   })
 }
 
+var getAllUsers = function (req, res) {
+  membersModel.findAll()
+  .then(function (members) {
+    if (!members) {
+      res.status(404).send({msg: 'No members currently'})
+    } else {
+      res.send(members)
+    }
+  })
+  .catch(function (err) {
+    res.status(500).send(err)
+  })
+}
+
 module.exports = {
   signUp,
-  signIn
+  signIn,
+  getAllUsers
 }

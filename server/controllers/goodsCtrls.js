@@ -85,9 +85,29 @@ var deleteGoods = function (req, res) {
   })
 }
 
+var searchGoods = function (req, res) {
+  goodsModel.findAll({
+    where: {
+      name: {
+        $iLike: `%${req.body.query}%`
+      }
+    }
+  })
+  .then(function (goodsResult) {
+    if (!goodsResult) {
+      res.status(404).send({msg: `Goods with query ${req.body.query} not found`})
+    } else {
+      res.send(goodsResult)
+    }
+  })
+  .catch(function (err) {
+    res.status(500).send(err)
+  })
+}
 module.exports = {
   addGoods,
   getAllGoods,
   updateGoods,
-  deleteGoods
+  deleteGoods,
+  searchGoods
 }

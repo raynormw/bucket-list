@@ -137,7 +137,7 @@ export default {
         price: self.priceForm
       })
       .then(function (store) {
-        // self.getGoodsStores()
+        self.getGoodsStores()
         self.emptyGoodsStoreForm()
       })
       .catch(function (err) {
