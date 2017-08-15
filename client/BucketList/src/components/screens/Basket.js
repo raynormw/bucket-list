@@ -6,12 +6,14 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal,
+  TouchableHighlight
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Axios from 'axios'
 
-import { styles, styleBasket, color } from '../styles'
+import { styles, styleBasket, styleSearch, color } from '../styles'
 
 const API = 'http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api'
 
@@ -22,6 +24,7 @@ export default class Basket extends React.Component {
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       data: [],
+      id: null,
       loading: false,
       loaded: false,
       modalVisible: false,
@@ -77,7 +80,10 @@ export default class Basket extends React.Component {
           <Text>Ukuran: {product.Good.goods_size}</Text>
         </View>
         <TouchableOpacity style={styleBasket.clearIcon}
-          onPress = {() => this._deleteItem(product.Good.id)} >
+          onPress = {() => {
+            this.setState({ id: product.Good.id })
+            this._setModalVisible(true)
+          }} >
           <Icon
             name="ios-close"
             size={30}
@@ -127,6 +133,34 @@ export default class Basket extends React.Component {
           </Icon.Button>
           </View>
         }
+        <Modal
+          animationType={"fade"}
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => this._setModalVisible(!this.state.modalVisible)}
+          >
+           <View style={styleSearch.containerModal}>
+            <View style={styleSearch.modalStyle}>
+              <Text style={styleSearch.textModal}>Are you sure?</Text>
+              <View style={styleSearch.containerButton}>
+                <TouchableHighlight style={styleSearch.buttonYes} activeOpacity={0.5} underlayColor={color.lightBlue} onPress={() => {
+                  console.log('yes button')
+                  this._setModalVisible(!this.state.modalVisible)
+                  this._deleteItem(this.state.id)
+                  this.setState({ id: null })
+                }}>
+                  <Text style={styleSearch.textButton}>Yes</Text>
+                </TouchableHighlight>
+                <TouchableHighlight style={styleSearch.buttonNo} activeOpacity={0.5} underlayColor={color.orange} onPress={() => {
+                  console.log('no button')
+                  this._setModalVisible(!this.state.modalVisible)
+                }}>
+                  <Text style={styleSearch.textButton}>No</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     )
   }
