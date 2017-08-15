@@ -28,6 +28,17 @@ export default class Basket extends React.Component {
     }
   }
 
+  _fetchData() {
+    Axios.get(API + '/baskets/getitems/2')
+    .then((response) => {
+      console.log(response)
+      this._getData(response.data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
   _getData(data) {
     const ds = this.state.dataSource.cloneWithRows(data || [])
     this.setState({'data': ds, loading: false, loaded: true})
@@ -35,13 +46,15 @@ export default class Basket extends React.Component {
   }
 
   _deleteItem(goodsId) {
-    console.log(goodsId + ' goods ID ----')
+    this.setState({ loading: true })
+
     Axios.delete(API + '/baskets/2/' + goodsId +'/removeitem', {
       basket_id: 2,
       goods_id: goodsId
     })
     .then((response) => {
       console.log(response)
+      this._fetchData()
     })
     .catch((error) => {
       console.log(error)
@@ -77,15 +90,7 @@ export default class Basket extends React.Component {
 
   componentWillMount() {
     this.setState({ loading: true })
-
-    Axios.get(API + '/baskets/getitems/2')
-    .then((response) => {
-      console.log(response)
-      this._getData(response.data)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+    this._fetchData()
   }
 
   render() {
