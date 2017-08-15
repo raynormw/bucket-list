@@ -50,19 +50,19 @@ class Store {
   }
 
   getTotal() {
-    return this._storesGoods.reduce((sum, value) => sum + value.getTotal());
+    return this._storesGoods.reduce((sum, value) => sum + value.getTotal(), 0);
   }
 
   getTotalOfSelectedStoresGoods() {
     return this._storesGoods
     .filter(storesGood => storesGood.selected)
-    .reduce((sum, storesGood) => sum + storesGood.getTotal());
+    .reduce((sum, storesGood) => sum + storesGood.getTotal(), 0);
   }
 
   getTotalByGivenGoodIds(goodIds) {
     return this._storesGoods
     .filter(storesGood => _.includes(goodIds, storesGood.good.id))
-    .reduce((sum, storesGood) => sum + storesGood.getTotal());
+    .reduce((sum, storesGood) => sum + storesGood.getTotal(), 0);
   }
 }
 

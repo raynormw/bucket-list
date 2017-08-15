@@ -186,4 +186,99 @@ describe('Test store', () => {
     expect(store.getStoresGoodByGoodId(1)).to.be.undefined;
     done();
   });
+
+  it('Should return correct total', (done) => {
+    const store = new Store(options);
+    const storesGood = new StoresGood(storesGoodOptions);
+    store.addStoresGood(storesGood);
+
+    const storesGood2 = new StoresGood({
+      id: 2,
+      good: {
+        id: 3,
+        name: 'Good 2',
+      },
+      price: 1500,
+      quantity: 11,
+    });
+    store.addStoresGood(storesGood2);
+
+    const storesGood3 = new StoresGood({
+      id: 3,
+      good: {
+        id: 3,
+        name: 'Good 3',
+      },
+      price: 20000,
+      quantity: 5,
+    });
+    store.addStoresGood(storesGood3);
+
+    expect(store.getTotal()).to.eql(126500);
+    done();
+  });
+
+  it('Should return correct total of selected stores good', (done) => {
+    const store = new Store(options);
+    const storesGood = new StoresGood(storesGoodOptions);
+    store.addStoresGood(storesGood);
+
+    const storesGood2 = new StoresGood({
+      id: 2,
+      good: {
+        id: 3,
+        name: 'Good 2',
+      },
+      price: 1500,
+      quantity: 11,
+    });
+    store.addStoresGood(storesGood2);
+    storesGood2.selected = false;
+
+    const storesGood3 = new StoresGood({
+      id: 3,
+      good: {
+        id: 4,
+        name: 'Good 3',
+      },
+      price: 20000,
+      quantity: 5,
+    });
+    store.addStoresGood(storesGood3);
+
+    expect(store.getTotalOfSelectedStoresGoods()).to.eql(110000);
+    done();
+  });
+
+  it('Should return correct total of selected stores good', (done) => {
+    const store = new Store(options);
+    const storesGood = new StoresGood(storesGoodOptions);
+    store.addStoresGood(storesGood);
+
+    const storesGood2 = new StoresGood({
+      id: 2,
+      good: {
+        id: 3,
+        name: 'Good 2',
+      },
+      price: 1500,
+      quantity: 11,
+    });
+    store.addStoresGood(storesGood2);
+    storesGood2.selected = false;
+
+    const storesGood3 = new StoresGood({
+      id: 3,
+      good: {
+        id: 4,
+        name: 'Good 3',
+      },
+      price: 20000,
+      quantity: 5,
+    });
+    store.addStoresGood(storesGood3);
+
+    expect(store.getTotalByGivenGoodIds([1, 3])).to.eql(26500);
+    done();
+  });
 });
