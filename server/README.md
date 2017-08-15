@@ -7,7 +7,7 @@
 | /api/stores | GET | Get all store | Just send request | All created store |
 | /api/stores/:id | GET | Get specific store | Replace :id with store_id | Specific store |
 | /api/stores/:id | DELETE | Delete specific store | Replace :id with store_id  | Success message if deleted |
-| /api/stores/:id | PUT | Update specific store | Send form-urlencoded with name and lat_long as attribute |  |
+| /api/stores/:id | PUT | Update specific store | Send form-urlencoded with name and lat_long as attribute | Success message |
 
 ## Stores_Goods
 | Routes | Methods | Purpose |Usages | Returns |
@@ -39,13 +39,17 @@
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
 | /api/baskets/additem | POST | Add goods to basket | Send form-urlencoded with basket_id , goods_id and quantity as attribute  | Created basket |
-| /api/baskes/getitems/:basket_id | GET | Get all items in a basket | Set params with correct basket_id  | Get all goods in a basket |
-| /api/baskets/removeitem | DELETE | Remove item from basket | Send form-urlencoded with basket_id , goods_id as attribute  | Success message  |
+| /api/baskets/getitems/:basket_id | GET | Get all items in a basket | Set params with correct basket_id  | Get all goods in a basket |
+| /api/baskets/:basket_id/:goods_id/removeitem | DELETE | Remove item from basket | Send with basket_id , goods_id as params | Success message  |
+| /api/baskets/:basket_id/:goods_id/editpcs| PUT | Edit item quantity in a basket | Send form-urlencoded with quantity as attribute | Success message
 
 ## Baskets
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
 | /api/baskets/createbasket | POST | Create basket | Send form-urlencoded with member_id as attribute  | Created basket |
+| api/baskets/ | GET | Get all baskets | Just send request  | All created basket |
+| /api/baskets/:basket_id/delete | DELETE | Send form-urlencoded with member_id as attribute | Success message |
+| /api/baskets/:basket_id/:member_id/update | PUT | Send form-urlencoded with member_id as attribute | Success message |
 
 ## Cart_Items
 | Routes | Methods | Purpose |Usages | Returns |
@@ -68,5 +72,8 @@
 | :--- | :---: | :--- |:--- | :---|
 | /api/members/signup | POST | Add new user (Sign up) | Post form-urlencoded with name, email and password as attributes  | Created member |
 | /api/members/signin | POST | Verify user (Sign in)| Post form-urlencoded with email and password | If correct, return token with member_id value, if nomatch or not found will return message |
+| /api/members | GET | Get all member| Just send request | All members |
+| /api/members/:member_id/delete | DELETE | Delete member | Set params with member_id | Success message |
+| /api/members/:member_id/update | PUT | Update member | Post form-urlencoded with name or email or password , and set member id params| Success message |
 
 ## Drivers (Tentative)

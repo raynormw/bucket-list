@@ -14,6 +14,73 @@ var createBasket = function (req, res) {
   })
 }
 
+var getAllBaskets = function (req, res) {
+  basketsModel.findAll()
+  .then(function (baskets) {
+    res.send(baskets)
+  })
+  .catch(function (err) {
+    res.status(500).send(err)
+  })
+}
+
+var deleteBasket = function (req, res) {
+  basketsModel.findOne({
+    where: {
+      id: req.params.basket_id,
+      member_id: req.body.member_id
+    }
+  })
+  .then(function (basket) {
+    if (!basket) {
+      res.status(404).send({msg: `Basket not found`})
+    } else {
+      basket.destroy()
+      .then(function () {
+        res.send({msg: `Basket deleted`})
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
+  })
+  .catch(function (err) {
+    res.status(500).send(err)
+  })
+}
+
+var updateBasket = function (req, res) {
+  basketsModel.findOne({
+    where: {
+      id: req.params.basket_id,
+      member_id: req.params.member_id
+    }
+  })
+  .then(function (basket) {
+    if (!basket) {
+      res.status(404).send({msg: `Basket not found`})
+    } else {
+      basketsModel.update({
+        member_id: req.body.member_id
+      }, {
+        where: {
+          id: req.params.basket_id,
+          member_id: req.params.member_id
+        }
+      })
+      .then(function () {
+        res.send({msg: 'Basket updated'})
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
+  })
+  .catch(function (err) {
+    res.status(500).send(err)
+  })
+}
+
 var addGoodsToBasket = function (req, res) {
   basketsItemsModel.create({
     goods_id: req.body.goods_id,
@@ -31,8 +98,8 @@ var addGoodsToBasket = function (req, res) {
 var removeGoodsGromBasket = function (req, res) {
   basketsItemsModel.findOne({
     where: {
-      basket_id: req.body.basket_id,
-      goods_id: req.body.goods_id
+      basket_id: req.params.basket_id,
+      goods_id: req.params.goods_id
     }
   })
   .then(function (item) {
@@ -78,7 +145,20 @@ var updateItemsQuantityInABasket = function (req, res) {
     }
   })
   .then(function (basketsItem) {
-    
+    basketsItemsModel.update({
+      quantity: req.body.quantity || basketsItem.quantity
+    }, {
+      where: {
+        basket_id: req.params.basket_id,
+        goods_id: req.params.goods_id
+      }
+    })
+    .then(function () {
+      res.send({msg: 'Update quantity success'})
+    })
+    .catch(function (err) {
+      res.status(500).send(err)
+    })
   })
   .catch(function (err) {
     res.status(500).send(err)
@@ -87,6 +167,9 @@ var updateItemsQuantityInABasket = function (req, res) {
 
 module.exports = {
   createBasket,
+  getAllBaskets,
+  deleteBasket,
+  updateBasket,
   addGoodsToBasket,
   getAllItemInABasket,
   removeGoodsGromBasket,
