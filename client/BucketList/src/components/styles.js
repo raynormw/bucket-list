@@ -46,7 +46,6 @@ export const styles = StyleSheet.create({
 
 export const styleMenu = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
     flex: 1,
     flexDirection: 'column',
     backgroundColor: color.gray,
@@ -105,5 +104,77 @@ export const styleMenu = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center'
+  },
+  containerLogin: {
+    flex: 1,
+    backgroundColor: '#3498DB'
+  },
+  logoLoginContainer: {
+    alignItems: 'center',
+    flexGrow: 1,
+    justifyContent: 'center'
+  },
+  logo: {
+    width: 100,
+    height: 100
+  },
+  title: {
+    color: '#fff',
+    marginTop: 10,
+    width: 160,
+    fontWeight: '300',
+    fontSize: 20,
+    textAlign: 'center',
+    opacity: 0.7
+  },
+  formLogin: {
+    padding: 20
+  },
+  input: {
+    height: 60,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    marginBottom: 10,
+    color: '#FFF',
+    paddingHorizontal: 10,
+    fontWeight: '200',
+    fontSize: 16,
+    borderRadius: 50,
+    opacity: 0.7
+  },
+  buttonContainer: {
+    backgroundColor: '#4183D7',
+    paddingVertical: 15,
+    marginBottom: 10,
+    borderRadius: 50,
+    opacity: 0.7
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: "#FFF",
+    fontWeight: '700'
+  },
+  registerContainer: {
+    flex: 1,
+    backgroundColor: '#9b59b6'
+  },
+  headerText: {
+    textAlign: 'center',
+    color: '#FFF',
+    fontSize: 17,
+    fontWeight: '500',
+    paddingTop: 80
+  },
+  registerInput: {
+    height: 50,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    color: '#FFF',
+    fontWeight: '200',
+    fontSize: 15,
+    opacity: 0.7,
+    borderRadius: 50,
+    marginBottom: 10
+  },
+  registerFrom: {
+    padding: 40
   }
 })

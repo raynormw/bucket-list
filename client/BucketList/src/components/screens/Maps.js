@@ -30,6 +30,7 @@ var dummyDataForMarkers = [{
   latitude: -6.2505417,
   longitude: 106.777047
 }]
+//data pada API ==> data.mostOptimizedMatrix.stores.location({lat, lng})
 
 class Maps extends React.Component {
   constructor(props) {
@@ -83,30 +84,23 @@ class Maps extends React.Component {
       this.setState({markerPosition: lastRegion})
     })
 
-    var coordGroups = []
     var promises = []
-
     for(let i=0; i<dummyDataForMarkers.length; i++) {
       if(i < dummyDataForMarkers.length - 1){
-
-        const promise = new Promise((resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
           let startPos = `${dummyDataForMarkers[i].latitude},${dummyDataForMarkers[i].longitude}`
           let destinationPos = `${dummyDataForMarkers[i+1].latitude},${dummyDataForMarkers[i+1].longitude}`
-
           fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startPos }&destination=${ destinationPos }`)
           .then((result) => {
             let respJson = result.json()
             .then((mypromise) => {
-              console.log('------------1', mypromise);
               let points = Polyline.decode(mypromise.routes[0].overview_polyline.points)
-              console.log('--------------2', points);
               let coords = points.map((point, index) => {
                 return {
                   latitude: point[0],
                   longitude: point[1]
                 }
               })
-              console.log('-----------coords', coords);
               resolve(coords);
             })
           })
@@ -116,14 +110,12 @@ class Maps extends React.Component {
     }
     Promise.all(promises)
     .then((data) => {
-      console.log('----------data', data);
       this.setDirectionMethode(data)
     })
   }
 
   setDirectionMethode(data) {
     this.setState({coordDirections: data})
-    console.log('--------------4', this.state.coordDirections);
   }
 
   componentWillUnmount() {
@@ -131,7 +123,6 @@ class Maps extends React.Component {
   }
 
   render() {
-    //console.log('---------ini data',this.state.coordDirections)
     return (
       <View style={styleMenu.container}>
         <MapView
@@ -157,7 +148,7 @@ class Maps extends React.Component {
               <MapView.Polyline
                 key={index}
                 coordinates={direction}
-                strokeWidth={2}
+                strokeWidth={5}
                 strokeColor="red"
               />
             )
