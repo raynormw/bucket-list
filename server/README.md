@@ -33,7 +33,19 @@
 ## Search Store (MVP), Development
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
-| /api/goods/searchgoods | POST | Search goods with query  | Send form-urlencoded with query as attribute  | Route goods matched with query |
+| /api/baskets/searchgoods | POST | Search goods with query  | Send form-urlencoded with query as attribute  | Route goods matched with query |
+
+## Baskets_Item
+| Routes | Methods | Purpose |Usages | Returns |
+| :--- | :---: | :--- |:--- | :---|
+| /api/baskets/additem | POST | Add goods to basket | Send form-urlencoded with basket_id , goods_id and quantity as attribute  | Created basket |
+| /api/baskes/getitems | POST | Get all items in a basket | Send form-urlencoded with basket_id as attribute  | Get all goods in a basket |
+| /api/baskets/removeitem | DELETE | Remove item from basket | Send form-urlencoded with basket_id , goods_id as attribute  | Success message  |
+
+## Baskets
+| Routes | Methods | Purpose |Usages | Returns |
+| :--- | :---: | :--- |:--- | :---|
+| /api/baskets/createbasket | POST | Create basket | Send form-urlencoded with member_id as attribute  | Created basket |
 
 ## Cart_Items
 | Routes | Methods | Purpose |Usages | Returns |

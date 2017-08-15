@@ -8,6 +8,7 @@ var stores = require('./routes/stores')
 var goods = require('./routes/goods')
 var carts = require('./routes/carts')
 var members = require('./routes/members')
+var baskets = require('./routes/baskets')
 
 var app = express()
 
@@ -20,6 +21,7 @@ app.use('/api/stores', stores)
 app.use('/api/goods', goods)
 app.use('/api/carts', carts)
 app.use('/api/members', members)
+app.use('/api/baskets', baskets)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
