@@ -38,7 +38,7 @@
 ## Baskets_Item
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
-| /api/baskets/additem | POST | Add goods to basket | Send form-urlencoded with basket_id , goods_id and quantity as attribute  | Created basket |
+| /api/baskets/:basket_id/additem | POST | Add goods to basket | Send form-urlencoded with goods_id and quantity as attribute , and basket_id as params | Created basket |
 | /api/baskets/getitems/:basket_id | GET | Get all items in a basket | Set params with correct basket_id  | Get all goods in a basket |
 | /api/baskets/:basket_id/:goods_id/removeitem | DELETE | Remove item from basket | Send with basket_id , goods_id as params | Success message  |
 | /api/baskets/:basket_id/:goods_id/editpcs| PUT | Edit item quantity in a basket | Send form-urlencoded with quantity as attribute | Success message

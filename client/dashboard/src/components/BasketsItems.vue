@@ -1,19 +1,27 @@
 <template>
-  <div id="baskets" class="container">
-    <section class="section" id="form_basket">
-      <h1 class="title"> Basket Form</h1>
+  <div id="baskets_items" class="container">
+    <section class="section" id="form_basket_items">
+      <h1 class="title"> Basket Item Form</h1>
       <div class="field">
-        <label class="label"> Member Id </label>
+        <label class="label"> Basket Id </label>
         <div class="control">
-          <input v-model='memberIdBasketForm' type="text" class="input" placeholder="Member Id">
+          <input v-model='basketIdItemsForm' type="text" class="input" placeholder="Basket Id">
+        </div>
+        <label class="label"> Goods Id </label>
+        <div class="control">
+          <input v-model='goodsIdItemsForm' type="text" class="input" placeholder="Goods Id">
+        </div>
+        <label class="label"> Goods Id </label>
+        <div class="control">
+          <input v-model='quantityItemsForm' type="text" class="input" placeholder="Quantity Form">
         </div>
       </div>
       <div class="field is-grouped">
         <div class="control">
-          <button @click="postBasket" class="button is-primary" >Submit</button>
+          <button @click="postBasketItem" class="button is-primary" >Submit</button>
         </div>
         <div class="control">
-          <button @click='emptyBasketForm' class="button is-link">Cancel</button>
+          <button @click='emptyBasketItemForm' class="button is-link">Cancel</button>
         </div>
       </div>
     </section>
@@ -91,39 +99,42 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'baskets',
+  name: 'basket_items',
   data () {
     return {
-      baskets: [],
-      memberIdBasketForm: '',
+      basketItems: [],
+      basketIdItemsForm: '',
+      goodsIdItemsForm: '',
+      quantityItemsForm: ''
     }
   },
   methods: {
-    getBaskets: function () {
+    getBasketItems: function () {
       var self = this
-      axios.get('http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets')
-      .then(function (baskets) {
-        self.baskets = baskets.data
-      })
-      .catch(function (err) {
-        console.log(err)
-      })
+      // axios.get('http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets')
+      // .then(function (baskets) {
+      //   self.baskets = baskets.data
+      // })
+      // .catch(function (err) {
+      //   console.log(err)
+      // })
     },
-    postBasket: function () {
+    postBasketItem: function () {
       var self = this
-      axios.post('http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets/createbasket', {
-        member_id: self.memberIdBasketForm
-      })
-      .then(function (basket) {
-        self.getBaskets()
-        self.emptyBasketForm()
-      })
-      .catch(function (err) {
-        console.log(err)
-      })
+      // axios.post('http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/stores', {
+      //   name: self.storeName,
+      //   lat_long: [self.storeLat, self.storeLng]
+      // })
+      // .then(function (store) {
+      //   self.getStores()
+      //   self.emptyStoreForm()
+      // })
+      // .catch(function (err) {
+      //   console.log(err)
+      // })
     },
-    emptyBasketForm: function () {
-      var self = this
+    emptyBasketItemForm: function () {
+
     }
     // confirmDelete: function (store) {
     //   var self = this

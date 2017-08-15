@@ -7,7 +7,7 @@ router.get('/', basketsCtrls.getAllBaskets)
 router.delete('/:basket_id/delete', basketsCtrls.deleteBasket)
 router.put('/:basket_id/:member_id/update', basketsCtrls.updateBasket)
 router.post('/createbasket', basketsCtrls.createBasket)
-router.post('/additem', basketsCtrls.addGoodsToBasket)
+router.post('/:basket_id/additem', basketsCtrls.addGoodsToBasket)
 router.delete('/:basket_id/:goods_id/removeitem', basketsCtrls.removeGoodsGromBasket)
 router.put('/:basket_id/:goods_id/editpcs', basketsCtrls.updateItemsQuantityInABasket)
 

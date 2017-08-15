@@ -34,3 +34,4 @@ yarn-error.log*
 */yarn-error.log*
 
 /server/.env.test
+/server/.nyc_output

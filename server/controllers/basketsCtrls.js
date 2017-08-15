@@ -85,7 +85,7 @@ var addGoodsToBasket = function (req, res) {
   basketsItemsModel.create({
     goods_id: req.body.goods_id,
     quantity: req.body.quantity,
-    basket_id: req.body.basket_id
+    basket_id: req.params.basket_id
   })
   .then(function (basket_item) {
     res.send(basket_item)
