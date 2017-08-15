@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Text,
   TextInput,
+  Image,
   View,
   TouchableOpacity
 } from 'react-native'
@@ -13,6 +14,13 @@ export default class Home extends React.Component {
   render() {
     return (
       <View style={styleMenu.containerLogin}>
+        <View style={styleMenu.logoLoginContainer}>
+          <Image
+            style={styleMenu.logo}
+            source={require('../../asset/logo/price-tag-percent.png')}
+          />
+          <Text style={styleMenu.title}>PRICE POLICE</Text>
+        </View>
         <Text style={styleMenu.headerText}>REGISTER</Text>
       <View style={styleMenu.registerFrom}>
         <TextInput

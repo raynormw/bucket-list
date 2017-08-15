@@ -161,8 +161,8 @@ export const styleMenu = StyleSheet.create({
     textAlign: 'center',
     color: '#FFF',
     fontSize: 17,
-    fontWeight: '500',
-    paddingTop: 80
+    fontWeight: '200',
+    paddingTop: 20
   },
   registerInput: {
     height: 50,
