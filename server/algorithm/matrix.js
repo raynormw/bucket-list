@@ -50,11 +50,6 @@ class Matrix {
     let optimized = false;
     let i = 0;
 
-    if (this._stores.length <= 1) {
-      optimized = true;
-      return;
-    }
-
     // Guard to prevent infinite loop
     let guard = 0;
 
