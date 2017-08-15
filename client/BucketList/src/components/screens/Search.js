@@ -56,7 +56,7 @@ export default class Search extends React.Component {
   _addToBasket(id) {
     console.log('Product ID ' + id)
 
-    Axios.post(API + '/baskets/additem', {
+    Axios.post(API + '/baskets/2/additem/', {
       basket_id: 2,
       goods_id: id,
       quantity: 1

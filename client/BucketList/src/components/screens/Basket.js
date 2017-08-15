@@ -34,6 +34,20 @@ export default class Basket extends React.Component {
     console.log(this.state.data.getRowCount() + ' Row Count testing')
   }
 
+  _deleteItem(goodsId) {
+    console.log(goodsId + ' goods ID ----')
+    Axios.delete(API + '/baskets/2/' + goodsId +'/removeitem', {
+      basket_id: 2,
+      goods_id: goodsId
+    })
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
   _setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
@@ -50,7 +64,7 @@ export default class Basket extends React.Component {
           <Text>Ukuran: {product.Good.goods_size}</Text>
         </View>
         <TouchableOpacity style={styleBasket.clearIcon}
-          onPress = {() => console.log('delete success')} >
+          onPress = {() => this._deleteItem(product.Good.id)} >
           <Icon
             name="ios-close"
             size={30}
