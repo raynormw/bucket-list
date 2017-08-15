@@ -141,7 +141,7 @@ export default {
   methods: {
     getGoods: function () {
       var self = this
-      axios.get('http://localhost:3000/api/goods')
+      axios.get('http://ec2-13-59-91-91.us-east-2.compute.amazonaws.com:3000/api/goods')
       .then(function (goods) {
         self.goods = goods.data
       })
@@ -151,7 +151,7 @@ export default {
     },
     postGoods: function () {
       var self = this
-      axios.post('http://localhost:3000/api/goods', {
+      axios.post('http://ec2-13-59-91-91.us-east-2.compute.amazonaws.com:3000/api/goods', {
         barcode: self.goodsBarcode,
         name: self.goodsName,
         url_pict: self.goodsUrlPict,
@@ -178,7 +178,7 @@ export default {
       var self = this
       var choice = confirm(`Are you sure want to delete this?\n Id: ${goods.id} \n Barcode: ${goods.barcode} \n Name: ${goods.name} \n URl Pict: ${goods.url_pict} \n Description: ${goods.desc}`)
       if (choice === true) {
-        axios.delete(`http://localhost:3000/api/goods/${goods.id}`)
+        axios.delete(`http://ec2-13-59-91-91.us-east-2.compute.amazonaws.com:3000/api/goods/${goods.id}`)
         .then(function (msg) {
           self.getGoods()
         })
@@ -207,7 +207,7 @@ export default {
     },
     submitGoodsUpdate: function () {
       var self = this
-      axios.put(`http://localhost:3000/api/goods/${self.UpdateGoodsId}`,
+      axios.put(`http://ec2-13-59-91-91.us-east-2.compute.amazonaws.com:3000/api/goods/${self.UpdateGoodsId}`,
         {
           name: self.UpdateGoodsName,
           url_pict: self.UpdateGoodsUrlPict,

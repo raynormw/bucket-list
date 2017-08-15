@@ -115,7 +115,7 @@ export default {
   methods: {
     getStores: function () {
       var self = this
-      axios.get('http://localhost:3000/api/stores')
+      axios.get('http://ec2-13-59-91-91.us-east-2.compute.amazonaws.com:3000/api/stores')
       .then(function (stores) {
         self.stores = stores.data
       })
@@ -125,7 +125,7 @@ export default {
     },
     postStore: function () {
       var self = this
-      axios.post('http://localhost:3000/api/stores', {
+      axios.post('http://ec2-13-59-91-91.us-east-2.compute.amazonaws.com:3000/api/stores', {
         name: self.storeName,
         lat_long: [self.storeLat, self.storeLng]
       })
@@ -174,7 +174,7 @@ export default {
     },
     submitStoreUpdate: function () {
       var self = this
-      axios.put(`http://localhost:3000/api/stores/${self.UpdateStoreId}`,
+      axios.put(`http://ec2-13-59-91-91.us-east-2.compute.amazonaws.com:3000/api/stores/${self.UpdateStoreId}`,
         {
           name: self.UpdateStoreName,
           lat_long: [self.UpdateStoreLat, self.UpdateStoreLng]
