@@ -121,7 +121,7 @@ export default class Search extends React.Component {
           animationType={"fade"}
           transparent={true}
           visible={this.state.modalVisible}
-          onRequestClose={() => alert("Modal has been closed.")}
+          onRequestClose={() => this._setModalVisible(!this.state.modalVisible)}
           >
            <View style={styleSearch.containerModal}>
             <View style={styleSearch.modalStyle}>
