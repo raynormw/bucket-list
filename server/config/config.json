@@ -1,0 +1,21 @@
+{
+  "development": {
+    "username": "ppoliceadmin",
+    "password": "ppolice33!",
+    "database": "ebdb",
+    "host": "http://pricepolice-env.ap-southeast-1.elasticbeanstalk.com/api/stores",
+    "port": "5432",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "zulfikarannur",
+    "password": "zoelfiekar231094",
+    "database": "price_police_test",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "dialect": "postgres"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
+  }
+}
