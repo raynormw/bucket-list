@@ -1,11 +1,9 @@
-const distance = require('geo-coords-distance');
+const distance = require('haversine');
 const _ = require('lodash');
+const math = require('mathjs');
 
 const DISTANCE_PRICE = 10;
 
-const round = (value, decimals) => {
-  return Number(Math.round(`${value}e${decimals}`) + `e-${decimals}`);
-};
 
 class Store {
   constructor(options) {
@@ -16,11 +14,17 @@ class Store {
   }
 
   getDistanceFrom(store) {
-    return round(distance.default(this.location, store.location), 2);
+    return math.round(distance({
+      latitude: this.location.lat,
+      longitude: this.location.lng,
+    }, {
+      latitude: store.location.lat,
+      longitude: store.location.lng,
+    }, { unit: 'meter' }), 3);
   }
 
   getDistancePriceFrom(store) {
-    return round((this.getDistanceFrom(store) * DISTANCE_PRICE), 2);
+    return math.round((this.getDistanceFrom(store) * DISTANCE_PRICE), 2);
   }
 
   addStoresGood(storesGood) {
@@ -32,68 +36,33 @@ class Store {
   }
 
   getGoodIds() {
-    return this._storesGoods.map((storesGood) => {
-      return storesGood.good.id;
-    });
+    return this._storesGoods.map(storesGood => storesGood.good.id);
   }
 
   getSelectedGoodIds() {
-    const result = [];
-    for (let i = 0; i < this._storesGoods.length; i += 1) {
-      const storesGood = this._storesGoods[i];
-      if (storesGood.selected) {
-        result.push(storesGood.good.id);
-      }
-    }
-    return result;
+    return this._storesGoods
+    .filter(storesGood => storesGood.selected)
+    .map(storesGood => storesGood.good.id);
   }
 
   getStoresGoodByGoodId(goodId) {
-    return _.find(this._storesGoods, (storesGood) => {
-      return storesGood.good.id === goodId;
-    });
+    return _.find(this._storesGoods, storesGood => storesGood.good.id === goodId);
   }
 
   getTotal() {
-    let result = 0;
-    for (let i = 0; i < this._storesGoods.length; i += 1) {
-      const storesGood = this._storesGoods[i];
-      result += storesGood.getTotal();
-    }
-    return result;
+    return this._storesGoods.reduce((sum, value) => sum + value.getTotal());
   }
 
   getTotalOfSelectedStoresGoods() {
-    let result = 0;
-    for (let i = 0; i < this._storesGoods.length; i += 1) {
-      const storesGood = this._storesGoods[i];
-      if (storesGood.selected) {
-        result += storesGood.getTotal();
-      }
-    }
-    return result;
+    return this._storesGoods
+    .filter(storesGood => storesGood.selected)
+    .reduce((sum, storesGood) => sum + storesGood.getTotal());
   }
 
   getTotalByGivenGoodIds(goodIds) {
-    let result = 0;
-    for (let i = 0; i < this._storesGoods.length; i += 1) {
-      const storesGood = this._storesGoods[i];
-      if (_.includes(goodIds, storesGood.good.id)) {
-        result += storesGood.getTotal();
-      }
-    }
-    return result;
-  }
-
-  getTotalOfSelectedStoresGoodsByGivenGoodIds(goodIds) {
-    let result = 0;
-    for (let i = 0; i < this._storesGoods.length; i += 1) {
-      const storesGood = this._storesGoods[i];
-      if (_.includes(goodIds, storesGood.good.id) && storesGood.selected) {
-        result += storesGood.getTotal();
-      }
-    }
-    return result;
+    return this._storesGoods
+    .filter(storesGood => _.includes(goodIds, storesGood.good.id))
+    .reduce((sum, storesGood) => sum + storesGood.getTotal());
   }
 }
 

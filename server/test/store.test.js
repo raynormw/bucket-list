@@ -60,7 +60,7 @@ describe('Test store', () => {
     });
 
     const storeDistance = store.getDistanceFrom(store2);
-    expect(storeDistance).to.eql(1116.18);
+    expect(storeDistance).to.eql(1111.949);
     done();
   });
 
@@ -76,7 +76,7 @@ describe('Test store', () => {
     });
 
     const storeDistance = store.getDistancePriceFrom(store2);
-    expect(storeDistance).to.eql(11161.8);
+    expect(storeDistance).to.eql(11119.49);
     done();
   });
 
