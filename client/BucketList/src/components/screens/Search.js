@@ -6,82 +6,16 @@ import {
   ListView,
   Image,
   TouchableHighlight,
-  Modal
+  Modal,
+  ActivityIndicator,
  } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Axios from 'axios'
 
-import { styleSearch, color } from '../styles'
+import { styles, styleSearch, color } from '../styles'
 import SearchNav from '../SearchNav'
 
-const API = 'https://f05bd451.ngrok.io/api'
-
-const data = [
-  {
-    id: 1,
-    name: 'Beras Maknyuss',
-    productPrice: 60000,
-    goods_size: 'Ukuran 5Kg',
-    storeName: 'Alfamart',
-    url_pict: require('../../assets/berasCrop.png')
-  },
-  {
-    id: 2,
-    name: 'Minyak goreng Bimoli',
-    productPrice: 33000,
-    goods_size: "Ukuran 2liter",
-    storeName: 'Indomaret',
-    url_pict: require('../../assets/minyakCrop.png')
-  },
-  {
-    id: 3,
-    name: 'Gulaku Premium',
-    productPrice: 17000,
-    goods_size: 'Ukuran 1Kg',
-    storeName: 'Carrefour',
-    url_pict: require('../../assets/gulaCrop.png')
-  },
-  {
-    id: 4,
-    name: 'Susu Childkid',
-    productPrice: 34000,
-    productSize: 'Ukuran 400g',
-    storeName: 'Giant',
-    url_pict: require('../../assets/chil-kid-vanilla.jpg')
-  },
-  {
-    id: 1,
-    productName: 'Beras Maknyuss',
-    productPrice: 60000,
-    goods_size: 'Ukuran 5Kg',
-    storeName: 'Alfamart',
-    url_pict: require('../../assets/berasCrop.png')
-  },
-  {
-    id: 2,
-    productName: 'Minyak goreng Bimoli',
-    productPrice: 33000,
-    goods_size: "Ukuran 2liter",
-    storeName: 'Indomaret',
-    url_pict: require('../../assets/minyakCrop.png')
-  },
-  {
-    id: 3,
-    name: 'Gulaku Premium',
-    productPrice: 17000,
-    goods_size: 'Ukuran 1Kg',
-    storeName: 'Carrefour',
-    url_pict: require('../../assets/gulaCrop.png')
-  },
-  {
-    id: 4,
-    name: 'Susu Childkid',
-    productPrice: 34000,
-    goods_size: 'Ukuran 400g',
-    storeName: 'Giant',
-    url_pict: require('../../assets/chil-kid-vanilla.jpg')
-  }
-]
+const API = 'http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api'
 
 export default class Search extends React.Component {
   constructor(props) {
@@ -89,11 +23,11 @@ export default class Search extends React.Component {
 
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-      //query : '',
+      animating: true,
       data: [],
       modalVisible: false,
       loading: false,
-      loaded: false
+      loaded: false,
     }
   }
 
@@ -119,8 +53,24 @@ export default class Search extends React.Component {
     console.log(this.state)
   }
 
+  _addToBasket(id) {
+    console.log('Product ID ' + id)
+
+    Axios.post(API + '/baskets/additem', {
+      basket_id: 2,
+      goods_id: id,
+      quantity: 1
+    })
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
   _setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({modalVisible: visible})
   }
 
   _renderProduct(product) {
@@ -128,11 +78,12 @@ export default class Search extends React.Component {
       <View style={styleSearch.item}>
         <Text style={styleSearch.headingStyle}>{product.name}</Text>
         <Image
-          source={product.url_pict}
+          source={{ uri: product.url_pict}}
           style={styleSearch.imgStyle}
         />
-        <Text style={styleSearch.infoStyle}>{product.goods_size}</Text>
+        <Text style={styleSearch.infoStyle}>Ukuran: {product.goods_size}</Text>
         <Icon.Button name="shopping-basket" backgroundColor={color.niceOrange} onPress={() => {
+          this._addToBasket(product.id)
           this._setModalVisible(true)}}>
           Add to basket
         </Icon.Button>
@@ -140,22 +91,30 @@ export default class Search extends React.Component {
     )
   }
 
-  // componentDidMount() {
-  //   this._getData(data)
-  // }
-
   render() {
     console.log(this.state, 'State in Search')
     return (
       <ScrollView style={styleSearch.container}>
         <SearchNav navigation={this.props.navigation} handleQuery={this._handleQuery.bind(this)}/>
         <View style={styleSearch.listContainer}>
-          {/* <Text>Hasil Query: {this.state.query}</Text> */}
+          {  this.state.loading &&
+            <ActivityIndicator
+              animating={this.state.animating}
+              size={60}
+              color={color.lightBlue}
+            />
+          }
+          { !this.state.loading && this.state.loaded && this.state.data.getRowCount() === 0 &&
+            <View style={styles.container}>
+              <Text style={styles.notFound}>Uh oh, result not found :(</Text>
+            </View>
+          }
           { !this.state.loading && this.state.loaded &&
             <ListView contentContainerStyle={styleSearch.list}
             dataSource={this.state.data}
+            enableEmptySections={true}
             renderRow={this._renderProduct.bind(this)}>
-          </ListView>
+            </ListView>
           }
         </View>
         <Modal
