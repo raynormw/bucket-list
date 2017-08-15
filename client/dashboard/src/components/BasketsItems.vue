@@ -11,9 +11,9 @@
         <div class="control">
           <input v-model='goodsIdItemsForm' type="text" class="input" placeholder="Goods Id">
         </div>
-        <label class="label"> Goods Id </label>
+        <label class="label"> Quantity </label>
         <div class="control">
-          <input v-model='quantityItemsForm' type="text" class="input" placeholder="Quantity Form">
+          <input v-model='quantityItemsForm' type="text" class="input" placeholder="Quantity">
         </div>
       </div>
       <div class="field is-grouped">
@@ -111,13 +111,13 @@ export default {
   methods: {
     getBasketItems: function () {
       var self = this
-      // axios.get('http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets')
-      // .then(function (baskets) {
-      //   self.baskets = baskets.data
-      // })
-      // .catch(function (err) {
-      //   console.log(err)
-      // })
+      axios.get(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets/getitems/${self.route.params.basket_id}`)
+      .then(function (basketItems) {
+        self.basketItems = basketItems.data
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
     },
     postBasketItem: function () {
       var self = this
