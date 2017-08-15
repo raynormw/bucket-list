@@ -56,7 +56,7 @@ var removeGoodsGromBasket = function (req, res) {
 var getAllItemInABasket = function (req, res) {
   basketsItemsModel.findAll({
     where: {
-      basket_id: req.body.basket_id
+      basket_id: req.params.basket_id
     },
     include: [{
       model: goodsModel
@@ -70,9 +70,25 @@ var getAllItemInABasket = function (req, res) {
   })
 }
 
+var updateItemsQuantityInABasket = function (req, res) {
+  basketsItemsModel.findOne({
+    where: {
+      basket_id: req.params.basket_id,
+      goods_id: req.params.goods_id
+    }
+  })
+  .then(function (basketsItem) {
+    
+  })
+  .catch(function (err) {
+    res.status(500).send(err)
+  })
+}
+
 module.exports = {
   createBasket,
   addGoodsToBasket,
   getAllItemInABasket,
-  removeGoodsGromBasket
+  removeGoodsGromBasket,
+  updateItemsQuantityInABasket
 }

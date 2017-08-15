@@ -39,7 +39,7 @@
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
 | /api/baskets/additem | POST | Add goods to basket | Send form-urlencoded with basket_id , goods_id and quantity as attribute  | Created basket |
-| /api/baskes/getitems | POST | Get all items in a basket | Send form-urlencoded with basket_id as attribute  | Get all goods in a basket |
+| /api/baskes/getitems/:basket_id | GET | Get all items in a basket | Set params with correct basket_id  | Get all goods in a basket |
 | /api/baskets/removeitem | DELETE | Remove item from basket | Send form-urlencoded with basket_id , goods_id as attribute  | Success message  |
 
 ## Baskets

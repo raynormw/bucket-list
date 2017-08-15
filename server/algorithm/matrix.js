@@ -66,8 +66,8 @@ class Matrix {
       const store1 = this._stores[store1Index];
       const store2 = this._stores[store2Index];
 
-      if ( store2 === undefined) {
-        break;
+      if ( store2 === undefined) {
+        break
         return;
       }
 
