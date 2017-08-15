@@ -61,6 +61,11 @@ class Matrix {
     while (!optimized && guard < 3000) {
       guard += 1;
 
+      if (this._stores.length <= 1) {
+        optimized = true;
+        break;
+      }
+
       const store1Index = i;
       const store2Index = i + 1;
       const store1 = this._stores[store1Index];
@@ -96,40 +101,22 @@ class Matrix {
 
       // Indicates store2 has items not in store1
       if (intersectionIds.length < store2GoodIds.length) {
-        if ((store2Index) === this._stores.length - 1) {
-          optimized = true;
-        } else {
-          i += 1;
-        }
+        i += 1;
       } else {
         const intersectionTotal1 = store1.getTotalByGivenGoodIds(intersectionIds);
-        const intersectionTotal2 = store2.getTotalOfSelectedStoresGoods() + store2.getDistancePriceFrom(store1);
+        const intersectionTotal2 = store2.getTotalOfSelectedStoresGoods()
+        + store2.getDistancePriceFrom(store1);
 
         // All items in store1 are cheaper then store2
         if (intersectionTotal1 <= intersectionTotal2) {
           this._stores.splice(store2Index, 1);
           console.log('-------------------- SPLICE ----------------');
-          if (this._stores.length === 1) {
-            optimized = true;
-          }
         } else {
-          // Only 1 store left
-          if ((store2Index) === this._stores.length - 1) {
-            optimized = true;
-
-          // Still more stores
+          if (this._stores.length > 1 && store1.getTotalOfSelectedStoresGoods() === 0) {
+            this._stores.splice(store1Index, 1);
+            console.log('-------------------- SPLICE ----------------');
           } else {
-            if (store1.getTotalOfSelectedStoresGoods() === 0) {
-              this._stores.splice(store1Index, 1);
-              console.log('-------------------- SPLICE ----------------');
-              if (this._stores.length === 1) {
-                optimized = true;
-              } else {
-                i += 1;
-              }
-            } else {
-              i += 1;
-            }
+            i += 1;
           }
         }
       }

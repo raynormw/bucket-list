@@ -1,7 +1,7 @@
 const distance = require('geo-coords-distance');
 const _ = require('lodash');
 
-const DISTANCE_PRICE = 1;
+const DISTANCE_PRICE = 10;
 
 const round = (value, decimals) => {
   return Number(Math.round(`${value}e${decimals}`) + `e-${decimals}`);
