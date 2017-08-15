@@ -1,50 +1,42 @@
-<template>
-  <div id="stores" class="container">
+<!-- <template>
+  <div id="carts" class="container">
     <section class="section" id="create_member_form">
-      <h1 class="title"> Create Member </h1>
+      <h1 class="title"> Create Cart </h1>
       <div class="field">
         <label class="label"> Name </label>
         <div class="control">
-          <input v-model='memberNameForm' type="text" class="input" placeholder="Input name of member here...">
-        </div>
-        <label class="label"> Email </label>
-        <div class="control">
-          <input v-model='memberEmailForm' type="text" class="input" placeholder="Input email of member here...">
-        </div>
-        <label class="label"> Password </label>
-        <div class="control">
-          <input v-model='memberPasswordForm' type="password" class="input" placeholder="Input password of member here...">
+          <input v-model='memberIdCartForm' type="text" class="input" placeholder="Input member id here...">
         </div>
       </div>
       <div class="field is-grouped">
         <div class="control">
-          <button @click="postMember" class="button is-primary" >Submit</button>
+          <button @click="postCart" class="button is-primary" >Submit</button>
         </div>
         <div class="control">
-          <button @click='emptyMemberForm' class="button is-link">Cancel</button>
+          <button @click='emptyCartForm' class="button is-link">Cancel</button>
         </div>
       </div>
     </section>
     <section class="section" id="signin_form">
+      <h1 class="title"> Create Cart Items</h1>
       <div class="field">
-        <label class="label"> Email </label>
+        <label class="label"> Store Id </label>
         <div class="control">
-          <input v-model='memberEmailSigninForm' type="text" class="input" placeholder="Input email of member here...">
+          <input v-model='storeIdCartItems' type="text" class="input" placeholder="Input store id here...">
         </div>
-        <label class="label"> Password </label>
+        <label class="label"> Goods Id </label>
         <div class="control">
-          <input v-model='memberPasswordSigninForm' type="password" class="input" placeholder="Input password of member here...">
+          <input v-model='goodsIdCartItems' type="text" class="input" placeholder="Input goods id here...">
         </div>
       </div>
       <div class="field is-grouped">
         <div class="control">
-          <button @click="signinMember" class="button is-primary" >Submit</button>
+          <button @click="addGoodsToCart" class="button is-primary" >Submit</button>
         </div>
         <div class="control">
-          <button @click='emptySignInForm' class="button is-link">Cancel</button>
+          <button @click='emptyCartItemsForm' class="button is-link">Cancel</button>
         </div>
       </div>
-      <p> Token returned from previous signin : {{token}} </p>
     </section>
     <section class="section">
       <div class="container">
@@ -53,25 +45,25 @@
             <tr>
               <th> No </th>
               <th> Id </th>
+              <th> Member Id </th>
               <th> Member Name </th>
               <th> Member Email </th>
-              <th> Member Password (Hashed) </th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th> No </th>
               <th> Id </th>
+              <th> Member Id </th>
               <th> Member Name </th>
               <th> Member Email </th>
-              <th> Member Password (Hashed) </th>
             </tr>
           </tfoot>
           <tbody>
-            <tr v-for='member in members'>
-              <td> {{members.indexOf(member) + 1}} </td>
-              <td> {{member.id}} </td>
-              <td> {{member.name}} </td>
+            <tr v-for='cart in carts'>
+              <td> {{carts.indexOf(cart) + 1}} </td>
+              <td> {{cart.id}} </td>
+              <td> {{cart.member.name}} </td>
               <td> {{member.email}} </td>
               <td> {{member.password}} </td>
               <!-- <td> <button class="button" type="button" @click="confirmDelete(store)" > Delete </button> </td>
@@ -117,28 +109,21 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'members',
+  name: 'stores',
   data () {
     return {
-      members: [],
-      memberNameForm: '',
-      memberEmailForm: '',
-      memberPasswordForm: '',
-      memberEmailSigninForm: '',
-      memberPasswordSigninForm: '',
-      token: '',
-      updateModal: 'modal',
-      updateMemberName: '',
-      updateMemberEmail: '',
-      updateMemberPassword: ''
+      carts: [],
+      memberIdCartForm: '',
+      storeIdCartItems: '',
+      goodsIdCartItems: ''
     }
   },
   methods: {
-    getMembers: function () {
+    getCarts: function () {
       var self = this
-      axios.get('http://localhost:3000/api/members')
-      .then(function (members) {
-        self.members = members.data
+      axios.get('http://localhost:3000/api/carts')
+      .then(function (carts) {
+        self.carts = carts.data
       })
       .catch(function (err) {
         console.log(err)
@@ -247,4 +232,4 @@ export default {
 #signin_form {
   width: 25%
 }
-</style>
+</style> -->

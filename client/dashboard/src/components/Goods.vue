@@ -209,7 +209,7 @@ export default {
       var self = this
       axios.put(`http://localhost:3000/api/goods/${self.UpdateGoodsId}`,
         {
-          name: self.UpdateStoreName,
+          name: self.UpdateGoodsName,
           url_pict: self.UpdateGoodsUrlPict,
           desc: self.UpdateGoodsDesc,
           barcode: self.UpdateGoodsBarcode,

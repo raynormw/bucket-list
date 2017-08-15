@@ -44,12 +44,10 @@ var updateGoods = function (req, res) {
       }, {
         where: {
           id: req.params.id
-        },
-        returning: true,
-        plain: true
+        }
       })
-      .then(function (updatedGoods) {
-        res.send(updatedGoods[1])
+      .then(function () {
+        res.send({msg: 'Update sucess'})
       })
       .catch(function (err) {
         res.status(500).send(err)

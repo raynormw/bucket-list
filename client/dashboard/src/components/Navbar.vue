@@ -11,7 +11,7 @@
         <router-link class="navbar-item" to="/"> /api/stores </router-link>
         <router-link class="navbar-item" to="/goods"> /api/goods </router-link>
         <router-link class="navbar-item" to=""> /api/carts </router-link>
-        <router-link class="navbar-item" to=""> /api/members </router-link>
+        <router-link class="navbar-item" to="/members"> /api/members </router-link>
       </div>
     </div>
     </nav>
