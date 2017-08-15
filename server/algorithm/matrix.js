@@ -103,7 +103,7 @@ class Matrix {
         if (intersectionTotal1 <= intersectionTotal2) {
           this._stores.splice(store2Index, 1);
         } else {
-          if (this._stores.length > 1 && store1.getTotalOfSelectedStoresGoods() === 0) {
+          if (store1.getTotalOfSelectedStoresGoods() === 0) {
             this._stores.splice(store1Index, 1);
           } else {
             i += 1;
