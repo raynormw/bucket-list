@@ -92,11 +92,7 @@ var searchGoods = function (req, res) {
     }
   })
   .then(function (goodsResult) {
-    if (goodsResult.length === 0) {
-      res.status(404).send({msg: `Goods with query ${req.body.query} not found`})
-    } else {
-      res.send(goodsResult)
-    }
+    res.send(goodsResult)
   })
   .catch(function (err) {
     res.status(500).send(err)
