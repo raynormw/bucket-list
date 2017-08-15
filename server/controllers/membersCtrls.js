@@ -52,8 +52,62 @@ var getAllUsers = function (req, res) {
   })
 }
 
+var deleteMember = function (req, res) {
+  membersModel.findOne({
+    where: {
+      id: req.params.member_id
+    }
+  })
+  .then(function (member) {
+    if (!member) {
+      res.status(404).send({msg: `Member with id ${req.params.member_id} not found`})
+    } else {
+      member.destroy()
+      .then(function () {
+        res.send({msg: `Member deleted`})
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
+  })
+  .catch(function (err) {
+    res.status(500).send(err)
+  })
+}
+
+var updateMember = function (req, res) {
+  membersModel.findOne({
+    where: {
+      id: req.params.member_id
+    }
+  })
+  .then(function (member) {
+    if (!member) {
+      res.status(404).send({msg: `Member with id ${req.params.member_id} not found`})
+    } else {
+      membersModel.update({
+        name: req.body.name || member.name,
+        email: req.body.email || member.email,
+        password: hash(req.body.password) || member.password
+      })
+      .then(function () {
+        res.send({msg: 'Member updated'})
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
+  })
+  .catch(function (err) {
+    res.status(500).send(err)
+  })
+}
+
 module.exports = {
   signUp,
   signIn,
-  getAllUsers
+  getAllUsers,
+  deleteMember,
+  updateMember
 }

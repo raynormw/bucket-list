@@ -16,11 +16,11 @@ module.exports = {
     dialect: 'postgres'
   },
   production: {
-    username: process.env.RDS_USERNAME,
-    password: process.env.RDS_PASSWORD,
-    database: 'ebdb',
-    host: process.env.RDS_HOSTNAME,
-    port: process.env.RDS_PORT,
-    dialect: 'postgres'
+    username: process.env.USERNAME_RDS,
+    password: process.env.PASS_RDS,
+    database: process.env.DB_RDS,
+    host: process.env.HOST_RDS,
+    port: process.env.PORT_RDS,
+    dialect: process.env.DIALECT_RDS
   }
 }

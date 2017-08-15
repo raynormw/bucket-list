@@ -10,6 +10,7 @@ module.exports = function (sequelize, DataTypes) {
   Good.associate = function (models) {
     Good.hasMany(models.Stores_Good, {foreignKey: 'good_id'})
     Good.hasMany(models.Carts_Item, {foreignKey: 'goods_id'})
+    Good.hasMany(models.Baskets_Item, {foreignKey: 'goods_id'})
   }
   return Good
 }

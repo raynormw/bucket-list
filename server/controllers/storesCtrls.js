@@ -4,7 +4,7 @@ var distance = require('geo-coords-distance')
 var storesModel = require('../models').Store
 var storeGoodsModel = require('../models').Stores_Good
 var goodsModel = require('../models').Good
-var PricingAlgorithm = require('../algorithm/pricing')
+// var PricingAlgorithm = require('../algorithm/pricing')
 
 var addStore = function (req, res) {
   storesModel.create({
