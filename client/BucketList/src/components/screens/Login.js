@@ -13,8 +13,20 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { color, styles, styleMenu } from '../styles'
 
 export default class Login extends React.Component {
+  constructor(props) {
+      super(props)
+      this.state = {
+        email: '',
+        password: ''
+      }
+  }
+
   loginMethod() {
-    Alert.alert('Login Success')
+    if(this.state.email === '' && this.state.password === ''){
+      Alert.alert('Email and Password must not empty')
+    } else {
+      Alert.alert('Success Log')
+    }
   }
 
   render() {
@@ -29,10 +41,11 @@ export default class Login extends React.Component {
         </View>
         <View style={styleMenu.formLogin}>
           <TextInput
-            placeholder="Username or Email"
+            placeholder="Valid Email"
             placeholderTextColor="rgba(255,255,255,0.8)"
             underlineColorAndroid='transparent'
             returnKeyType="next"
+            onChangeText={(email) => this.setState({email})}
             style={styleMenu.input}
           />
           <TextInput
@@ -41,6 +54,7 @@ export default class Login extends React.Component {
             underlineColorAndroid='transparent'
             secureTextEntry
             returnKeyType="go"
+            onChangeText={(password) => this.setState({password})}
             style={styleMenu.input}
           />
         <TouchableOpacity style={styleMenu.buttonContainer} onPress={() => {this.loginMethod()}}>

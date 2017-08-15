@@ -10,7 +10,8 @@ import Home from './screens/Home'
 import Product from './screens/Product'
 import Login from './screens/Login'
 import Register from './screens/Register'
-import Maps from './screens/Maps'
+import LittleMaps from './screens/LittleMaps'
+import DetailProduct from './screens/DetailProduct'
 
 const MainNavigator = StackNavigator({
   Home: {
@@ -30,8 +31,11 @@ const MainNavigator = StackNavigator({
   Product: {
     screen: Product
   },
-  Maps: {
-    screen: Maps
+  LittleMaps: {
+    screen: LittleMaps
+  },
+  DetailProduct: {
+    screen: DetailProduct
   }
 }, { headerMode: 'screen' })
 

@@ -59,7 +59,8 @@ export default class Home extends React.Component {
         <TouchableOpacity style={styleMenu.buttonContainer}>
           <Text style={styleMenu.buttonText}>SIGN UP</Text>
         </TouchableOpacity>
-        <Icon.Button name="user" size={25} backgroundColor="#3b3898" onPress={() => this.props.navigation.navigate('Maps')}>Maps</Icon.Button>
+        <Icon.Button name="user" size={25} backgroundColor="#3b3898" onPress={() => this.props.navigation.navigate('LittleMaps')}>Maps</Icon.Button>
+      <Icon.Button name="user" size={25} backgroundColor="#3b3898" onPress={() => this.props.navigation.navigate('DetailProduct')}>Maps</Icon.Button>
       </View>
         {/* <Icon.Button name="facebook" backgroundColor="#3b5998" onPress={this.loginWithFacebook}>
           Register with Facebook

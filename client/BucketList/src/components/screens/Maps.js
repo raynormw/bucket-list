@@ -30,7 +30,7 @@ var dummyDataForMarkers = [{
   latitude: -6.2505417,
   longitude: 106.777047
 }]
-//data pada API ==> data.mostOptimizedMatrix.stores.location({lat, lng})
+//data pada API ==> data.mostOptimizedMatrix.stores.location({lat, lng})''
 
 class Maps extends React.Component {
   constructor(props) {

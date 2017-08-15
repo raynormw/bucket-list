@@ -176,5 +176,62 @@ export const styleMenu = StyleSheet.create({
   },
   registerFrom: {
     padding: 40
+  },
+  card: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: '#FFF'
+  },
+  cardHeader: {
+    flex: 1,
+    alignItems: 'flex-start',
+    padding: 5
+  },
+  cardImageHeader: {
+    borderRadius: 50,
+    width: 20,
+    height: 20
+  },
+  cardMap: {
+    flex: 3,
+    justifyContent: 'center',
+    width: '100%',
+    height: 200
+  },
+  cardList: {
+    flex: 4,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  cardListItem: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  cardListItemImage: {
+    flex: 1,
+    justifyContent: 'flex-start'
+  },
+  cardListItemDetail: {
+    flex: 2,
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  cardListItemDetailProductName: {
+    flex: 1,
+    justifyContent: 'center',
+    fontWeight: '300'
+  },
+  cardListItemDetailPriceQty: {
+    flex: 1,
+    justifyContent: 'space-between'
+  },
+  cardListItemDetailPriceContent: {
+    flex: 1,
+    justifyContent: 'flex-start'
+  },
+  cardListItemDetailQtyContent: {
+    flex: 1,
+    justifyContent: 'flex-end'
   }
 })
