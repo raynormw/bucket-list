@@ -235,6 +235,8 @@ export const styleSearch = StyleSheet.create({
   headingStyle: {
     marginBottom: 5,
     fontWeight: 'bold',
+    justifyContent: 'center',
+    alignItems: 'center',
     // fontSize: (40 / windowWidth) * 100
   },
   infoStyle: {
