@@ -30,10 +30,10 @@
 | /api/goods/:id | PUT | Update specific good | Send form-urlencoded with name and url_pict as attribute | Return updated goods |
 | /api/goods/:id | DELETE | Delete specific good | Replace :id with goods_id | Return succes message if deleted |
 
-## Search Store (MVP), Development
+## Search Goods (MVP), Development
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
-| /api/baskets/searchgoods | POST | Search goods with query  | Send form-urlencoded with query as attribute  | Route goods matched with query |
+| /api/goods/searchgoods | POST | Search goods with query  | Send form-urlencoded with query as attribute  | Route goods matched with query |
 
 ## Baskets_Item
 | Routes | Methods | Purpose |Usages | Returns |

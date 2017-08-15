@@ -52,7 +52,7 @@ class Matrix {
 
     if (this._stores.length <= 1) {
       optimized = true;
-      return;
+      // return;
     }
 
     // Guard to prevent infinite loop
@@ -65,6 +65,11 @@ class Matrix {
       const store2Index = i + 1;
       const store1 = this._stores[store1Index];
       const store2 = this._stores[store2Index];
+
+      if ( store2 === undefined) {
+        break;
+        return;
+      }
 
       const store1GoodIds = store1.getGoodIds();
       let store2GoodIds = store2.getGoodIds();
@@ -109,7 +114,7 @@ class Matrix {
         if (intersectionTotal1 <= intersectionTotal2) {
           this._stores.splice(store2Index, 1);
           console.log('-------------------- SPLICE ----------------');
-          if (this._stores.length === 1) {
+          if (this._stores.length <= 1) {
             optimized = true;
           }
         } else {
@@ -122,7 +127,7 @@ class Matrix {
             if (store1.getTotalOfSelectedStoresGoods() === 0) {
               this._stores.splice(store1Index, 1);
               console.log('-------------------- SPLICE ----------------');
-              if (this._stores.length === 1) {
+              if (this._stores.length <= 1) {
                 optimized = true;
               } else {
                 i += 1;
