@@ -56,6 +56,8 @@
               <th> Member Name </th>
               <th> Member Email </th>
               <th> Member Password (Hashed) </th>
+              <th> Delete Member </th>
+              <th> Update Member </th>
             </tr>
           </thead>
           <tfoot>
@@ -65,6 +67,8 @@
               <th> Member Name </th>
               <th> Member Email </th>
               <th> Member Password (Hashed) </th>
+              <th> Delete Member </th>
+              <th> Update Member </th>
             </tr>
           </tfoot>
           <tbody>
@@ -74,43 +78,42 @@
               <td> {{member.name}} </td>
               <td> {{member.email}} </td>
               <td> {{member.password}} </td>
-              <!-- <td> <button class="button" type="button" @click="confirmDelete(store)" > Delete </button> </td>
-              <td> <button class="button" type="button" @click='showUpdateModal(store)'> Update </button> </td>
-              <td> <router-link :to="{ path: '/store/' + store.id}"> <button type="button" class="button"> Store Goods </button> </router-link> </td> -->
+              <td> <button class="button" type="button" @click="confirmDelete(member)" > Delete </button> </td>
+              <td> <button class="button" type="button" @click='showUpdateModal(member)'> Update </button> </td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
-    <!-- <div :class='updateModal'>
+    <div :class='updateModal'>
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Update Store</p>
+          <p class="modal-card-title">Update Member</p>
           <button @click='closeModal' class="delete" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
           <div class="field">
-            <label class="label"> Store name </label>
+            <label class="label"> Member name </label>
             <div class="control">
-              <input v-model='UpdateStoreName' type="text" class="input">
+              <input v-model='updateMemberName' type="text" class="input">
             </div>
-            <label class="label"> Latitude </label>
+            <label class="label"> Email </label>
             <div class="control">
-              <input v-model='UpdateStoreLat' type="text" class="input">
+              <input v-model='updateMemberEmail' type="text" class="input">
             </div>
-            <label class="label"> Longitude </label>
+            <label class="label"> Password </label>
             <div class="control">
-              <input v-model='UpdateStoreLng' type="text" class="input">
+              <input v-model='updateMemberPassword' type="text" class="input">
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success" @click='submitStoreUpdate'>Save changes</button>
+          <button class="button is-success" @click='submitMemberUpdate'>Save changes</button>
           <button class="button" @click='closeModal'>Cancel</button>
         </footer>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -128,6 +131,7 @@ export default {
       memberPasswordSigninForm: '',
       token: '',
       updateModal: 'modal',
+      updateMemberId: '',
       updateMemberName: '',
       updateMemberEmail: '',
       updateMemberPassword: ''
@@ -182,51 +186,52 @@ export default {
       var self = this
       self.memberEmailSigninForm = ''
       self.memberPasswordSigninForm = ''
+    },
+    confirmDelete: function (member) {
+      var self = this
+      var choice = confirm(`Are you sure want to delete this member?\n Id: ${member.id} \n Name: ${member.name} \n Email: ${member.email}`)
+      if (choice === true) {
+        axios.delete(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/members/${member.id}/delete`)
+        .then(function () {
+          self.getMembers()
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+      }
+    },
+    showUpdateModal: function (member) {
+      var self = this
+      self.updateModal = 'modal is-active'
+      self.updateMemberId = member.id
+      self.updateMemberName = member.name
+      self.updateMemberEmail = member.email
+      self.updateMemberPassword = member.password
+    },
+    closeModal: function () {
+      var self = this
+      self.updateModal = 'modal'
+      self.updateMemberId = ''
+      self.updateMemberName = ''
+      self.updateMemberEmail = ''
+      self.updateMemberPassword = ''
+    },
+    submitMemberUpdate: function () {
+      var self = this
+      axios.put(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/members/${self.updateMemberId}/update`,
+        {
+          name: self.updateMemberName,
+          email: self.updateMemberEmail,
+          password: self.updateMemberPassword
+        })
+      .then(function (result) {
+        self.closeModal()
+        self.getMembers()
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
     }
-    // confirmDelete: function (store) {
-    //   var self = this
-    //   var choice = confirm(`Are you sure want to delete this?\n Id: ${store.id} \n Name: ${store.name} \n Latitude Longitude: ${store.lat_long}`)
-    //   if (choice === true) {
-    //     axios.delete(`http://localhost:3000/api/stores/${store.id}`)
-    //     .then(function (msg) {
-    //       self.getStores()
-    //     })
-    //     .catch(function (err) {
-    //       console.log(err)
-    //     })
-    //   }
-    // },
-    // showUpdateModal: function (store) {
-    //   var self = this
-    //   self.updateModal = 'modal is-active'
-    //   self.updateMemberName = store.id
-    //   self.UpdateStoreName = store.name
-    //   self.UpdateStoreLat = store.lat_long[0]
-    //   self.UpdateStoreLng = store.lat_long[1]
-    // },
-    // closeModal: function () {
-    //   var self = this
-    //   self.updateModal = 'modal'
-    //   self.UpdateStoreId = ''
-    //   self.UpdateStoreName = ''
-    //   self.UpdateStoreLat = ''
-    //   self.UpdateStoreLng = ''
-    // },
-    // submitStoreUpdate: function () {
-    //   var self = this
-    //   axios.put(`http://localhost:3000/api/stores/${self.UpdateStoreId}`,
-    //     {
-    //       name: self.UpdateStoreName,
-    //       lat_long: [self.UpdateStoreLat, self.UpdateStoreLng]
-    //     })
-    //   .then(function (result) {
-    //     self.closeModal()
-    //     self.getStores()
-    //   })
-    //   .catch(function (err) {
-    //     console.log(err)
-    //   })
-    // }
   },
   created: function () {
     this.getMembers()
