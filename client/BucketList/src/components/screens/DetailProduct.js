@@ -88,7 +88,7 @@ class DetailProduct extends Component {
         </View>
       ))}
       { datas.length > 0 &&
-        <TouchableOpacity style={styleZ.buttonGetRoute} onPress={() => navigate('RouteResult', {position: datas})}>
+        <TouchableOpacity style={styleZ.buttonGetRoute} onPress={() => navigate('RouteResult', {stores: datas})}>
           <Text style={{color: 'white'}}>Get Route</Text>
         </TouchableOpacity>
       }

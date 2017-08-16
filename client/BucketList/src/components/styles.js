@@ -618,6 +618,10 @@ export const styleZ = StyleSheet.create({
   },
   buttonGetRoute: {
     padding: 20,
+    marginLeft: 100,
+    marginRight: 100,
+    marginTop: 10,
+    marginBottom: 30,
     borderRadius: 4,
     backgroundColor: color.black
   }
