@@ -624,5 +624,11 @@ export const styleZ = StyleSheet.create({
     marginBottom: 30,
     borderRadius: 4,
     backgroundColor: color.black
+  },
+  cardForMap: {
+    flex: 1,
+    width: "100%",
+    height: 300,
+    margin: 100,
   }
 })
