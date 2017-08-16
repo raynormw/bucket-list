@@ -34,7 +34,8 @@ export default class Basket extends React.Component {
   _fetchData() {
     Axios.get(API + '/baskets/getitems/2')
     .then((response) => {
-      console.log(response)
+      this.setState({compareData: response.data})
+
       this._getData(response.data)
     })
     .catch((error) => {
@@ -46,6 +47,52 @@ export default class Basket extends React.Component {
     const ds = this.state.dataSource.cloneWithRows(data || [])
     this.setState({'data': ds, loading: false, loaded: true})
     console.log(this.state.data.getRowCount() + ' Row Count testing')
+  }
+
+  _postCompare() {
+    let data = this.state.compareData
+    console.log(data, ' --------COMPARE')
+
+    var items = data.map((dataItem) => {
+      return {
+        goodId: dataItem.Good.id,
+        quantity: dataItem.quantity
+      }
+    });
+
+    let lat, lng
+    navigator.geolocation.getCurrentPosition((position) => {
+      lat = parseFloat(position.coords.latitude)
+      lng = parseFloat(position.coords.longitude)
+
+      // Axios.post(API + '/stores/nearbystore', {
+      //   "location": {
+      //     "lat": lat, "lng": lng
+      //   },
+      //   "items": [
+      //     {
+      //       "goodId": 1,
+      //       "quantity": 1
+      //     },
+      //     {
+      //       "goodId": 5,
+      //       "quantity": 1
+      //     }
+      //   ]
+      // })
+      Axios.post(API + '/stores/nearbystore', {
+        location: {
+          lat, lng
+        },
+        items,
+      })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    })
   }
 
   _deleteItem(goodsId) {
@@ -66,30 +113,6 @@ export default class Basket extends React.Component {
 
   _setModalVisible(visible) {
     this.setState({modalVisible: visible});
-  }
-
-  _postCompare() {
-    Axios.post(API + '/stores/nearbystore', {
-      "location": {
-        "lat": -6.260740, "lng": 106.782024
-      },
-      "items": [
-        {
-          "goodId": 1,
-          "quantity": 1
-        },
-        {
-          "goodId": 5,
-          "quantity": 1
-        }
-      ]
-    })
-    .then((response) => {
-      console.log(response)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
   }
 
   _renderProduct(product) {
