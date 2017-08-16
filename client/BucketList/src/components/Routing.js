@@ -11,6 +11,8 @@ import Basket from './screens/Basket'
 import Search from './screens/Search'
 import Login from './screens/Login'
 import Register from './screens/Register'
+import DetailProduct from './screens/DetailProduct'
+import RouteResult from './screens/RouteResult'
 
 const MainNavigator = StackNavigator({
   Home: {
@@ -45,6 +47,24 @@ const MainNavigator = StackNavigator({
       header: null
     })
   },
+  DetailProduct: {
+    screen: DetailProduct,
+    navigationOptions: () => ({
+      title: 'Comparing',
+      headerStyle: {
+        backgroundColor: color.niceOrange
+      }
+    })
+  },
+  RouteResult: {
+    screen: RouteResult,
+    navigationOptions: () => ({
+      title: 'Route',
+      headerStyle: {
+        backgroundColor: color.niceOrange
+      }
+    })
+  }
 }, { headerMode: 'screen' })
 
 const Routing = DrawerNavigator({
@@ -93,7 +113,8 @@ const Routing = DrawerNavigator({
     inactiveBackgroundColor: color.lightOrange,
   },
   contentComponent: props => <DrawerContent {...props} />,
-})
+}
+)
 
 
 export default Routing

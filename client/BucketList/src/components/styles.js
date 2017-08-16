@@ -2,6 +2,7 @@ import { StyleSheet, Dimensions } from 'react-native'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
+export const aspectRatio =  windowWidth / windowHeight
 const newWidth = (windowWidth / 2) - 10
 const newHeight = (windowHeight / 100) * 40
 const basketWidth = windowWidth - 10
@@ -20,6 +21,9 @@ export const color = {
   niceOrange: '#F2784B',
   green: '#2ECC71',
   red: '#E74C3C',
+  pumice_gray: '#D2D7D3',
+  iron_gray: '#DADFE1',
+  lightning_yellow: '#F5AB35'
 }
 
 export const styles = StyleSheet.create({
@@ -69,7 +73,7 @@ export const styles = StyleSheet.create({
 export const styleMenu = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   banner: {
     flex: 2,
@@ -376,5 +380,255 @@ export const styleBasket = StyleSheet.create({
   clearIcon: {
     flex: 0.5,
     marginLeft: 40,
+  }
+})
+
+export const styleZ = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: color.gray,
+  },
+  boxContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  banner: {
+    flex: 2,
+    backgroundColor: color.darkBlue
+  },
+  search: {
+    flex: 2,
+    backgroundColor: color.orange
+  },
+  products: {
+    flex: 4,
+    backgroundColor: color.lightBlue
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: color.black,
+    marginBottom: 5,
+  },
+  radius: {
+    height: 50,
+    width: 50,
+    borderRadius: 50 / 2,
+    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    overflow: 'hidden',
+    borderColor: 'rgba(0, 112, 255, 0.3)',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  marker: {
+    height: 20,
+    width: 20,
+    borderWidth: 3,
+    borderColor: 'white',
+    borderRadius: 20 / 2,
+    overflow: 'hidden',
+    backgroundColor: '#007AFF'
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject
+  },
+  containerMap: {
+    ...StyleSheet.absoluteFillObject,
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  containerLogin: {
+    flex: 1,
+    backgroundColor: '#3498DB'
+  },
+  logoLoginContainer: {
+    alignItems: 'center',
+    flexGrow: 1,
+    justifyContent: 'center'
+  },
+  logo: {
+    width: 100,
+    height: 100
+  },
+  title: {
+    color: '#fff',
+    marginTop: 10,
+    width: 160,
+    fontWeight: '300',
+    fontSize: 20,
+    textAlign: 'center',
+    opacity: 0.7
+  },
+  formLogin: {
+    padding: 20
+  },
+  input: {
+    height: 60,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    marginBottom: 10,
+    color: '#FFF',
+    paddingHorizontal: 10,
+    fontWeight: '200',
+    fontSize: 16,
+    borderRadius: 50,
+    opacity: 0.7
+  },
+  buttonContainer: {
+    backgroundColor: '#4183D7',
+    paddingVertical: 15,
+    marginBottom: 10,
+    borderRadius: 50,
+    opacity: 0.7
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: "#FFF",
+    fontWeight: '700'
+  },
+  registerContainer: {
+    flex: 1,
+    backgroundColor: '#9b59b6'
+  },
+  headerText: {
+    textAlign: 'center',
+    color: '#FFF',
+    fontSize: 17,
+    fontWeight: '200',
+    paddingTop: 20
+  },
+  registerInput: {
+    height: 50,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    color: '#FFF',
+    fontWeight: '200',
+    fontSize: 15,
+    opacity: 0.7,
+    borderRadius: 50,
+    marginBottom: 10
+  },
+  registerFrom: {
+    padding: 40
+  },
+  card: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: '#FFF',
+    margin: 5,
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: color.lightGray,
+    borderBottomWidth: 0,
+    shadowColor: color.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1
+  },
+  cardHeader: {
+    flex: 1,
+    alignItems: 'flex-start',
+    padding: 5,
+    flexDirection: 'row',
+  },
+  cardTextHeader: {
+    fontSize: 18,
+    fontWeight: '500',
+    opacity: 0.9,
+    margin: 5,
+    color: color.black,
+    marginTop: 5,
+    justifyContent: 'center'
+  },
+  cardMap: {
+    flex: 3,
+    justifyContent: 'center',
+    width: '100%',
+    height: 200,
+    shadowOpacity: 1
+  },
+  cardList: {
+    flex: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 5,
+    marginLeft: 15,
+    marginRight: 15,
+    borderWidth: 1,
+    borderColor: color.lightGray,
+    borderBottomWidth: 0,
+    shadowColor: color.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 1,
+    elevation: 1
+  },
+  cardListItem: {
+    flex: 1,
+    justifyContent: 'space-around',
+    flexDirection: 'row'
+  },
+  cardListItemImage: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    resizeMode: 'contain',
+    backgroundColor: '#EEEEEE'
+  },
+  cardListItemDetail: {
+    flex: 2,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    paddingLeft: 20
+  },
+  cardListItemDetailProductName: {
+    flex: 1,
+    justifyContent: 'center',
+    fontWeight: '500'
+  },
+  cardListItemDetailProductNameSelected: {
+    flex: 1,
+    justifyContent: 'center',
+    fontWeight: '500',
+    color: 'green'
+  },
+  cardListItemDetailPriceQty: {
+    flex: 3,
+    justifyContent: 'space-between',
+    flexDirection: 'row'
+  },
+  cardListItemDetailPriceContent: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    fontWeight: '400'
+  },
+  cardListItemDetailQtyContent: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    paddingLeft: 20,
+    fontWeight: '400'
+  },
+  buttonGetRoute: {
+    padding: 20,
+    marginLeft: 100,
+    marginRight: 100,
+    marginTop: 10,
+    marginBottom: 30,
+    borderRadius: 4,
+    backgroundColor: color.black
+  },
+  cardForMap: {
+    flex: 1,
+    width: "100%",
+    height: 300,
+    margin: 100,
   }
 })

@@ -1,9 +1,5 @@
-const distance = require('geo-coords-distance');
 const _ = require('lodash');
-
-const round = (value, decimals) => {
-  return Number(Math.round(`${value}e${decimals}`) + `e-${decimals}`);
-};
+const math = require('mathjs');
 
 class Matrices {
   constructor(options) {
@@ -68,7 +64,7 @@ class Matrices {
         matrixId: matrix.id,
         stores: storesResult,
         storesOptimizedTotal,
-        storesOptimizedTotalWithDistance: round(storesOptimizedTotalWithDistance, 2),
+        storesOptimizedTotalWithDistance: math.round(storesOptimizedTotalWithDistance, 2),
         goBackDistanceToUserLocation,
       });
     }

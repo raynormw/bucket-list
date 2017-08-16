@@ -15,7 +15,7 @@ import Axios from 'axios'
 
 import { styles, styleBasket, styleSearch, color } from '../styles'
 
-const API = 'http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api'
+const API = 'http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api'
 
 export default class Basket extends React.Component {
   constructor(props) {
@@ -34,7 +34,7 @@ export default class Basket extends React.Component {
   _fetchData() {
     Axios.get(API + '/baskets/getitems/2')
     .then((response) => {
-      console.log(response)
+      this._postCompare(response.data)
       this._getData(response.data)
     })
     .catch((error) => {
@@ -46,6 +46,16 @@ export default class Basket extends React.Component {
     const ds = this.state.dataSource.cloneWithRows(data || [])
     this.setState({'data': ds, loading: false, loaded: true})
     console.log(this.state.data.getRowCount() + ' Row Count testing')
+  }
+
+  _postCompare(data) {
+    let items = data.map((dataItem) => {
+      return {
+        goodId: dataItem.Good.id,
+        quantity: dataItem.quantity
+      }
+    })
+    this.setState({compareData: items})
   }
 
   _deleteItem(goodsId) {
@@ -100,6 +110,8 @@ export default class Basket extends React.Component {
   }
 
   render() {
+    const {navigate} = this.props.navigation
+
     return (
       <ScrollView style={styleBasket.container}>
         <View style={styleBasket.headerContainer}>
@@ -128,7 +140,7 @@ export default class Basket extends React.Component {
         </View>
         { !this.state.loading && this.state.loaded && this.state.data.getRowCount() !== 0 &&
           <View style={styleBasket.buttonContainer}>
-          <Icon.Button name="ios-pricetags-outline" style={styleBasket.button} onPress={() => console.log('compare success')}>
+          <Icon.Button name="ios-pricetags-outline" style={styleBasket.button} onPress={() => navigate('DetailProduct', {items: this.state.compareData})}>
             <Text style={styleBasket.headerText}>compare</Text>
           </Icon.Button>
           </View>

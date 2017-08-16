@@ -91,6 +91,7 @@ class PricingAlgorithm {
       const permutation = permutations[i];
       const matrix = new Matrix({
         id: i,
+        userLocation: this._userLocation,
       });
       for (let j = 0; j < permutation.length; j += 1) {
         const storeAsObject = this._storesAsObject[permutation[j]];
