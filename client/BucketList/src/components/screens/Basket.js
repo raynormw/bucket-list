@@ -5,78 +5,17 @@ import {
   ListView,
   ScrollView,
   TouchableOpacity,
-  Image
+  Image,
+  ActivityIndicator,
+  Modal,
+  TouchableHighlight
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
+import Axios from 'axios'
 
-import { styleBasket } from '../styles'
+import { styles, styleBasket, styleSearch, color } from '../styles'
 
-const data = [
-  {
-    id: 1,
-    productName: 'Beras Maknyuss',
-    productPrice: 60000,
-    productSize: 'Ukuran 5Kg',
-    storeName: 'Alfamart',
-    uri: require('../../assets/berasCrop.png')
-  },
-  {
-    id: 2,
-    productName: 'Minyak goreng Bimoli',
-    productPrice: 33000,
-    productSize: "Ukuran 2liter",
-    storeName: 'Indomaret',
-    uri: require('../../assets/minyakCrop.png')
-  },
-  {
-    id: 3,
-    productName: 'Gulaku Premium',
-    productPrice: 17000,
-    productSize: 'Ukuran 1Kg',
-    storeName: 'Carrefour',
-    uri: require('../../assets/gulaCrop.png')
-  },
-  {
-    id: 4,
-    productName: 'Susu Childkid',
-    productPrice: 34000,
-    productSize: 'Ukuran 400g',
-    storeName: 'Giant',
-    uri: require('../../assets/chil-kid-vanilla.jpg')
-  },
-  {
-    id: 1,
-    productName: 'Beras Maknyuss',
-    productPrice: 60000,
-    productSize: 'Ukuran 5Kg',
-    storeName: 'Alfamart',
-    uri: require('../../assets/berasCrop.png')
-  },
-  {
-    id: 2,
-    productName: 'Minyak goreng Bimoli',
-    productPrice: 33000,
-    productSize: "Ukuran 2liter",
-    storeName: 'Indomaret',
-    uri: require('../../assets/minyakCrop.png')
-  },
-  {
-    id: 3,
-    productName: 'Gulaku Premium',
-    productPrice: 17000,
-    productSize: 'Ukuran 1Kg',
-    storeName: 'Carrefour',
-    uri: require('../../assets/gulaCrop.png')
-  },
-  {
-    id: 4,
-    productName: 'Susu Childkid',
-    productPrice: 34000,
-    productSize: 'Ukuran 400g',
-    storeName: 'Giant',
-    uri: require('../../assets/chil-kid-vanilla.jpg')
-  }
-]
+const API = 'http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api'
 
 export default class Basket extends React.Component {
   constructor(props) {
@@ -85,13 +24,44 @@ export default class Basket extends React.Component {
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       data: [],
+      id: null,
+      loading: false,
+      loaded: false,
       modalVisible: false,
     }
   }
 
+  _fetchData() {
+    Axios.get(API + '/baskets/getitems/2')
+    .then((response) => {
+      console.log(response)
+      this._getData(response.data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
   _getData(data) {
-    const ds = this.state.dataSource.cloneWithRows(data)
-    this.setState({'data': ds})
+    const ds = this.state.dataSource.cloneWithRows(data || [])
+    this.setState({'data': ds, loading: false, loaded: true})
+    console.log(this.state.data.getRowCount() + ' Row Count testing')
+  }
+
+  _deleteItem(goodsId) {
+    this.setState({ loading: true })
+
+    Axios.delete(API + '/baskets/2/' + goodsId +'/removeitem', {
+      basket_id: 2,
+      goods_id: goodsId
+    })
+    .then((response) => {
+      console.log(response)
+      this._fetchData()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   _setModalVisible(visible) {
@@ -102,15 +72,18 @@ export default class Basket extends React.Component {
     return (
       <View style={styleBasket.item}>
         <Image
-          source={product.uri}
+          source={{ uri: product.Good.url_pict }}
           style={styleBasket.imgStyle}
         />
         <View style={styleBasket.textContainer}>
-          <Text style={styleBasket.headingStyle}>{product.productName}</Text>
-          <Text>{product.productSize}</Text>
+          <Text style={styleBasket.headingStyle}>{product.Good.name}</Text>
+          <Text>Ukuran: {product.Good.goods_size}</Text>
         </View>
         <TouchableOpacity style={styleBasket.clearIcon}
-          onPress = {() => console.log('delete success')} >
+          onPress = {() => {
+            this.setState({ id: product.Good.id })
+            this._setModalVisible(true)
+          }} >
           <Icon
             name="ios-close"
             size={30}
@@ -121,8 +94,9 @@ export default class Basket extends React.Component {
     )
   }
 
-  componentDidMount() {
-    this._getData(data)
+  componentWillMount() {
+    this.setState({ loading: true })
+    this._fetchData()
   }
 
   render() {
@@ -132,21 +106,61 @@ export default class Basket extends React.Component {
           <Text style={styleBasket.headerText}>Your basket..</Text>
         </View>
         <View style={styleBasket.listContainer}>
-          { this.state.data.length !== 0 &&
+          {  this.state.loading &&
+            <ActivityIndicator
+              animating={this.state.animating}
+              size={60}
+              color={color.lightBlue}
+            />
+          }
+          { !this.state.loading && this.state.loaded && this.state.data.getRowCount() === 0 &&
+            <View style={styles.container}>
+              <Text style={styles.notFound}>Your basket is empty :(</Text>
+            </View>
+          }
+          { !this.state.loading && this.state.loaded &&
             <ListView contentContainerStyle={styleBasket.list}
             dataSource={this.state.data}
+            enableEmptySections={true}
             renderRow={this._renderProduct.bind(this)}>
-          </ListView>
+            </ListView>
           }
         </View>
-        <View style={styleBasket.buttonContainer}>
-          {/* <View style={styleBasket.button}>
-            <Text style={styleBasket.headerText}>compare</Text>
-          </View> */}
+        { !this.state.loading && this.state.loaded && this.state.data.getRowCount() !== 0 &&
+          <View style={styleBasket.buttonContainer}>
           <Icon.Button name="ios-pricetags-outline" style={styleBasket.button} onPress={() => console.log('compare success')}>
             <Text style={styleBasket.headerText}>compare</Text>
           </Icon.Button>
-        </View>
+          </View>
+        }
+        <Modal
+          animationType={"fade"}
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => this._setModalVisible(!this.state.modalVisible)}
+          >
+           <View style={styleSearch.containerModal}>
+            <View style={styleSearch.modalStyle}>
+              <Text style={styleSearch.textModal}>Are you sure?</Text>
+              <View style={styleSearch.containerButton}>
+                <TouchableHighlight style={styleSearch.buttonYes} activeOpacity={0.5} underlayColor={color.lightBlue} onPress={() => {
+                  console.log('yes button')
+                  this._setModalVisible(!this.state.modalVisible)
+                  this._deleteItem(this.state.id)
+                  this.setState({ id: null })
+                }}>
+                  <Text style={styleSearch.textButton}>Yes</Text>
+                </TouchableHighlight>
+                <TouchableHighlight style={styleSearch.buttonNo} activeOpacity={0.5} underlayColor={color.orange} onPress={() => {
+                  console.log('no button')
+                  this._setModalVisible(!this.state.modalVisible)
+                }}>
+                  <Text style={styleSearch.textButton}>No</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     )
   }

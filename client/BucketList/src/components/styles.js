@@ -54,6 +54,15 @@ export const styles = StyleSheet.create({
   },
   footer: {
     flex: 4
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    margin: 20,
+  },
+  notFound: {
+    fontSize: 25,
+    fontWeight: 'bold',
   }
 })
 
@@ -351,6 +360,8 @@ export const styleBasket = StyleSheet.create({
   },
   imgStyle: {
     flex: 1.5,
+    width: windowWidth,
+    height: windowHeight,
     resizeMode: 'contain',
   },
   textContainer: {
