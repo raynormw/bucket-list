@@ -15,26 +15,15 @@ class LittleMaps extends Component {
   constructor(props) {
     super(props)
     this.state = {
-        latitude: -6.16074,
-        longitude: 106.582024,
         latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
       }
-  }
-
-  componentWillMount () {
-    // console.log(JSON.stringify(this.props))
-    // let coord = JSON.stringify(this.props)
-    // console.log('------------', coord)
-    // this.setState({latitude: coord.lat})
-    // this.setState({longitude: coord.lng})
-    // console.log('ini state-------------------' +this.state)
   }
 
   marker() {
     return {
-      latitude: this.state.latitude,
-      longitude: this.state.longitude
+      latitude: this.props.lat,
+      longitude: this.props.lng
     }
   }
 
@@ -43,7 +32,12 @@ class LittleMaps extends Component {
       <View style={styleMenu.container}>
         <MapView
           style={styleMenu.map}
-          initialRegion={this.state}
+          initialRegion={{
+            latitude: this.props.lat,
+            longitude: this.props.lng,
+            latitudeDelta: this.state.latitudeDelta,
+            longitudeDelta: this.state.longitudeDelta
+          }}
           zoomEnabled={true}
         >
           <MapView.Marker

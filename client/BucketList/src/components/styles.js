@@ -181,17 +181,23 @@ export const styleMenu = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: '#FFF'
+    backgroundColor: '#FFF',
+    margin: 5
   },
   cardHeader: {
     flex: 1,
     alignItems: 'flex-start',
-    padding: 5
+    padding: 5,
+    flexDirection: 'row',
   },
-  cardImageHeader: {
-    borderRadius: 50,
-    width: 20,
-    height: 20
+  cardTextHeader: {
+    fontSize: 18,
+    fontWeight: '500',
+    opacity: 0.9,
+    margin: 5,
+    color: color.black,
+    marginTop: 5,
+    justifyContent: 'center'
   },
   cardMap: {
     flex: 3,
@@ -202,15 +208,21 @@ export const styleMenu = StyleSheet.create({
   cardList: {
     flex: 4,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 10,
+    margin: 5
   },
   cardListItem: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    flexDirection: 'row',
+    margin: 5
   },
   cardListItemImage: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    resizeMode: 'contain',
+    backgroundColor: '#EEEEEE'
   },
   cardListItemDetail: {
     flex: 2,
@@ -220,7 +232,7 @@ export const styleMenu = StyleSheet.create({
   cardListItemDetailProductName: {
     flex: 1,
     justifyContent: 'center',
-    fontWeight: '300'
+    fontWeight: '500'
   },
   cardListItemDetailPriceQty: {
     flex: 1,

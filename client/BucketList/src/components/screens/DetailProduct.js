@@ -21,7 +21,7 @@ class DetailProduct extends Component {
   }
 
   componentWillMount() {
-    console.log('----------------data', data.mostOptimizedMatrix.stores);
+    console.log('----------------data', this.state.stores);
     var storeRegions = []
     var dataRegion = data.mostOptimizedMatrix.stores.map((storeRegion, index) => {
       return {
@@ -39,23 +39,23 @@ class DetailProduct extends Component {
         {this.state.stores.map((store, index) => (
         <View style={styleMenu.card} key={index}>
           <View style={styleMenu.cardHeader}>
-            <Icon name="store" size={10}/>
-          <Text>{store.name}</Text>
+            <Image source={require('../../asset/logo/online-store.png')} style={{width: 30, height: 30, margin: 5}}/>
+            <Text style={styleMenu.cardTextHeader}>{store.name}</Text>
           </View>
           <View style={styleMenu.cardMap}>
-            <LittleMaps lat={store.location.lat} lng={store.location.lng}/>
+            <LittleMaps lat={+store.location.lat} lng={+store.location.lng}/>
           </View>
           {store.items.map((item, index) => (
           <View style={styleMenu.cardList} key={index}>
             <View style={styleMenu.cardListItem}>
-              <Icon style={styleMenu.cardListItemImage} name="cart-outline"/>
-            <View style={styleMenu.cardListItemDetail}>
+              <Image style={styleMenu.cardListItemImage} source={require('../../asset/logo/bag.png')}/>
+              <View style={styleMenu.cardListItemDetail}>
                 <Text style={styleMenu.cardListItemDetailProductName}>
                   {item.good.name}
                 </Text>
                 <View style={styleMenu.cardListItemDetailPriceQty}>
-                  <Text style={styleMenu.cardListItemDetailPriceContent}>Rp.{item.price}</Text>
-                <Text style={styleMenu.cardListItemDetailQtyContent}>{item.quantity}pcs</Text>
+                    <Text style={styleMenu.cardListItemDetailPriceContent}>Rp. {item.price}</Text>
+                    <Text style={styleMenu.cardListItemDetailQtyContent}>{item.quantity}pcs</Text>
                 </View>
               </View>
             </View>
