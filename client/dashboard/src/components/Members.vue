@@ -140,7 +140,7 @@ export default {
   methods: {
     getMembers: function () {
       var self = this
-      axios.get('http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/members')
+      axios.get('http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/members')
       .then(function (members) {
         self.members = members.data
       })
@@ -150,7 +150,7 @@ export default {
     },
     postMember: function () {
       var self = this
-      axios.post('http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/members/signup', {
+      axios.post('http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/members/signup', {
         name: self.memberNameForm,
         email: self.memberEmailForm,
         password: self.memberPasswordForm
@@ -165,7 +165,7 @@ export default {
     },
     signinMember: function () {
       var self = this
-      axios.post(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/members/signin`, {
+      axios.post(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/members/signin`, {
         email: self.memberEmailSigninForm,
         password: self.memberPasswordSigninForm
       })
@@ -191,7 +191,7 @@ export default {
       var self = this
       var choice = confirm(`Are you sure want to delete this member?\n Id: ${member.id} \n Name: ${member.name} \n Email: ${member.email}`)
       if (choice === true) {
-        axios.delete(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/members/${member.id}/delete`)
+        axios.delete(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/members/${member.id}/delete`)
         .then(function () {
           self.getMembers()
         })
@@ -218,7 +218,7 @@ export default {
     },
     submitMemberUpdate: function () {
       var self = this
-      axios.put(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/members/${self.updateMemberId}/update`,
+      axios.put(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/members/${self.updateMemberId}/update`,
         {
           name: self.updateMemberName,
           email: self.updateMemberEmail,

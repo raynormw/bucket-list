@@ -3,7 +3,8 @@
     <nav class="navbar">
     <div class="navbar-brand">
       <div class="navbar-item">
-        <img src="http://bulma.io/images/bulma-logo.png" alt="logo" width="112" height="28">
+        <img src="/static/price-tag.png" alt="logo" height="28">
+        <p> <strong> Price Police </strong></p>
       </div>
     </div>
     <div class="navbar-menu">
@@ -12,7 +13,6 @@
         <router-link class="navbar-item" to="/goods"> /api/goods </router-link>
         <router-link class="navbar-item" to="/members"> /api/members </router-link>
         <router-link class="navbar-item" to="/baskets"> /api/basket </router-link>
-        <router-link class="navbar-item" to=""> /api/carts </router-link>
       </div>
     </div>
     </nav>

@@ -56,13 +56,17 @@ var deleteStore = function (req, res) {
     }
   })
   .then(function (store) {
-    store.destroy()
-    .then(function () {
-      res.send({msg: `Store with id ${req.params.id} deleted`})
-    })
-    .catch(function (err) {
-      res.status(500).send(err)
-    })
+    if (!store) {
+      res.status(404).send({msg: `${req.params.id} not found`})
+    } else {
+      store.destroy()
+      .then(function () {
+        res.send({msg: `Store with id ${req.params.id} deleted`})
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
   })
   .catch(function (err) {
     res.status(500).send(err)
@@ -143,13 +147,17 @@ var deleteGoodsFromStore = function (req, res) {
     }
   })
   .then(function (goodsStore) {
-    goodsStore.destroy()
-    .then(function () {
-      res.send({msg: `Good store with id ${goodsStore.id} deleted`})
-    })
-    .catch(function (err) {
-      res.status(500).send(err)
-    })
+    if (!goodsStore) {
+      res.status(404).send({msg: `Goods store not found`})
+    } else {
+      goodsStore.destroy()
+      .then(function () {
+        res.send({msg: `Good store with id ${goodsStore.id} deleted`})
+      })
+      .catch(function (err) {
+        res.status(500).send(err)
+      })
+    }
   })
   .catch(function (err) {
     res.status(500).send(err)

@@ -94,7 +94,7 @@ export default {
   methods: {
     getBaskets: function () {
       var self = this
-      axios.get('http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets')
+      axios.get('http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/baskets')
       .then(function (baskets) {
         self.baskets = baskets.data
       })
@@ -104,7 +104,7 @@ export default {
     },
     postBasket: function () {
       var self = this
-      axios.post('http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets/createbasket', {
+      axios.post('http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/baskets/createbasket', {
         member_id: self.memberIdBasketForm
       })
       .then(function (basket) {
@@ -123,7 +123,7 @@ export default {
       var self = this
       var choice = confirm(`Are you sure want to delete this?\n Id: ${basket.id} \n Member Id: ${basket.member_id}`)
       if (choice === true) {
-        axios.delete(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets/${basket.id}/delete`, {
+        axios.delete(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/baskets/${basket.id}/delete`, {
           member_id: basket.member_id
         })
         .then(function () {
@@ -150,7 +150,7 @@ export default {
     },
     submitBasketUpdate: function () {
       var self = this
-      axios.put(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets/${self.UpdateBasketId}/${self.UpdateMemberIdOld}`,
+      axios.put(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/baskets/${self.UpdateBasketId}/${self.UpdateMemberIdOld}`,
         {
           member_id: self.UpdateMemberId
         })

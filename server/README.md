@@ -51,7 +51,7 @@
 | /api/baskets/:basket_id/delete | DELETE | Send form-urlencoded with member_id as attribute | Success message |
 | /api/baskets/:basket_id/:member_id/update | PUT | Send form-urlencoded with member_id as attribute | Success message |
 
-## Cart_Items
+## Cart_Items (Deprecated For While)
 | Routes | Methods | Purpose |Usages | Returns |
 | :--- | :---: | :--- |:--- | :---|
 | /api/carts/:cart_id/addgoods | POST | Add new item to a cart | Send form-urlencoded with good_id and store_id as attribute | Return created cart item |
