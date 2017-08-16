@@ -28,7 +28,6 @@ class LittleMaps extends Component {
   }
 
   render() {
-    console.log('---------------Props', JSON.stringify(this.props))
     return(
       <View style={styleZ.container}>
         <MapView
