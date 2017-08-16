@@ -15,7 +15,7 @@ import Axios from 'axios'
 
 import { styles, styleBasket, styleSearch, color } from '../styles'
 
-const API = 'http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api'
+const API = 'http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api'
 
 export default class Basket extends React.Component {
   constructor(props) {
@@ -66,6 +66,30 @@ export default class Basket extends React.Component {
 
   _setModalVisible(visible) {
     this.setState({modalVisible: visible});
+  }
+
+  _postCompare() {
+    Axios.post(API + '/stores/nearbystore', {
+      "location": {
+        "lat": -6.260740, "lng": 106.782024
+      },
+      "items": [
+        {
+          "goodId": 1,
+          "quantity": 1
+        },
+        {
+          "goodId": 5,
+          "quantity": 1
+        }
+      ]
+    })
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   _renderProduct(product) {
@@ -128,7 +152,7 @@ export default class Basket extends React.Component {
         </View>
         { !this.state.loading && this.state.loaded && this.state.data.getRowCount() !== 0 &&
           <View style={styleBasket.buttonContainer}>
-          <Icon.Button name="ios-pricetags-outline" style={styleBasket.button} onPress={() => console.log('compare success')}>
+          <Icon.Button name="ios-pricetags-outline" style={styleBasket.button} onPress={() => this._postCompare()}>
             <Text style={styleBasket.headerText}>compare</Text>
           </Icon.Button>
           </View>
