@@ -11,6 +11,9 @@ import Basket from './screens/Basket'
 import Search from './screens/Search'
 import Login from './screens/Login'
 import Register from './screens/Register'
+import LittleMaps from './screens/LittleMaps'
+import Maps from './screens/Maps'
+import DetailProduct from './screens/DetailProduct'
 
 const MainNavigator = StackNavigator({
   Home: {
@@ -45,6 +48,18 @@ const MainNavigator = StackNavigator({
       header: null
     })
   },
+  Maps: {
+    screen: Maps
+  },
+  DetailProduct: {
+    screen: DetailProduct,
+    navigationOptions: () => ({
+      title: 'Comparing',
+      headerStyle: {
+        backgroundColor: color.lightning_yellow
+      }
+    })
+  }
 }, { headerMode: 'screen' })
 
 const Routing = DrawerNavigator({
@@ -93,7 +108,8 @@ const Routing = DrawerNavigator({
     inactiveBackgroundColor: color.lightOrange,
   },
   contentComponent: props => <DrawerContent {...props} />,
-})
+}
+)
 
 
 export default Routing
