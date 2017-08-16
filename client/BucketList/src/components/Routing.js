@@ -11,9 +11,8 @@ import Basket from './screens/Basket'
 import Search from './screens/Search'
 import Login from './screens/Login'
 import Register from './screens/Register'
-import LittleMaps from './screens/LittleMaps'
-import Maps from './screens/Maps'
 import DetailProduct from './screens/DetailProduct'
+import RouteResult from './screens/RouteResult'
 
 const MainNavigator = StackNavigator({
   Home: {
@@ -48,15 +47,21 @@ const MainNavigator = StackNavigator({
       header: null
     })
   },
-  Maps: {
-    screen: Maps
-  },
   DetailProduct: {
     screen: DetailProduct,
     navigationOptions: () => ({
       title: 'Comparing',
       headerStyle: {
-        backgroundColor: color.lightning_yellow
+        backgroundColor: color.niceOrange
+      }
+    })
+  },
+  RouteResult: {
+    screen: RouteResult,
+    navigationOptions: () => ({
+      title: 'Route',
+      headerStyle: {
+        backgroundColor: color.niceOrange
       }
     })
   }

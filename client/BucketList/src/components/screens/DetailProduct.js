@@ -48,11 +48,18 @@ class DetailProduct extends Component {
   }
 
   render() {
+    const {navigate} = this.props.navigation
+
     let datas = this.state.datas.mostOptimizedMatrix ? this.state.datas.mostOptimizedMatrix.stores : [];
     let unMatchGoods = this.state.datas.unMatchGoods ? this.state.datas.unMatchGoods : [];
     console.log('--------------', unMatchGoods);
     return (
       <ScrollView style={styleZ.container}>
+        {unMatchGoods.map((good, index) => (
+          <View style={styleZ.card} key={index}>
+              <Text style={{ color: 'red', margin: 10 }}>Not Available: {good.name}</Text>
+          </View>
+        ))}
         {datas.map((store, index) => (
         <View style={styleZ.card} key={index}>
           <View style={styleZ.cardHeader}>
@@ -80,11 +87,11 @@ class DetailProduct extends Component {
         ))}
         </View>
       ))}
-      {unMatchGoods.map((good, index) => (
-        <View style={styleZ.card} key={index}>
-            <Text style={{ color: 'red', margin: 10 }}>Not Available: {good.name}</Text>
-        </View>
-      ))}
+      { datas.length > 0 &&
+        <TouchableOpacity style={styleZ.buttonGetRoute} onPress={() => navigate('RouteResult', {position: datas})}>
+          <Text style={{color: 'white'}}>Get Route</Text>
+        </TouchableOpacity>
+      }
       </ScrollView>
     )
   }

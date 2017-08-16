@@ -615,5 +615,10 @@ export const styleZ = StyleSheet.create({
     alignItems: 'flex-end',
     paddingLeft: 20,
     fontWeight: '400'
+  },
+  buttonGetRoute: {
+    padding: 20,
+    borderRadius: 4,
+    backgroundColor: color.black
   }
 })
