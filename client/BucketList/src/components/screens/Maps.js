@@ -129,6 +129,8 @@ class Maps extends React.Component {
           showsUserLocation={true}
           showsCompass={true}
           zoomEnabled={true}
+          minZoomLevel={15}
+          maxZoomLevel={20}
         >
           {dummyDataForMarkers.map((data, index) => (
           <MapView.Marker
