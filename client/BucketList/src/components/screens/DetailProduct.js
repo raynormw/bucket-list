@@ -52,7 +52,7 @@ class DetailProduct extends Component {
 
     let datas = this.state.datas.mostOptimizedMatrix ? this.state.datas.mostOptimizedMatrix.stores : [];
     let unMatchGoods = this.state.datas.unMatchGoods ? this.state.datas.unMatchGoods : [];
-    console.log('--------------', unMatchGoods);
+    console.log('--------------', datas);
     return (
       <ScrollView style={styleZ.container}>
         {unMatchGoods.map((good, index) => (
@@ -60,6 +60,12 @@ class DetailProduct extends Component {
               <Text style={{ color: 'red', margin: 10 }}>Not Available: {good.name}</Text>
           </View>
         ))}
+        {datas.length > 0 &&
+          <View style={styleZ.cardDistances}>
+            <Text>Total Cost: Rp. {this.state.datas.mostOptimizedMatrix.storesOptimizedTotal}</Text>
+            <Text>Total Cost and Distance: Rp. {this.state.datas.mostOptimizedMatrix.storesOptimizedTotalWithDistance}</Text>
+          </View>
+        }
         {datas.map((store, index) => (
         <View style={styleZ.card} key={index}>
           <View style={styleZ.cardHeader}>

@@ -623,12 +623,30 @@ export const styleZ = StyleSheet.create({
     marginTop: 10,
     marginBottom: 30,
     borderRadius: 4,
-    backgroundColor: color.black
+    backgroundColor: color.black,
+    justifyContent: 'center'
   },
   cardForMap: {
-    flex: 1,
+    flex: 2,
     width: "100%",
     height: 300,
     margin: 100,
+    
+  },
+  cardDistances: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: '#FFF',
+    margin: 5,
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: color.lightGray,
+    borderBottomWidth: 0,
+    shadowColor: color.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1
   }
 })

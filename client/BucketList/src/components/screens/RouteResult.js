@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import { styleZ, color } from '../styles'
 import Maps from './Maps'
+import RouteMap from './RouteMap'
 
 class RouteResult extends Component {
   render() {
+    let stores = this.props.navigation.state.params.stores
     return(
       <View style={styleZ.container}>
         <Maps
@@ -13,11 +15,11 @@ class RouteResult extends Component {
             width: '100%',
             height: 300
           }}
-          stores={this.props.navigation.state.params.stores}
+          stores={stores}
         />
-      <View style={styleZ.card}>
+      <ScrollView style={styleZ.cardForMap}>
         
-      </View>
+      </ScrollView>
       </View>
     )
   }
