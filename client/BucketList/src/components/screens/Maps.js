@@ -5,29 +5,8 @@ import Polyline from '@mapbox/polyline'
 import { styleZ, aspectRatio } from '../styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const { width, height } = Dimensions.get('window')
-
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATITUDE_DELTA * aspectRatio
-
-var dummyDataForMarkers = [{
-  title: 'Alfamart1',
-  latitude: -6.2590744,
-  longitude: 106.7817552
-}, {
-  title: 'Alfamart2',
-  latitude: -6.2592594,
-  longitude: 106.7804599
-}, {
-  title: 'Indomaret1',
-  latitude: -6.2607187,
-  longitude: 106.7772388
-}, {
-  title: 'Indomaret2',
-  latitude: -6.2505417,
-  longitude: 106.777047
-}]
-//data pada API ==> data.mostOptimizedMatrix.stores.location({lat, lng})''
 
 class Maps extends React.Component {
   constructor(props) {
@@ -82,11 +61,11 @@ class Maps extends React.Component {
     })
 
     var promises = []
-    for(let i=0; i<dummyDataForMarkers.length; i++) {
-      if(i < dummyDataForMarkers.length - 1){
+    for(let i=0; i<this.props.stores.length; i++) {
+      if(i < this.props.stores.length - 1){
         var promise = new Promise((resolve, reject) => {
-          let startPos = `${dummyDataForMarkers[i].latitude},${dummyDataForMarkers[i].longitude}`
-          let destinationPos = `${dummyDataForMarkers[i+1].latitude},${dummyDataForMarkers[i+1].longitude}`
+          let startPos = `${Number(this.props.stores[i].location.lat)},${Number(this.props.stores[i].location.lng)}`
+          let destinationPos = `${Number(this.props.stores[i+1].location.lat)},${Number(this.props.stores[i+1].location.lng)}`
           fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startPos }&destination=${ destinationPos }`)
           .then((result) => {
             let respJson = result.json()
@@ -129,17 +108,15 @@ class Maps extends React.Component {
           showsUserLocation={true}
           showsCompass={true}
           zoomEnabled={true}
-          minZoomLevel={15}
-          maxZoomLevel={20}
         >
-          {dummyDataForMarkers.map((data, index) => (
+          {this.props.stores.map((store, index) => (
           <MapView.Marker
             key={index}
             coordinate={{
-              latitude: data.latitude,
-              longitude: data.longitude
+              latitude: Number(store.location.lat),
+              longitude: Number(store.location.lng)
             }}
-            title={data.title}
+            title={store.name}
           >
             <Icon name="map-marker" size={40} style={{color: '#3A539B'}} />
           </MapView.Marker>

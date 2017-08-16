@@ -10,14 +10,13 @@ import {
 
  import { styleZ } from '../styles'
  import LittleMaps from './LittleMaps'
-
-const API = 'http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api'
+ import API from '../utils/index'
 
 class DetailProduct extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      stores: [],
+      datas: [],
     }
   }
 
@@ -45,29 +44,23 @@ class DetailProduct extends Component {
   }
 
   _getData(data) {
-    let dataRegion = data.mostOptimizedMatrix.stores.map((storeRegion) => {
-      return {
-        latitude: storeRegion.location.lat,
-        longitude: storeRegion.location.lng
-      }
-    })
-    this.setState({stores: dataRegion})
+    this.setState({datas: data})
   }
-  //   let storeRegions = []
-  //   let dataRegion = data.mostOptimizedMatrix.stores.map((storeRegion) => {
-  //     return {
-  //       latitude: storeRegion.location.lat,
-  //       longitude: storeRegion.location.lng
-  //     }
-  //   })
-  //   storeRegions.push(dataRegion)
-  //   this.setState({region: storeRegions})
-
 
   render() {
+    const {navigate} = this.props.navigation
+
+    let datas = this.state.datas.mostOptimizedMatrix ? this.state.datas.mostOptimizedMatrix.stores : [];
+    let unMatchGoods = this.state.datas.unMatchGoods ? this.state.datas.unMatchGoods : [];
+    console.log('--------------', unMatchGoods);
     return (
       <ScrollView style={styleZ.container}>
-        {this.state.stores.map((store, index) => (
+        {unMatchGoods.map((good, index) => (
+          <View style={styleZ.card} key={index}>
+              <Text style={{ color: 'red', margin: 10 }}>Not Available: {good.name}</Text>
+          </View>
+        ))}
+        {datas.map((store, index) => (
         <View style={styleZ.card} key={index}>
           <View style={styleZ.cardHeader}>
             <Image source={require('../../assets/logo/online-store.png')} style={{width: 30, height: 30, margin: 5}}/>
@@ -81,7 +74,7 @@ class DetailProduct extends Component {
             <View style={styleZ.cardListItem}>
               <Image style={styleZ.cardListItemImage} source={require('../../assets/logo/bag.png')}/>
               <View style={styleZ.cardListItemDetail}>
-                <Text style={styleZ.cardListItemDetailProductName}>
+                <Text style={item._selected ? styleZ.cardListItemDetailProductNameSelected : styleZ.cardListItemDetailProductName}>
                   {item.good.name}
                 </Text>
                 <View style={styleZ.cardListItemDetailPriceQty}>
@@ -94,6 +87,11 @@ class DetailProduct extends Component {
         ))}
         </View>
       ))}
+      { datas.length > 0 &&
+        <TouchableOpacity style={styleZ.buttonGetRoute} onPress={() => navigate('RouteResult', {stores: datas})}>
+          <Text style={{color: 'white'}}>Get Route</Text>
+        </TouchableOpacity>
+      }
       </ScrollView>
     )
   }

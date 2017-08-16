@@ -592,6 +592,12 @@ export const styleZ = StyleSheet.create({
     justifyContent: 'center',
     fontWeight: '500'
   },
+  cardListItemDetailProductNameSelected: {
+    flex: 1,
+    justifyContent: 'center',
+    fontWeight: '500',
+    color: 'green'
+  },
   cardListItemDetailPriceQty: {
     flex: 3,
     justifyContent: 'space-between',
@@ -609,5 +615,14 @@ export const styleZ = StyleSheet.create({
     alignItems: 'flex-end',
     paddingLeft: 20,
     fontWeight: '400'
+  },
+  buttonGetRoute: {
+    padding: 20,
+    marginLeft: 100,
+    marginRight: 100,
+    marginTop: 10,
+    marginBottom: 30,
+    borderRadius: 4,
+    backgroundColor: color.black
   }
 })
