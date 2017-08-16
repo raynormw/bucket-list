@@ -6,31 +6,63 @@ import {
   Image,
   ScrollView
  } from 'react-native'
- import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
- import { styleZ, color } from '../styles'
+ import Axios from 'axios'
+
+ import { styleZ } from '../styles'
  import LittleMaps from './LittleMaps'
- import data from '../../assets/data/dummy'
+
+const API = 'http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api'
 
 class DetailProduct extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      region: [],
-      stores: data.mostOptimizedMatrix.stores
+      stores: [],
     }
   }
 
   componentWillMount() {
-    var storeRegions = []
-    var dataRegion = data.mostOptimizedMatrix.stores.map((storeRegion, index) => {
+    let items = this.props.navigation.state.params.items
+    let lat, lng
+    navigator.geolocation.getCurrentPosition((position) => {
+      lat = parseFloat(position.coords.latitude)
+      lng = parseFloat(position.coords.longitude)
+
+      Axios.post(API + '/stores/nearbystore', {
+        location: {
+          lat, lng
+        },
+          items,
+      })
+      .then((response) => {
+        console.log(response, 'RESPONSE NEAR BY STORE')
+        this._getData(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    })
+  }
+
+  _getData(data) {
+    let dataRegion = data.mostOptimizedMatrix.stores.map((storeRegion) => {
       return {
         latitude: storeRegion.location.lat,
         longitude: storeRegion.location.lng
       }
     })
-    storeRegions.push(dataRegion)
-    this.setState({region: storeRegions})
+    this.setState({stores: dataRegion})
   }
+  //   let storeRegions = []
+  //   let dataRegion = data.mostOptimizedMatrix.stores.map((storeRegion) => {
+  //     return {
+  //       latitude: storeRegion.location.lat,
+  //       longitude: storeRegion.location.lng
+  //     }
+  //   })
+  //   storeRegions.push(dataRegion)
+  //   this.setState({region: storeRegions})
+
 
   render() {
     return (
