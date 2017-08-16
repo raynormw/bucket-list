@@ -2,16 +2,13 @@ import React, { Components } from 'react'
 import { View, StyleSheet, Text, Dimensions } from 'react-native'
 import MapView from 'react-native-maps'
 import Polyline from '@mapbox/polyline'
-import { styleMenu, styles } from '../styles'
+import { styleZ, aspectRatio } from '../styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const { width, height } = Dimensions.get('window')
 
-const SCREEN_HEIGHT = height
-const SCREEN_WIDTH = width
-const ASPECT_RATIO =  width / height
 const LATITUDE_DELTA = 0.0922
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+const LONGITUDE_DELTA = LATITUDE_DELTA * aspectRatio
 
 var dummyDataForMarkers = [{
   title: 'Alfamart1',
@@ -112,6 +109,7 @@ class Maps extends React.Component {
     .then((data) => {
       this.setDirectionMethode(data)
     })
+    console.log('--------------------state', this.state);
   }
 
   setDirectionMethode(data) {
@@ -124,9 +122,9 @@ class Maps extends React.Component {
 
   render() {
     return (
-      <View style={styleMenu.container}>
+      <View style={styleZ.container}>
         <MapView
-          style={styleMenu.map}
+          style={styleZ.map}
           initialRegion={this.state.initialPosition}
           showsUserLocation={true}
           showsCompass={true}

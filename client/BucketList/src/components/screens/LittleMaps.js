@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text, Dimensions } from 'react-native'
 import MapView from 'react-native-maps'
 import Polyline from '@mapbox/polyline'
-import { styleMenu, styles, color } from '../styles'
+import { styleZ, color } from '../styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const { width, height } = Dimensions.get('window')
@@ -28,10 +28,11 @@ class LittleMaps extends Component {
   }
 
   render() {
+    console.log('---------------Props', JSON.stringify(this.props))
     return(
-      <View style={styleMenu.container}>
+      <View style={styleZ.container}>
         <MapView
-          style={styleMenu.map}
+          style={styleZ.map}
           initialRegion={{
             latitude: this.props.lat,
             longitude: this.props.lng,
