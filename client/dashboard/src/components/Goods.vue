@@ -67,7 +67,7 @@
               <td> {{good.id}} </td>
               <td> {{good.barcode}} </td>
               <td> {{good.name}} </td>
-              <td> {{good.url_pict}} </td>
+              <td id="wrap_cell"> {{good.url_pict}} </td>
               <td> {{good.desc}} </td>
               <td> {{good.goods_size}} </td>
               <td> <button class="button" type="button" @click="confirmDelete(good)" > Delete </button> </td>
@@ -239,5 +239,14 @@ export default {
 }
 #form_goods {
   width: 25%
+}
+
+#wrap_cell {
+  text-wrap: normal;
+  word-wrap: break-word;
+}
+
+.table {
+  max-width: 90%
 }
 </style>

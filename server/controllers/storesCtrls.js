@@ -1,10 +1,12 @@
 
 var _ = require('lodash')
-var distance = require('geo-coords-distance')
+var distance = require('haversine')
 var storesModel = require('../models').Store
 var storeGoodsModel = require('../models').Stores_Good
 var goodsModel = require('../models').Good
-// var PricingAlgorithm = require('../algorithm/pricing')
+var PricingAlgorithm = require('../algorithm/pricing')
+
+var MAXIMUM_STORE_RANGE = 2000;
 
 var addStore = function (req, res) {
   storesModel.create({
@@ -185,7 +187,6 @@ var updateGoodsPriceInAStore = function (req, res) {
 }
 
 var findStoresWithinRadius = function (location) {
-  var MAXIMUM_STORE_RANGE = 5000
 
   return new Promise((resolve, reject) => {
     storesModel.findAll({
@@ -197,7 +198,13 @@ var findStoresWithinRadius = function (location) {
         var store = stores[i]
         var firstPoint = { lat: location.lat, lng: location.lng }
         var secondPoint = { lat: store.lat_long[0], lng: store.lat_long[1] }
-        var storeDistance = distance.default(firstPoint, secondPoint)
+        var storeDistance = distance({
+          latitude: firstPoint.lat,
+          longitude: firstPoint.lng,
+        }, {
+          latitude: secondPoint.lat,
+          longitude: secondPoint.lng,
+        }, { unit: 'meter' })
         if (storeDistance <= MAXIMUM_STORE_RANGE) {
           result.push(store)
         }
