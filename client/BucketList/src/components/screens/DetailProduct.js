@@ -54,7 +54,7 @@ class DetailProduct extends Component {
                 </Text>
                 <View style={styleZ.cardListItemDetailPriceQty}>
                     <Text style={styleZ.cardListItemDetailPriceContent}>Rp. {item.price}</Text>
-                  <Text style={styleZ.cardListItemDetailQtyContent}>{item.quantity}pcs</Text>
+                    <Text style={styleZ.cardListItemDetailQtyContent}>{item.quantity}pcs</Text>
                 </View>
               </View>
             </View>
