@@ -20,10 +20,10 @@ class LittleMaps extends Component {
       }
   }
 
-  marker() {
+  marker(lat, lng) {
     return {
-      latitude: this.props.lat,
-      longitude: this.props.lng
+      latitude: lat,
+      longitude: lng
     }
   }
 
@@ -42,7 +42,7 @@ class LittleMaps extends Component {
           showsUserLocation={true}
         >
           <MapView.Marker
-            coordinate={this.marker()}
+            coordinate={this.marker(this.props.position)}
           >
             <Icon name="map-marker" size={40} style={{color: '#3A539B'}} />
           </MapView.Marker>
