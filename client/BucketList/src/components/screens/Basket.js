@@ -34,8 +34,7 @@ export default class Basket extends React.Component {
   _fetchData() {
     Axios.get(API + '/baskets/getitems/2')
     .then((response) => {
-      this.setState({compareData: response.data})
-
+      this._postCompare(response.data)
       this._getData(response.data)
     })
     .catch((error) => {
@@ -49,50 +48,14 @@ export default class Basket extends React.Component {
     console.log(this.state.data.getRowCount() + ' Row Count testing')
   }
 
-  _postCompare() {
-    let data = this.state.compareData
-    console.log(data, ' --------COMPARE')
-
-    var items = data.map((dataItem) => {
+  _postCompare(data) {
+    let items = data.map((dataItem) => {
       return {
         goodId: dataItem.Good.id,
         quantity: dataItem.quantity
       }
-    });
-
-    let lat, lng
-    navigator.geolocation.getCurrentPosition((position) => {
-      lat = parseFloat(position.coords.latitude)
-      lng = parseFloat(position.coords.longitude)
-
-      // Axios.post(API + '/stores/nearbystore', {
-      //   "location": {
-      //     "lat": lat, "lng": lng
-      //   },
-      //   "items": [
-      //     {
-      //       "goodId": 1,
-      //       "quantity": 1
-      //     },
-      //     {
-      //       "goodId": 5,
-      //       "quantity": 1
-      //     }
-      //   ]
-      // })
-      Axios.post(API + '/stores/nearbystore', {
-        location: {
-          lat, lng
-        },
-        items,
-      })
-      .then((response) => {
-        console.log(response)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
     })
+    this.setState({compareData: items})
   }
 
   _deleteItem(goodsId) {
@@ -147,6 +110,8 @@ export default class Basket extends React.Component {
   }
 
   render() {
+    const {navigate} = this.props.navigation
+
     return (
       <ScrollView style={styleBasket.container}>
         <View style={styleBasket.headerContainer}>
@@ -175,7 +140,7 @@ export default class Basket extends React.Component {
         </View>
         { !this.state.loading && this.state.loaded && this.state.data.getRowCount() !== 0 &&
           <View style={styleBasket.buttonContainer}>
-          <Icon.Button name="ios-pricetags-outline" style={styleBasket.button} onPress={() => this._postCompare()}>
+          <Icon.Button name="ios-pricetags-outline" style={styleBasket.button} onPress={() => navigate('DetailProduct', {items: this.state.compareData})}>
             <Text style={styleBasket.headerText}>compare</Text>
           </Icon.Button>
           </View>
