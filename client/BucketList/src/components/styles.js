@@ -592,6 +592,12 @@ export const styleZ = StyleSheet.create({
     justifyContent: 'center',
     fontWeight: '500'
   },
+  cardListItemDetailProductNameSelected: {
+    flex: 1,
+    justifyContent: 'center',
+    fontWeight: '500',
+    color: 'green'
+  },
   cardListItemDetailPriceQty: {
     flex: 3,
     justifyContent: 'space-between',
