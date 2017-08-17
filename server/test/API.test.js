@@ -1,6 +1,7 @@
 // TODO: Add test for get specific store
 var chai = require('chai')
 var chaiHttp = require('chai-http')
+var hash = require('object-hash')
 
 var should = chai.should()
 
@@ -14,41 +15,45 @@ var membersModel = require('../models').Member
 chai.use(chaiHttp)
 
 describe('Checking API', function () {
+  before(function () {
+    storesModel.destroy({
+      where: {},
+      truncate: true
+    })
+    storesGoodsModel.destroy({
+      where: {},
+      truncate: true
+    })
+    goodsModel.destroy({
+      where: {},
+      truncate: true
+    })
+    membersModel.destroy({
+      where: {},
+      truncate: true
+    })
+  })
   after(function () {
+    storesModel.destroy({
+      where: {},
+      truncate: true
+    })
+    storesGoodsModel.destroy({
+      where: {},
+      truncate: true
+    })
+    goodsModel.destroy({
+      where: {},
+      truncate: true
+    })
+    membersModel.destroy({
+      where: {},
+      truncate: true
+    })
     console.log(`\n\n\n`);
-    console.log(`Coded && Tested With Passion, Love and Sweat \n by Zulfikar Annur Ahmad \n zlfikar.aa@gmail.com`);
+    console.log(`Coded && Tested With Passion, Love and Sweat \n by Zulfikar Annur Ahmad`);
   })
   describe('Checking /api/stores', function () {
-    before(function () {
-      storesModel.destroy({
-        where: {},
-        truncate: true
-      })
-      storesGoodsModel.destroy({
-        where: {},
-        truncate: true
-      })
-      goodsModel.destroy({
-        where: {},
-        truncate: true
-      })
-    })
-
-    after(function () {
-      storesModel.destroy({
-        where: {},
-        truncate: true
-      })
-      storesGoodsModel.destroy({
-        where: {},
-        truncate: true
-      })
-      goodsModel.destroy({
-        where: {},
-        truncate: true
-      })
-    })
-
     describe('Checking /api/stores && Add new store, with valid form data (CREATE)', function () {
       it ('Should return status 200', function (done) {
         chai.request(server)
@@ -1229,36 +1234,339 @@ describe('Checking API', function () {
 
     describe('Create Goods with complete form data (CREATE)', function () {
       it('Should return status 200', function (done) {
-
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          desc: 'Saus sambal asli',
+          barcode: '8372987183718',
+          goods_size: '335 ml'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
       })
 
       it('Should not return status 500', function (done) {
-
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          desc: 'Saus sambal asli',
+          barcode: '8372987183718',
+          goods_size: '335 ml'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.not.have.status(500)
+        })
+        done()
       })
     })
 
     describe('Create Goods without url_pict', function () {
+      it('Should return status 200', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          desc: 'Saus sambal asli',
+          barcode: '8372987183718',
+          goods_size: '335 ml'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
+      })
 
+      it('Should not return status 500', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          desc: 'Saus sambal asli',
+          barcode: '8372987183718',
+          goods_size: '335 ml'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.not.have.status(200)
+        })
+        done()
+      })
     })
 
     describe('Create Goods without goods_size', function () {
+      it('Should return status 200', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          desc: 'Saus sambal asli',
+          barcode: '8372987183718'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
+      })
 
+      it('Should not return status 500', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          desc: 'Saus sambal asli',
+          barcode: '8372987183718'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.not.have.status(500)
+        })
+        done()
+      })
     })
 
     describe('Create Goods without barcode', function () {
+      it('Should return status 200', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          desc: 'Saus sambal asli',
+          goods_size: '335 ml'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
+      })
 
+      it('Should not return status 500', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          desc: 'Saus sambal asli',
+          goods_size: '335 ml'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.not.have.status(500)
+        })
+        done()
+      })
     })
 
     describe('Create Goods without barcode && goods_size', function () {
+      it('Should return status 200', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          desc: 'Saus sambal asli'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
+      })
 
+      it('Should not return status 500', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          desc: 'Saus sambal asli'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.not.have.status(500)
+        })
+        done()
+      })
     })
 
     describe('Create Goods without barcode && url_pict', function () {
+      it('Should return status 200', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          desc: 'Saus sambal asli',
+          goods_size: '335 ml'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
+      })
 
+      it('Should not return status 500', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          desc: 'Saus sambal asli',
+          goods_size: '335 ml'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.not.have.status(500)
+        })
+        done()
+      })
     })
 
     describe('Create Goods without goods_size && url_pict', function () {
+      it('Should return status 200', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          desc: 'Saus sambal asli',
+          barcode: '8372987183718'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
+      })
 
+      it('Should not return status 500', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          desc: 'Saus sambal asli',
+          barcode: '8372987183718'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.not.have.status(500)
+        })
+        done()
+      })
+    })
+
+    describe('Create Goods without desc', function () {
+      it('Should have status 200', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          barcode: '8372987183718',
+          goods_size: '335 ml'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
+      })
+
+      it('Should not have status 500', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          barcode: '8372987183718',
+          goods_size: '335 ml'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.not.have.status(500)
+        })
+        done()
+      })
+    })
+
+    describe('Create Goods without desc && goods_size',function () {
+      it('Should have status 200', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          barcode: '8372987183718'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
+      })
+
+      it('Should not have status 500', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg',
+          barcode: '8372987183718'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.not.have.status(500)
+        })
+        done()
+      })
+    })
+
+    describe('Create Goods without desc && goods_size && url_pict', function () {
+      it('Should have status 200', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          barcode: '8372987183718'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
+      })
+
+      it('Should not have status 500', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          barcode: '8372987183718'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.not.have.status(500)
+        })
+        done()
+      })
+    })
+
+    describe('Create Goods without desc && goods_size && url_pict && barcode', function () {
+      it('Should have status 200', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.status(200)
+        })
+        done()
+      })
+
+      it('Should not have status 500', function (done) {
+        chai.request(server)
+        .post('/api/goods')
+        .send({
+          name: 'Saus Sambal Asli Abc 335 ML (Botol Beling)',
+          url_pict: 'https://ecs7.tokopedia.net/img/product-1/2017/3/21/1163717/1163717_40dacd13-553a-4500-9fda-4818a705552c.jpg'
+        })
+        .end(function (err, resGoods) {
+          resGoods.should.have.not.status(500)
+        })
+        done()
+      })
     })
   })
 
@@ -1266,11 +1574,819 @@ describe('Checking API', function () {
   //
   // })
   //
-  // describe('Checking /api/members', function () {
-  //
-  // })
-  //
-  // describe('Checking /api/goods/searchgoods (MVP)', function () {
-  //
-  // })
+  describe('Checking /api/members', function () {
+    describe('Sign Up', function () {
+      it('Should return status 200', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, res) {
+          res.should.have.status(200)
+        })
+        done()
+      })
+
+      it('Should not return status 500', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, res) {
+          res.should.not.have.status(500)
+        })
+        done()
+      })
+
+      it('Should hashed input password', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, res) {
+          res.body[0].password.should.not.equal('testpassword')
+        })
+        done()
+      })
+
+      it('Should have property name', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, res) {
+          res.body[0].should.have.property('name')
+        })
+        done()
+      })
+
+      it('Should have property email', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, res) {
+          res.body[0].should.have.property('email')
+        })
+        done()
+      })
+
+      it('Should have property password', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, res) {
+          res.body[0].should.have.property('password')
+        })
+        done()
+      })
+    })
+
+    describe('Sign In', function () {
+      beforeEach(function () {
+        membersModel.destroy({
+          where: {},
+          truncate: true
+        })
+      })
+
+      it('Should return status 200 if correct', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resUp) {
+          chai.request(server)
+          .post('/api/members/signin')
+          .send({
+            email: 'Test@mail.com',
+            password: 'testpassword'
+          })
+          .end(function (err, resIn) {
+            resIn.should.have.status(200)
+          })
+        })
+        done()
+      })
+
+      it('Should have property token if correct', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resUp) {
+          chai.request(server)
+          .post('/api/members/signin')
+          .send({
+            email: 'Test@mail.com',
+            password: 'testpassword'
+          })
+          .end(function (err, resIn) {
+            resIn.body[0].should.have.property('token')
+          })
+        })
+        done()
+      })
+
+      it('Should return status 404 if email not found', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resUp) {
+          chai.request(server)
+          .post('/api/members/signin')
+          .send({
+            email: 'Testdhajdhasjd@mail.com',
+            password: 'testpassword'
+          })
+          .end(function (err, resIn) {
+            resIn.should.have.status(404)
+          })
+        })
+        done()
+      })
+    })
+
+    describe('Get all member', function () {
+      beforeEach(function () {
+        membersModel.destroy({
+          where: {},
+          truncate: true
+        })
+      })
+
+      it('Should be a array', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .send({
+          name: 'Test SignUp1',
+          email: 'Test1@mail.com',
+          password: hash('testpassword')
+        })
+        .send({
+          name: 'Test SignUp2',
+          email: 'Test2@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .get('/api/members')
+          .end(function (err, resGet) {
+            resGet.body[0].should.be.a('array')
+          })
+        })
+        done()
+      })
+
+      it('Should have status 200', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .send({
+          name: 'Test SignUp1',
+          email: 'Test1@mail.com',
+          password: hash('testpassword')
+        })
+        .send({
+          name: 'Test SignUp2',
+          email: 'Test2@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .get('/api/members')
+          .end(function (err, resGet) {
+            resGet.should.have.status(200)
+          })
+        })
+        done()
+      })
+
+      it('Should not return status 500', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .send({
+          name: 'Test SignUp1',
+          email: 'Test1@mail.com',
+          password: hash('testpassword')
+        })
+        .send({
+          name: 'Test SignUp2',
+          email: 'Test2@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .get('/api/members')
+          .end(function (err, resGet) {
+            resGet.should.not.have.status(500)
+          })
+        })
+        done()
+      })
+
+      it('Should have length 3', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .send({
+          name: 'Test SignUp1',
+          email: 'Test1@mail.com',
+          password: hash('testpassword')
+        })
+        .send({
+          name: 'Test SignUp2',
+          email: 'Test2@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .get('/api/members')
+          .end(function (err, resGet) {
+            resGet.body[0].should.have.lengthOf(3)
+          })
+        })
+        done()
+      })
+    })
+
+    describe('Delete member', function () {
+      beforeEach(function () {
+        membersModel.destroy({
+          where: {},
+          truncate: true
+        })
+      })
+
+      it('Should return status 200 if deleted', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .delete(`/api/members/${resCreate.id}/delete`)
+          .end(function (err, resDel) {
+            resDel.should.have.status(200)
+          })
+        })
+        done()
+      })
+
+      it('Should return status 404 if not found', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .delete(`/api/members/100000/delete`)
+          .end(function (err, resDel) {
+            resDel.should.have.status(404)
+          })
+        })
+        done()
+      })
+
+      it('Should not return status 500 if deleted',function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .delete(`/api/members/${resCreate.id}/delete`)
+          .end(function (err, resDel) {
+            resDel.should.have.not.status(500)
+          })
+        })
+        done()
+      })
+    })
+
+    describe('Update member', function () {
+      beforeEach(function () {
+        membersModel.destroy({
+          where: {},
+          truncate: true
+        })
+      })
+
+      it('Should return 200 if name updated', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .put(`/api/members/${resCreate.id}/update`)
+          .send({
+            name: 'Update'
+          })
+          .end(function (err, resUpd) {
+            resUpd.should.have.status(200)
+          })
+        })
+        done()
+      })
+
+      it('Should not return 500 if name updated', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .put(`/api/members/${resCreate.id}/update`)
+          .send({
+            name: 'Update'
+          })
+          .end(function (err, resUpd) {
+            resUpd.should.not.have.status(500)
+          })
+        })
+        done()
+      })
+
+      it('Should return 200 if email updated', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .put(`/api/members/${resCreate.id}/update`)
+          .send({
+            email: 'Update@mail.com'
+          })
+          .end(function (err, resUpd) {
+            resUpd.should.have.status(200)
+          })
+        })
+        done()
+      })
+
+      it('Should not return 500 if email updated', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .put(`/api/members/${resCreate.id}/update`)
+          .send({
+            email: 'Update@mail.com'
+          })
+          .end(function (err, resUpd) {
+            resUpd.should.not.have.status(500)
+          })
+        })
+        done()
+      })
+
+      it('Should return 200 if email password updated', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .put(`/api/members/${resCreate.id}/update`)
+          .send({
+            password: 'Update'
+          })
+          .end(function (err, resUpd) {
+            resUpd.should.have.status(200)
+          })
+        })
+        done()
+      })
+
+      it('Should not return 500 if email password updated', function (done) {
+        chai.request(server)
+        .post('/api/members/signup')
+        .send({
+          name: 'Test SignUp',
+          email: 'Test@mail.com',
+          password: hash('testpassword')
+        })
+        .end(function (err, resCreate) {
+          chai.request(server)
+          .put(`/api/members/${resCreate.id}/update`)
+          .send({
+            password: 'Update'
+          })
+          .end(function (err, resUpd) {
+            resUpd.should.have.not.status(500)
+          })
+        })
+        done()
+      })
+    })
+  })
+
+  describe('Checking /api/goods/searchgoods (MVP)', function () {
+    beforeEach(function () {
+      goodsModel.destroy({
+        where: {},
+        truncate: true
+      })
+    })
+
+    it('Should return status 200', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'Beras'
+        })
+        .end(function (err, resSearch) {
+          resSearch.should.have.status(200)
+        })
+      })
+      done()
+    })
+
+    it('Should return array', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'Beras'
+        })
+        .end(function (err, resSearch) {
+          resSearch.body[0].should.be.a('array')
+        })
+      })
+      done()
+    })
+
+    it('Should return array of 1 with query minyak', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'Minyak'
+        })
+        .end(function (err, resSearch) {
+          resSearch.body[0].should.have.lengthOf(1)
+        })
+      })
+      done()
+    })
+
+    it('Should return array of 3 with query a', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'a'
+        })
+        .end(function (err, resSearch) {
+          resSearch.body[0].should.have.lengthOf(3)
+        })
+      })
+      done()
+    })
+
+    it('Should return status 200 with query a', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'a'
+        })
+        .end(function (err, resSearch) {
+          resSearch.should.have.status(200)
+        })
+      })
+      done()
+    })
+
+    it('Should not return status 500 with query a', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'a'
+        })
+        .end(function (err, resSearch) {
+          resSearch.should.have.not.status(500)
+        })
+      })
+      done()
+    })
+
+    it('Should return array of 2 with query beras', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'Beras'
+        })
+        .end(function (err, resSearch) {
+          resSearch.body[0].should.have.lengthOf(2)
+        })
+      })
+      done()
+    })
+
+    it('Should return status 200 with query beras', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'Beras'
+        })
+        .end(function (err, resSearch) {
+          resSearch.should.have.status(200)
+        })
+      })
+      done()
+    })
+
+    it('Should not return status 500 with query beras', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'Beras'
+        })
+        .end(function (err, resSearch) {
+          resSearch.should.have.not.status(500)
+        })
+      })
+      done()
+    })
+
+    it('Should return array of 0 with random query', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'Random'
+        })
+        .end(function (err, resSearch) {
+          resSearch.body[0].should.have.lengthOf(0)
+        })
+      })
+      done()
+    })
+
+    it('Should have not status 404 with random query', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'Random'
+        })
+        .end(function (err, resSearch) {
+          resSearch.should.have.not.status(404)
+        })
+      })
+      done()
+    })
+
+    it('Should return status 200 with random query', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'Random'
+        })
+        .end(function (err, resSearch) {
+          resSearch.should.have.status(200)
+        })
+      })
+      done()
+    })
+
+    it('Should not return status 500 with random query', function (done) {
+      chai.request(server)
+      .post('/api/goods')
+      .send({
+        name: 'Minyak Goreng Bimoli'
+      })
+      .send({
+        name: 'Beras Rojolele'
+      })
+      .send({
+        name: 'Beras IR64'
+      })
+      .end(function (err, res) {
+        chai.request(server)
+        .post('/api/goods/searchgoods')
+        .send({
+          query: 'Random'
+        })
+        .end(function (err, resSearch) {
+          resSearch.should.have.not.status(500)
+        })
+      })
+      done()
+    })
+  })
 })

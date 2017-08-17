@@ -24,7 +24,7 @@ var signIn = function (req, res) {
   })
   .then(function (member) {
     if (!member) {
-      res.send({msg: `${req.body.email} not found!`})
+      res.status(404).send({msg: `${req.body.email} not found!`})
     } else {
       if (member.password === hash(req.body.password)) {
         res.send({token: jwt.sign({member_id: member.id}, process.env.JWT)})
