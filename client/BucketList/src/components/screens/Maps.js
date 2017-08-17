@@ -42,8 +42,8 @@ class Maps extends React.Component {
 
       this.setState({initialPosition: initialRegion})
       this.setState({markerPosition: initialRegion})
-    }, (error) => alert(JSON.stringify(error)))
 
+    }, (error) => alert(error.message), {enableHightAcuracy: true, timeout: 40000})
     this.watchID = navigator.geolocation.watchPosition((position) => {
       var lat = parseFloat(position.coords.latitude)
       var long = parseFloat(position.coords.longitude)

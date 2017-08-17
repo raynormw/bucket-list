@@ -1,9 +1,55 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text, Image } from 'react-native'
+import { View, ScrollView, Text, Image, TouchableOpacity } from 'react-native'
 import { styleZ, color, styleBasket } from '../styles'
 import Maps from './Maps'
+import getDirections from 'react-native-google-maps-directions'
 
 class RouteResult extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      position: {
+        lat: 0,
+        lng: 0
+      },
+      home: {
+        lat: 0,
+        lng: 0
+      }
+    }
+  }
+
+  componentWillMount() {
+    const currentPosition = { lat: 0, lng: 0 }
+    navigator.geolocation.getCurrentPosition((position) => {
+      currentPosition.lat = parseFloat(position.coords.latitude)
+      currentPosition.lng = parseFloat(position.coords.longitude)
+
+      this.setState({position: currentPosition})
+    }, (error) => alert(error.message), {enableHightAcuracy: true, timeout: 40000})
+  }
+
+  _openMap(location) {
+    console.log(this.state.home, 'Location-------------')
+    let data = {
+       source: {
+        latitude: this.state.position.lat,
+        longitude: this.state.position.lng
+      },
+      destination: {
+        latitude: Number(location.lat),
+        longitude: Number(location.lng)
+      },
+      params: [
+        {
+          key: "dirflg",
+          value: "w"
+        }
+      ]
+    }
+    getDirections(data)
+  }
+
   render() {
     return(
       <View style={styleZ.container}>
@@ -19,19 +65,13 @@ class RouteResult extends Component {
         <View style={styleBasket.headerContainer}>
           <Text style={styleBasket.headerText}>Route Detail  ...</Text>
         </View>
-        <View style={styleZ.cardForMap}>
-          <Image style={styleZ.cardForMapToImage} source={require('../../assets/logo/girl.png')} />
-          <View style={styleZ.cardForMapToDetail}>
-            <Text style={styleZ.cardForMapToDetailText}>Your Position</Text>
-          </View>
-        </View>
         {this.props.navigation.state.params.stores.map((store, index) => (
-        <View style={styleZ.cardForMap} key={index}>
+        <TouchableOpacity style={styleZ.cardForMap} key={index} onPress={() => {this._openMap(store.location)}}>
           <Image style={styleZ.cardForMapToImage} source={require('../../assets/logo/online-store.png')} />
           <View style={styleZ.cardForMapToDetail}>
             <Text style={styleZ.cardForMapToDetailText}>{store.name}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
         ))}
       </ScrollView>
       </View>
