@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   Text,
   Image,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
  } from 'react-native'
  import Axios from 'axios'
 
@@ -55,6 +56,13 @@ class DetailProduct extends Component {
     console.log('--------------', unMatchGoods);
     return (
       <ScrollView style={styleZ.container}>
+        {datas.length === 0 && unMatchGoods.length === 0 &&
+          <ActivityIndicator
+              animating={true}
+              size={60}
+              color={color.lightBlue}
+            />
+        }
         {datas.length > 0 &&
           <View style={{ margin: 10, backgroundColor: color.black, borderColor: color.gray, borderRadius: 6, padding: 15, flex: 1, justifyContent: 'space-between', }}>
             <Text style={{ color: color.white, }}>Total Cost: </Text><Text style={{ color: color.white, fontWeight: 'bold' }}>Rp. {this.state.datas.mostOptimizedMatrix.storesOptimizedTotal}</Text>
