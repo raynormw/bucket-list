@@ -36,6 +36,7 @@ class Matrix {
     let i = 0;
     // Guard to prevent infinite loop
     let guard = 0;
+
     while (!optimized && guard < 3000) {
       guard += 1;
       if (this._stores.length <= 1) {
@@ -77,10 +78,17 @@ class Matrix {
         i += 1;
       } else {
         const intersectionTotal1 = store1.getTotalByGivenGoodIds(intersectionIds);
-        const intersectionTotal2 = store2.getTotalOfSelectedStoresGoods()
+        const intersectionTotal2 = store2.getTotalOfSelectedStoresGoodsByGivenGoodId(intersectionIds)
         + store2.getDistancePriceFrom(store1);
         // All items in store1 are cheaper then store2
         if (intersectionTotal1 <= intersectionTotal2) {
+
+          // All goods in store 1 within intersection id must be reselected
+          for (let x = 0; x < intersectionIds.length; x += 1) {
+            const intersectionId = intersectionIds[x];
+            const storesGood1 = store1.getStoresGoodByGoodId(intersectionId);
+            storesGood1.selected = true;
+          }
           this._stores.splice(store2Index, 1);
         } else {
           if (store1.getTotalOfSelectedStoresGoods() === 0) {

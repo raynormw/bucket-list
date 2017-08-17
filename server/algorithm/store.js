@@ -64,6 +64,12 @@ class Store {
     .filter(storesGood => _.includes(goodIds, storesGood.good.id))
     .reduce((sum, storesGood) => sum + storesGood.getTotal(), 0);
   }
+
+  getTotalOfSelectedStoresGoodsByGivenGoodId(goodIds) {
+    return this._storesGoods
+    .filter(storesGood => _.includes(goodIds, storesGood.good.id) && storesGood.selected)
+    .reduce((sum, storesGood) => sum + storesGood.getTotal(), 0);
+  }
 }
 
 module.exports = Store;

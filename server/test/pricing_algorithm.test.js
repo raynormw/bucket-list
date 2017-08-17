@@ -84,10 +84,16 @@ describe('Test pricing algorithm', () => {
     done();
   });
 
+  it('Should have 2 permutations', (done) => {
+    const permutations = pricingAlgorithm.getPermutations();
+    expect(permutations).to.have.lengthOf(2);
+    done();
+  });
+
   it('Should optimize matrices', (done) => {
     const optimizedMatrices = pricingAlgorithm.getOptimizedMatrices();
-    console.log('------------> optimizedMatrices: ', JSON.stringify(optimizedMatrices, null, 2));
-    expect(optimizedMatrices.mostOptimizedMatrix.storesOptimizedTotalWithDistance).to.eql(119988.3);
+    // console.log('------------> optimizedMatrices: ', JSON.stringify(optimizedMatrices, null, 2));
+    expect(optimizedMatrices.mostOptimizedMatrix.storesOptimizedTotalWithDistance).to.eql(567002.04);
     done();
   });
 });
