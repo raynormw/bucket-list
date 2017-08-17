@@ -16,7 +16,7 @@ export default class DrawerContent extends React.Component {
       <View style={styles.drawerContainer}>
         <View style={styles.header}>
           <FitImage
-            source={require('../../assets/money.png')}
+            source={require('../../assets/logo/price-tag-percent.png')}
             style={styles.logo}
             resizeMode='contain'
           />

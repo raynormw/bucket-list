@@ -8,23 +8,23 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import { color, styles, styleMenu } from '../styles'
+import { color, styles, styleZ } from '../styles'
 
 export default class Home extends React.Component {
   render() {
     return (
-      <View style={styleMenu.containerLogin}>
-        <View style={styleMenu.logoLoginContainer}>
+      <View style={styleZ.containerLogin}>
+        <View style={styleZ.logoLoginContainer}>
           <Image
-            style={styleMenu.logo}
-            source={require('../../asset/logo/price-tag-percent.png')}
+            style={styleZ.logo}
+            source={require('../../assets/logo/price-tag-percent.png')}
           />
-          <Text style={styleMenu.title}>PRICE POLICE</Text>
+        <Text style={styleZ.title}>PRICE POLICE</Text>
         </View>
-        <Text style={styleMenu.headerText}>REGISTER</Text>
-      <View style={styleMenu.registerFrom}>
+        <Text style={styleZ.headerText}>REGISTER</Text>
+      <View style={styleZ.registerFrom}>
         <TextInput
-          style={styleMenu.registerInput}
+          style={styleZ.registerInput}
           placeholder="Fullname"
           placeholderTextColor="rgba(255,255,255,0.8)"
           placeholderStyle={{paddingLeft: 25}}
@@ -32,14 +32,14 @@ export default class Home extends React.Component {
           returnKeyType="next"
         />
         <TextInput
-          style={styleMenu.registerInput}
+          style={styleZ.registerInput}
           placeholder="Email"
           placeholderTextColor="rgba(255,255,255,0.8)"
           underlineColorAndroid="transparent"
           returnKeyType="next"
         />
         <TextInput
-          style={styleMenu.registerInput}
+          style={styleZ.registerInput}
           placeholder="Password"
           placeholderTextColor="rgba(255,255,255,0.8)"
           underlineColorAndroid="transparent"
@@ -47,7 +47,7 @@ export default class Home extends React.Component {
           returnKeyType="next"
         />
         <TextInput
-          style={styleMenu.registerInput}
+          style={styleZ.registerInput}
           placeholder="Password (enter again)"
           placeholderTextColor="rgba(255,255,255,0.8)"
           underlineColorAndroid="transparent"
@@ -55,12 +55,10 @@ export default class Home extends React.Component {
           returnKeyType="next"
         />
       </View>
-      <View style={styleMenu.registerFrom}>
-        <TouchableOpacity style={styleMenu.buttonContainer}>
-          <Text style={styleMenu.buttonText}>SIGN UP</Text>
+      <View style={styleZ.registerFrom}>
+        <TouchableOpacity style={styleZ.buttonContainer}>
+          <Text style={styleZ.buttonText}>SIGN UP</Text>
         </TouchableOpacity>
-        <Icon.Button name="user" size={25} backgroundColor="#3b3898" onPress={() => this.props.navigation.navigate('LittleMaps')}>Maps</Icon.Button>
-      <Icon.Button name="user" size={25} backgroundColor="#3b3898" onPress={() => this.props.navigation.navigate('DetailProduct')}>Maps</Icon.Button>
       </View>
         {/* <Icon.Button name="facebook" backgroundColor="#3b5998" onPress={this.loginWithFacebook}>
           Register with Facebook
