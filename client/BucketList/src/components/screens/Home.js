@@ -37,7 +37,7 @@ export default class Home extends React.Component {
             </View>
             <View style={styleMenu.buttonBannerContainer}>
               <View style={styleMenu.buttonBanner}>
-                <Text style={styleMenu.buttonText}>DISCOVER</Text>
+                <Text style={styleMenu.buttonText}>SOON ...</Text>
               </View>
             </View>
           </View>
