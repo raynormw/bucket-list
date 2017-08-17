@@ -563,12 +563,7 @@ export const styleZ = StyleSheet.create({
     marginRight: 15,
     borderWidth: 1,
     borderColor: color.lightGray,
-    borderBottomWidth: 0,
-    shadowColor: color.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 1,
-    elevation: 1
+    backgroundColor: '#95A5A6'
   },
   cardListItem: {
     flex: 1,
@@ -579,7 +574,7 @@ export const styleZ = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     resizeMode: 'contain',
-    backgroundColor: '#EEEEEE'
+    backgroundColor: '#6C7A89'
   },
   cardListItemDetail: {
     flex: 2,
@@ -590,13 +585,14 @@ export const styleZ = StyleSheet.create({
   cardListItemDetailProductName: {
     flex: 1,
     justifyContent: 'center',
-    fontWeight: '500'
+    fontWeight: '500',
+    color: color.white
   },
   cardListItemDetailProductNameSelected: {
     flex: 1,
     justifyContent: 'center',
     fontWeight: '500',
-    color: 'green'
+    color: color.red
   },
   cardListItemDetailPriceQty: {
     flex: 3,
@@ -607,14 +603,16 @@ export const styleZ = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
-    fontWeight: '400'
+    fontWeight: '400',
+    color: color.white
   },
   cardListItemDetailQtyContent: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     paddingLeft: 20,
-    fontWeight: '400'
+    fontWeight: '400',
+    color: color.white
   },
   buttonGetRoute: {
     padding: 20,
@@ -627,8 +625,39 @@ export const styleZ = StyleSheet.create({
   },
   cardForMap: {
     flex: 1,
-    width: "100%",
-    height: 300,
-    margin: 100,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: '#FFF',
+    margin: 5,
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: color.lightGray,
+    borderBottomWidth: 0,
+    shadowColor: color.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    height: 64,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 4,
+  },
+  cardForMapToImage: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    resizeMode: 'contain',
+    backgroundColor: '#22313F'
+  },
+  cardForMapToDetail: {
+    flex: 3,
+    backgroundColor: '#336E7B',
+    justifyContent: 'center',
+  },
+  cardForMapToDetailText: {
+    color: color.white,
+    fontWeight: 'bold',
+    fontSize: 14,
+    paddingLeft: 30
   }
 })

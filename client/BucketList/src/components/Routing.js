@@ -52,7 +52,10 @@ const MainNavigator = StackNavigator({
     navigationOptions: () => ({
       title: 'Comparing',
       headerStyle: {
-        backgroundColor: color.niceOrange
+        backgroundColor: color.orange
+      },
+      headerTitleStyle: {
+        color: color.white
       }
     })
   },
@@ -61,7 +64,10 @@ const MainNavigator = StackNavigator({
     navigationOptions: () => ({
       title: 'Route',
       headerStyle: {
-        backgroundColor: color.niceOrange
+        backgroundColor: '#6C7A89'
+      },
+      headerTitleStyle: {
+        color: color.white
       }
     })
   }

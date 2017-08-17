@@ -8,7 +8,7 @@ import {
  } from 'react-native'
  import Axios from 'axios'
 
- import { styleZ } from '../styles'
+ import { styleZ, color } from '../styles'
  import LittleMaps from './LittleMaps'
  import API from '../utils/index'
 
@@ -55,9 +55,15 @@ class DetailProduct extends Component {
     console.log('--------------', unMatchGoods);
     return (
       <ScrollView style={styleZ.container}>
+        {datas.length > 0 &&
+          <View style={{ margin: 10, backgroundColor: color.black, borderColor: color.gray, borderRadius: 6, padding: 15, flex: 1, justifyContent: 'space-between', }}>
+            <Text style={{ color: color.white, }}>Total Cost: </Text><Text style={{ color: color.white, fontWeight: 'bold' }}>Rp. {this.state.datas.mostOptimizedMatrix.storesOptimizedTotal}</Text>
+            <Text style={{ color: color.white }}>Total Cost and Distance: </Text><Text style={{ color: color.white, fontWeight: 'bold' }}>Rp. {this.state.datas.mostOptimizedMatrix.storesOptimizedTotalWithDistance}</Text>
+          </View>
+        }
         {unMatchGoods.map((good, index) => (
           <View style={styleZ.card} key={index}>
-              <Text style={{ color: 'red', margin: 10 }}>Not Available: {good.name}</Text>
+              <Text style={{ color: 'red', margin: 10, fontWeight: 'bold' }}>Not Available: {good.name}</Text>
           </View>
         ))}
         {datas.map((store, index) => (
@@ -89,7 +95,7 @@ class DetailProduct extends Component {
       ))}
       { datas.length > 0 &&
         <TouchableOpacity style={styleZ.buttonGetRoute} onPress={() => navigate('RouteResult', {stores: datas})}>
-          <Text style={{color: 'white'}}>Get Route</Text>
+          <Text style={{color: 'white', fontWeight: 'bold', paddingLeft: 35}}>Get Route</Text>
         </TouchableOpacity>
       }
       </ScrollView>
