@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, Dimensions } from 'react-native'
 import MapView from 'react-native-maps'
-import Polyline from '@mapbox/polyline'
 import { styleZ, color } from '../styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -28,11 +27,12 @@ class LittleMaps extends Component {
   }
 
   render() {
+    console.log('--------------------')
     return(
       <View style={styleZ.container}>
         <MapView
           style={styleZ.map}
-          initialRegion={{
+          region={{
             latitude: this.props.lat,
             longitude: this.props.lng,
             latitudeDelta: this.state.latitudeDelta,

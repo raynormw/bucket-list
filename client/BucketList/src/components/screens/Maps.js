@@ -42,8 +42,7 @@ class Maps extends React.Component {
 
       this.setState({initialPosition: initialRegion})
       this.setState({markerPosition: initialRegion})
-    }, (error) => alert(JSON.stringify(error)),
-        {enableHightAccuracy: true, timeout: 5000, maximumAge: 1000})
+    }, (error) => alert(JSON.stringify(error)))
 
     this.watchID = navigator.geolocation.watchPosition((position) => {
       var lat = parseFloat(position.coords.latitude)
@@ -100,14 +99,16 @@ class Maps extends React.Component {
   }
 
   render() {
+    console.log('ini-----------', this.state.initialPosition)
     return (
       <View style={styleZ.container}>
         <MapView
           style={styleZ.map}
-          initialRegion={this.state.initialPosition}
+          region={this.state.initialPosition}
           showsUserLocation={true}
-          showsCompass={true}
           zoomEnabled={true}
+          showsCompass={true}
+          showsMyLocationButton={true}
         >
           {this.props.stores.map((store, index) => (
           <MapView.Marker
