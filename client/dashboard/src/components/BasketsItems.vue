@@ -111,7 +111,7 @@ export default {
   methods: {
     getBasketItems: function () {
       var self = this
-      axios.get(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets/getitems/${self.$route.params.basket_id}`)
+      axios.get(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/baskets/getitems/${self.$route.params.basket_id}`)
       .then(function (basketItems) {
         self.basketItems = basketItems.data
       })
@@ -121,7 +121,7 @@ export default {
     },
     postBasketItem: function () {
       var self = this
-      axios.post(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000//api/baskets/${self.$route.params.basket_id}/additem`, {
+      axios.post(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000//api/baskets/${self.$route.params.basket_id}/additem`, {
         goods_id: self.goodsIdItemsForm,
         quantity: self.quantityItemsForm
       })
@@ -142,7 +142,7 @@ export default {
       var self = this
       var choice = confirm(`Are you sure want to delete this item ?\n Id: ${basketItem.id} \n Basket Id: ${basketItem.basket_id} \n Goods Id: ${basketItem.goods_id} \n Quantity: ${basketItem.quantity} \n Goods Name: ${basketItem.Good.name}`)
       if (choice === true) {
-        axios.delete(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/baskets/${basketItem.basket_id}/${basketItem.goods_id}/removeitem`)
+        axios.delete(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/baskets/${basketItem.basket_id}/${basketItem.goods_id}/removeitem`)
         .then(function () {
           self.getBasketItems()
         })
@@ -167,7 +167,7 @@ export default {
     },
     submitBasketItemUpdate: function () {
       var self = this
-      axios.put(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000//api/baskets/${self.UpdateBasketItemBasketId}/${self.UpdateBasketItemGoodsId}/editpcs`,
+      axios.put(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000//api/baskets/${self.UpdateBasketItemBasketId}/${self.UpdateBasketItemGoodsId}/editpcs`,
         {
           quantity: self.UpdateBasketItemQuantity
         })

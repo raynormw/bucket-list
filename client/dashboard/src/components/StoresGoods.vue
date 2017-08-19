@@ -111,7 +111,7 @@ export default {
   methods: {
     getStore: function () {
       var self = this
-      axios.get(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/stores/${self.$route.params.store_id}/`)
+      axios.get(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/stores/${self.$route.params.store_id}/`)
       .then(function (store) {
         self.storeName = store.data.name
         self.storeLoc = store.data.lat_long
@@ -122,7 +122,7 @@ export default {
     },
     getGoodsStores: function () {
       var self = this
-      axios.get(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/stores/${self.$route.params.store_id}/getgoods`)
+      axios.get(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/stores/${self.$route.params.store_id}/getgoods`)
       .then(function (storesGoods) {
         self.storesGoods = storesGoods.data
       })
@@ -132,7 +132,7 @@ export default {
     },
     postGoodsStores: function () {
       var self = this
-      axios.post(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/api/stores/${self.$route.params.store_id}/addgoods`, {
+      axios.post(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/api/stores/${self.$route.params.store_id}/addgoods`, {
         good_id: self.goodsIdForm,
         price: self.priceForm
       })
@@ -177,7 +177,7 @@ export default {
     },
     submitStoreGoodsUpdate: function () {
       var self = this
-      axios.put(`http://ec2-13-59-184-74.us-east-2.compute.amazonaws.com:3000/${self.storeIdFormUpdate}/${self.goodsIdFormUpdate}/pricing`,
+      axios.put(`http://ec2-18-220-197-230.us-east-2.compute.amazonaws.com:3000/${self.storeIdFormUpdate}/${self.goodsIdFormUpdate}/pricing`,
         {
           price: self.priceFormUpdate
         })

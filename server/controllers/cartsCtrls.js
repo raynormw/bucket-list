@@ -75,7 +75,17 @@ var getCart = function (req, res) {
   cartsModel.findOne({
     where: {
       id: req.params.id
-    }
+    },
+    include: [{
+      model: cartsItemsModel,
+      include: [{
+        model: storeGoodsModel
+      }, {
+        model: storesModel
+      }, {
+        model: goodsModel
+      }]
+    }]
   })
   .then(function (cart) {
     if (!cart) {

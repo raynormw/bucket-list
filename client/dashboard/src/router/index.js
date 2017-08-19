@@ -6,6 +6,7 @@ import StoresGoods from '@/components/StoresGoods'
 import Members from '@/components/Members'
 import Baskets from '@/components/Baskets'
 import BasketsItems from '@/components/BasketsItems'
+import Carts from '@/components/Carts'
 
 Vue.use(Router)
 
@@ -36,6 +37,10 @@ export default new Router({
       path: '/basket/:basket_id',
       name: 'BasketsItems',
       component: BasketsItems
+    }, {
+      path: '/carts',
+      name: 'Carts',
+      component: Carts
     }
   ]
 })

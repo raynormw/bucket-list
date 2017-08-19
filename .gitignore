@@ -37,3 +37,5 @@ yarn-error.log*
 /server/.env.test
 /server/.nyc_output
 /server/.env
+
+/client/dashboard/build/firebase
