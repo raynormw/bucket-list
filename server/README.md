@@ -76,4 +76,5 @@
 | /api/members/:member_id/delete | DELETE | Delete member | Set params with member_id | Success message |
 | /api/members/:member_id/update | PUT | Update member | Post form-urlencoded with name or email or password , and set member id params| Success message |
 
-## Drivers (Tentative)
+## Admin Dashboard
+Go to http://pricepolice-assets.s3-website-ap-southeast-1.amazonaws.com/#/
