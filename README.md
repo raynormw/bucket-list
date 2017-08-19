@@ -8,6 +8,7 @@ Go to [link](http://pricepolice-assets.s3-website-ap-southeast-1.amazonaws.com/#
 ## How to Use
 - Fork or download
 - cd client
+- npm install
 - react-native run-android
 
 ## Team Member
